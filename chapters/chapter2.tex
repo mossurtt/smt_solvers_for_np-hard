@@ -1,0 +1,26 @@
+\chapter{Zastosowanie komponentów JavaBeans do tworzenia komponentów interfejsu graficznego}
+Rozdział opisuje zastosowanie technologi JavaBeans do tworzenia komponentów
+graficznego interfejsu użytkownika ...
+
+
+\section{Podstawowe informacje dotyczące tworzenia aplikacji internetowych w języku Java}
+
+\subsection{Środowisko potrzebne do działania aplikacji internetowych w Javie}
+
+\subsection{Serwlety}
+
+\subsubsection{Przykładowy serwlet}
+
+W tym fragmencie zaprezentuję jak stworzyć przykładowy serwlet. Nie będzie to jeszcze przykład z użyciem technologii JavaBeans, jednak mam nadzieję, że przybliży on trochę zagadnienie tworzenia serwletów.
+
+\begin{lstlisting}[caption={[Przykładowy serwlet]Przykładowy serwlet}]
+import java.io.*;
+import javax.servlet.http.*;
+public class FirstServlet extends HttpServlet {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		PrintWriter out = response.getWriter();
+		response.setContentType("text/html");
+		out.println("Hello <b>World</b> !!!");
+	}
+}
+\end{lstlisting}

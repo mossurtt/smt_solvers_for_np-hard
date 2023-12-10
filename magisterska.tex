@@ -1,0 +1,126 @@
+\documentclass[xodstep]{wnspt}
+
+\author   {Imi\k{e} NAZWISKO}
+\nralbumu {12345}
+\kierunek {Informatyka}
+\specjalnosc {Programowanie}
+\date     {2024}
+\miejsce {Cz\k{e}stochowa}
+%\instytut {Zak\l{}adzie Informatyki Stosowanej}
+\opiekun  {dr hab. Andrzeja Zbrzeznego}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+%\usepackage{polski}
+\usepackage{csquotes}
+%\usepackage{times}
+\usepackage{colortbl}
+\usepackage{url}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{listingsutf8}
+\usepackage{beramono}
+\usepackage[%
+backend=biber,refsegment=section,
+defernumbers=true,
+]{biblatex}
+
+\usepackage{fontspec}
+\setmainfont{Carlito}
+
+\bibliography{literatura}
+
+\lstset{ %
+language=Java,                  % choose the language of the code
+basicstyle=\ttfamily,           % the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1 each line will be
+numbersep=5pt,                  % how far the line-numbers are from the code
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,                   % adds a frame around the code
+tabsize=4,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+escapeinside={\%*}{*)}          % if you want to add a comment within your code
+}
+
+\newcommand{\R}{mathbb{R}}
+
+\renewcommand{\lstlistlistingname}{Spis listingów}
+\renewcommand{\lstlistingname}{Listing}
+
+\newtheorem{lemat}{Lemat}
+\newtheorem{twierdzenie}{Twierdzenie}
+
+\title{Projekt i implementacja aplikacji desktopowej/internetowej/mobilnej wspomagającej \dots
+\\{~}
+\\{~}
+Design and implementation of a desktop/internet/mobile application to support \dots}
+
+\frenchspacing
+
+\begin{document}
+\begin{abstract}
+Celem niniejszej pracy jest stworzenie aplikacji \dots
+\end{abstract}
+
+\keywords{Java, interfejs graficzny, aplikacja internetowa}
+
+\maketitle
+\onehalfspacing
+%\setlength{\footskip}{20pt}
+
+\introduction
+
+Celem niniejszej pracy jest zaprojektowanie oraz zaimplementowanie
+
+W pierwszym rozdziale zawarłem podstawowe informacje na temat języka Java oraz \dots
+
+Rozdział drugi przedstawia \dots
+
+W rozdziale trzecim zawarłem \dots
+
+Rozdział czwarty poświęcony jest \dots
+
+\input{chapters/chapter1}
+\input{chapters/chapter2}
+\input{chapters/chapter3}
+
+
+\summary
+Celem mojej pracy było zapoznanie czytelnika z komponentami JavaBeans i ich zastosowaniem. 
+Uważam, że udało mi się zrealizować ten cel. Starałem się opisać zarówno ...
+
+% załączniki (opcjonalnie):
+\appendix
+\chapter{Tytuł załącznika jeden}
+Treść załącznika jeden.
+
+\chapter{Tytuł załącznika dwa}
+Treść załącznika dwa.
+
+%\bibliographystyle{plain}
+%\bibliography{literatura}
+
+\printbibliography[type=book,title={Bibliografia - książki}]
+\printbibliography[type=misc,title={Bibliografia - strony internetowe}]
+
+% spis tabel (jeżeli jest potrzebny):
+\listoftables
+
+% spis rysunków (jeżeli jest potrzebny):
+\listoffigures
+
+% spis listingów (jeżeli jest potrzebny):
+\lstlistoflistings
+
+\end{document}
