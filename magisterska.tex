@@ -1,7 +1,7 @@
 \documentclass[xodstep]{wnspt}
 
-\author   {Imi\k{e} NAZWISKO}
-\nralbumu {12345}
+\author   {Tetiana Mossur}
+\nralbumu {76716}
 \kierunek {Informatyka}
 \specjalnosc {Programowanie}
 \date     {2024}
@@ -16,10 +16,10 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[polish]{babel}
-%\usepackage{polski}
+\usepackage{polski}
 \usepackage{csquotes}
-%\usepackage{times}
-%\usepackage{colortbl}
+\usepackage{times}
+\usepackage{colortbl}
 \usepackage{url}
 \usepackage{setspace}
 \usepackage{indentfirst}
@@ -36,7 +36,7 @@ defernumbers=true,
 \bibliography{literatura}
 
 \lstset{ %
-language=Java,                  % choose the language of the code
+language=Python,                  % choose the language of the code
 basicstyle=\ttfamily,           % the fonts that are used for the code
 numbers=left,                   % where to put the line-numbers
 numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
@@ -61,35 +61,36 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newtheorem{lemat}{Lemat}
 \newtheorem{twierdzenie}{Twierdzenie}
 
-\title{Projekt i implementacja aplikacji desktopowej/internetowej/mobilnej wspomagającej \dots
+\title{Efektywność SMT solverów dla klasycznych problemów NP-trudnych
 \\{~}
 \\{~}
-Design and implementation of a desktop/internet/mobile application to support \dots}
+Effectiveness of SMT solvers for classical NP-hard problems}
 
 \frenchspacing
 
 \begin{document}
 \begin{abstract}
-Celem niniejszej pracy jest stworzenie aplikacji \dots
+Celem niniejszej pracy jest analiza i ocena efektywności SMT solverów w rozwiązywaniu klasycznych problemów zaliczanych do klasy NP-trudnych. Przełom w informatyce teoretycznej sprawił, że tego rodzaju zagadnienia stały się przedmiotem intensywnych badań. Niniejsza praca skupi się na zrozumieniu, jak Satisfiability Modulo Theories (SMT) solvery, będące potężnym narzędziem w dziedzinie rozstrzygania logicznego, radzą sobie z tymi wyjątkowo wymagającymi problemami.
+Przedmiotem badań będą klasyczne problemy NP-trudne, a celem jest zbadanie i porównanie efektywności SMT solverów Pythona - Z3, Yices i CVC5 - w kontekście rozwiązywania wyżej wymienionych problemów. Wybór tych konkretnych narzędzi wynika z ich popularności, wszechstronności i aktywnego udziału w społeczności badawczej.
+
 \end{abstract}
 
-\keywords{Java, interfejs graficzny, aplikacja internetowa}
-
+\keywords{SMT, SMT-solvery, Z3, Yices, CVC5, Python, złożoność obliczeniowa, NP-hard}
 \maketitle
 \onehalfspacing
 %\setlength{\footskip}{20pt}
 
 \introduction
 
-Celem niniejszej pracy jest zaprojektowanie oraz zaimplementowanie
+Celem niniejszej pracy jest zbadanie skuteczności SMT solverów Pythona, a mianowicie Z3, Yices oraz CVC5 w rozwiązywaniu problemów NP-trudnych, takich jak: ... .
 
-W pierwszym rozdziale zawarłem podstawowe informacje na temat języka Java oraz \dots
+W pierwszym rozdziale zawarłam teoretyczne fundamenty problemów NP-trudnych oraz wprowadziłam kontekst, w którym operują SMT solvery. Zdefiniowałam charakterystykę tych problemów i omówiłam kluczowe koncepcje teoretyczne.
 
-Rozdział drugi przedstawia \dots
+Rozdział drugi przedstawia obszerny przegląd literatury z zakresu SMT solverów oraz problemów NP-trudnych. Poprzez analizę wcześniejszych badań, podkreślam istotne osiągnięcia oraz ewentualne luki w dotychczasowym rozumieniu tej dziedziny, co stanowi podstawę dla dalszej analizy i eksperymentów.
 
-W rozdziale trzecim zawarłem \dots
+W rozdziale trzecim zawarłam szczegółowy opis wybranych problemów obliczeniowych oraz SMT solverów, skupiłam się na praktycznych aspektach funkcjonowania tych narzędzi, ich mocnych stronach i potencjalnych ograniczeniach.
 
-Rozdział czwarty poświęcony jest \dots
+Rozdział czwarty poświęcony jest praktycznym eksperymentom, wykorzystując Z3, Yices i CVC5 do rozwiązania konkretnych problemów NP-trudnych. Analiza wyników pozwoli określić efektywność poszczególnych solverów i wyciągnąc wnioski co do ich zastosowania.
 
 \input{chapters/chapter1}
 \input{chapters/chapter2}
