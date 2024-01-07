@@ -33,7 +33,7 @@ Z3 integruje nowoczesny solver SAT oparty na DPLL, bazowy solwer dla teorii, kt�
 
 \textbf{Propagacja relewancji}. Solwery oparte na DPLL(T) przypisują wartość boolowską potencjalnie wszystkim atomom pojawiającym się w wyniku. W praktyce niektóre z tych atomów są nieistotne. Z3 ignoruje te atomy dla kosztownych teorii, jak np. wektory bitowe, i reguł wnioskowania, jak instancjonowanie kwantyfikatorów.
 
-\textbf{Instancjonowanie kwantyfikatorów z użyciem E-matchingu}. Z3 wykorzystuje zaawansowaną technikę do rozumowania kwantyfikatorów, która opiera się na E-graf. Dzięki nowym algorytmom, które skutecznie i przyrostowo identyfikują dopasowania w E-grafach, Z3 osiąga znaczną przewagę wydajności w porównaniu do innych nowoczesnych SMT solverów. 
+\textbf{Instancjonowanie kwantyfikatorów z użyciem E-matchingu}. Z3 wykorzystuje zaawansowaną technikę do rozumowania kwantyfikatorów, która opiera się na E-grafie. Dzięki nowym algorytmom, które identyfikują dopasowania w E-grafach w sposób skuteczny i przyrostowy, Z3 osiąga znaczną przewagę wydajności w porównaniu do innych nowoczesnych SMT solverów. 
 
 \textbf{Theory Solvers}. Z3 wykorzystuje liniowy solver arytmetyczny oparty na algorytmie używanym w Yices. Teoria tablic stosuje leniwe instancjonowanie aksjomatów tablicowych. Teoria wektorów bitowych o stałym rozmiarze stosuje bitowanie do wszystkich operacji na wektorach bitowych, z wyjątkiem równości.
 
