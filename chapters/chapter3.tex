@@ -17,7 +17,7 @@ Z3 integruje nowoczesny solver SAT oparty na DPLL, bazowy solwer dla teorii, kt�
 		\caption{}
 		\label{fig:screenshot001}
 	\end{figure}
-\textbf{Simplifier}. Formuły wejściowe są najpierw przetwarzane przy użyciu niekompletnego, ale wydajnego uproszczenia. Simplifier stosuje standardowe zasady redukcji algebraicznej, takie jak $p \land true \implies p$, ale także wykonuje ograniczone uproszczenie kontekstowe, identyfikując definicje równościowe w danym kontekście i redukuje pozostałą formułę przy użyciu definicji, na przykład $x = 4 \land q(x) \implies x = 4 \land q(4)$. Trywialnie spełnialny spójnik $x = 4$ nie jest kompilowany jądra, ale zachowany poza nim na wypadek, gdyby klient wymagał modelu do obliczenia x.
+\textbf{Simplifier}. Formuły wejściowe są najpierw przetwarzane przy użyciu niekompletnego, ale wydajnego uproszczenia. Simplifier stosuje standardowe zasady redukcji algebraicznej, takie jak $p \land true \implies p$, ale także wykonuje ograniczone uproszczenie kontekstowe, identyfikując definicje równościowe w danym kontekście i redukuje pozostałą formułę przy użyciu definicji, na przykład $x = 4 \land q(x) \implies x = 4 \land q(4)$. Trywialnie spełnialny spójnik $x = 4$ nie jest kompilowany do jądra, ale zachowany poza nim na wypadek, gdyby klient wymagał modelu do obliczenia x.
 
 
 \section{Yices Solver}
