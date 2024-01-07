@@ -11,7 +11,6 @@ Z3 może być zbudowany przy użyciu Visual Studio, pliku Makefile lib CMake. Za
 \subsection{Architektura systemu}
 
 
-\begin{verbatim}
 	Z3 integruje nowoczesny solver SAT oparty na DPLL, bazowy solwer dla teorii, który obsługuje równości i funkcje nieinterpretowane, specjalistyczne silniki (dla arytmetyki, tablic itp.) oraz maszynę abstrakcyjną E-matching (dla kwantyfikatorów). Z3 jest zaimplementowany w C++. Schematyczny przegląd Z3 pokazano na poniższym rysunku.	
 	
 
@@ -41,7 +40,7 @@ Z3 może być zbudowany przy użyciu Visual Studio, pliku Makefile lib CMake. Za
 \textbf{Theory Solvers}. Z3 wykorzystuje liniowy solver arytmetyczny oparty na algorytmie używanym w Yices. Teoria tablic stosuje leniwe instancjonowanie aksjomatów tablicowych. Teoria wektorów bitowych o stałym rozmiarze stosuje bitowanie do wszystkich operacji na wektorach bitowych, z wyjątkiem równości.
 
 \textbf{Generowanie modeli}. Z3 pozwala na generowanie modeli jako części danych wyjściowych. Modele przypisują wartości do stałych na wejściu i generują częściowe grafy dla predykatów oraz symboli  funkcji.
-\end{verbatim}
+
 \section{Yices Solver}
 sdcssdsdf
 
