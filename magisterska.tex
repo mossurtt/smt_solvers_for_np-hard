@@ -83,7 +83,7 @@ Przedmiotem badań będą klasyczne problemy NP-trudne, a celem jest zbadanie i 
 %\setlength{\footskip}{20pt}
 
 \introduction
-W kilku obszarach informatyki, takich jak formalna weryfikacja sprzętu i oprogramowania, wiele istotnych problemów można zredukować do sprawdzenia spełnialności formuły w pewnej logice. Kilka z tych problemów można naturalnie sformułować jako problemy spełnialności w logice zdaniowej i rozwiązać bardzo efektywnie przy użyciu nowoczesnych solverów SAT, jak opisano w Rozdziale 10 tej książki [23]. Inne problemy są bardziej naturalnie i zwięźle sformułowane w klasycznych logikach, takich jak logika pierwszego lub wyższego rzędu, z bardziej wyrafinowanym językiem, który obejmuje zmienne niebędące wartościami logicznymi, symbole funkcji i predykatów (o dodatniej arności) oraz kwantyfikatory. Oczywiście istnieje kompromis między ekspresywnością logiki a zdolnością do automatycznego sprawdzania spełnialności jej formuł.
+W kilku obszarach informatyki, takich jak formalna weryfikacja sprzętu i oprogramowania, wiele istotnych problemów można zredukować do sprawdzenia spełnialności formuły w pewnej logice. Kilka z tych problemów można naturalnie sformułować jako problemy spełnialności w logice zdaniowej i rozwiązać bardzo efektywnie przy użyciu nowoczesnych solverów SAT. Inne problemy są bardziej naturalnie i zwięźle sformułowane w klasycznych logikach, takich jak logika pierwszego lub wyższego rzędu, z bardziej wyrafinowanym językiem, który obejmuje zmienne niebędące wartościami logicznymi, symbole funkcji i predykatów (o dodatniej arności) oraz kwantyfikatory. Oczywiście istnieje kompromis między ekspresywnością logiki a zdolnością do automatycznego sprawdzania spełnialności jej formuł.
 
 Praktyczny kompromis można osiągnąć za pomocą fragmentów logiki pierwszego rzędu, które są ograniczone syntaktycznie, na przykład przez zezwolenie tylko na pewne klasy formuł, lub semantycznie, poprzez ograniczenie interpretacji niektórych symboli funkcji i predykatów, lub obie te opcje jednocześnie. Takie ograniczenia mogą uczynić problem spełnialności rozstrzygalnym i, co ważniejsze, umożliwić rozwijanie specjalistycznych procedur spełnialności, które wykorzystują właściwości fragmentu w celu znacznego zwiększenia efektywności praktycznej, nawet w przypadkach o wysokiej złożoności obliczeniowej w najgorszym przypadku. Kiedy są zaangażowane ograniczenia semantyczne, mogą one być pojęte jako ograniczenie interpretacji niektórych symboli do modeli jakiejś teorii logicznej (np. teorii równości, liczb całkowitych, liczb rzeczywistych, tablic, list itp.). W takich przypadkach mówimy o Spełnialności Moduło Teorii (SMT) \cite{Clarke18}.
 
@@ -120,7 +120,7 @@ Treść załącznika dwa.
 
 \printbibliography[type=article,title={Bibliografia - artykuły}]
 
-%\printbibliography[type=book,title={Bibliografia - książki}]
+\printbibliography[type=book,title={Bibliografia - książki}]
 %\printbibliography[type=misc,title={Bibliografia - strony internetowe}]
 
 % spis tabel (jeżeli jest potrzebny):
