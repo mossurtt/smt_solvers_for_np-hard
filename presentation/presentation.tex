@@ -49,17 +49,67 @@
 
 	\begin{frame}{Sformułowanie problemu}
 		SMT (Satisfiability Modulo Theories) stanowi aktywny obszar badań w informatyce, umożliwiający efektywne rozwiązywanie problemów z użyciem metod wnioskowania logicznego. Dzięki postępowi  w technologii SMT, zaawansowane solvery znajdują zastosowanie  w wielu dziedzinach, od weryfikacji procesorów po analizę statyczną. 
-		Niniejsza praca ma na celu zbadanie i ocenę efektywności trzech popularnych SMT solverów w języku Python - Z3, Yices i CVC5 –  w rozwiązywaniu klasycznych problemów NP-trudnych. Analiza uzyskanych wyników pozwoli ocenić efektywność każdego solvera,  co stanowi istotny wkład w zrozumienie ich praktycznego zastosowania  w różnych obszarach.
+		Niniejsza praca ma na celu zbadanie i ocenę efektywności trzech popularnych SMT solverów - Z3, Yices i CVC5 –  w rozwiązywaniu klasycznych problemów NP-trudnych. Analiza uzyskanych wyników pozwoli ocenić efektywność każdego solvera,  co stanowi istotny wkład w zrozumienie ich praktycznego zastosowania  w różnych obszarach.
+	\end{frame}
+
+	%------------------------------------------------	
+	
+	\begin{frame}{Rozdział 1: Teoretyczne podstawy Satisfiability Modulo Theories}
+		W pierwszym rozdziale zawarłam teoretyczne fundamenty Satisfiability Modulo Theories (SMT), wprowadzając czytelnika  w główne aspekty tej dziedziny. Omówiłam kluczowe pojęcia, biorąc pod uwagę rozwój SMT-solverów i ich praktyczne zastosowania  w realnych sytuacjach, takich jak te związane z klasą problemów NP-trudnych.
 	\end{frame}
 	
 	%------------------------------------------------	
 	
-	\begin{frame}
-		\Huge{\centerline{Dziękuję za uwagę!}}
+	\begin{frame}{Rozdział 2: Problemy NP-trudne}
+		Drugi rozdział przedstawia podstawowe pojęcia złożoności obliczeniowej oraz koncepcji spełnialności, dwóch kluczowych aspektów niezbędnych do zrozumienia, czym są problemy obliczeniowe w kontekście SMT. Następnie dokonywana  jest definicja klasy problemów NP-trudnych, które stanowią centralny temat niniejszej pracy magisterskiej.
 	\end{frame}
 	
 	%------------------------------------------------
 	
+	\begin{frame}{Rozdział 3: Przegląd SMT Solverów: Z3, Yices, CVC5}
+		W rozdziale trzecim zawarłam szczegółowy przegląd trzech popularnych SMT-solverów: Z3, Yices i CVC5, podkreślając  ich cechy, mocne strony i potencjalne ograniczenia. 
+		Czytelnik zdobywa wgląd w różnice między tymi narzędziami,  co stanowi podstawę dla późniejszych badań.
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Rozdział 4: Kodowanie problemów}
+		content...
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Rodzdiał 5: Eksperymenty i analiza wyników}
+		Rozdział piąty poświęcony jest praktycznym eksperymentom, wykorzystując wyżej przedstawione solvery  do rozwiązania wybranych problemów obliczeniowych. Analiza wyników pozwoli określić efektywność każdego z nich i wyciągnąc wnioski co do ich zastosowania.
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Przegląd literatury}
+		SMT jest dynamiczną i bardzo rozwijającą się dziedziną badań o wielu praktycznych zastosowaniach. 
+		Kluczową rolę odgrywają prace naukowe autorstwa Leonardo de Moura  i Nikolaj Bjørner. Ich wkład w rozwój SMT obejmuje różnorodne aspekty,  od podstaw teoretycznych po praktyczne zastosowania.
+		Moura i Bjørner byli współtwórcami SMT solvera Z3, który jest szeroko stosowany, w tym w mojej pracy magisterskiej. 
+		Ich praca 'Satisfiability Modulo Theories: An Appetizer' zawiera krótki przegląd SMT i głównych koncepcji technicznych: wprowadza do logiki proposycyjnej, omawiając podstawowe pojęcia, takie jak: formuły proposycyjne, spełnialność, walidność i równoważność; przechodzi również przez konwersję formuł proposycyjnych do postaci koniunktowej normalnej (CNF); przedstawia efektywne techniki analizy przypadków oraz pojęcie teorii, prezentując różne teorie integrowane z rozwiązywaczami SMT, takie jak arytmetyka liniowa, różnicowa, nieliniowa, arytmetyka bitów, teoria tablic, itp.
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Przegląd literatury}
+		Kolejne autorzy, Clark Barrett i Cesare Tinelli, są wiodącymi badaczami  w dziedzinie weryfikacji formalnej. Znani ze swojego znaczącego wkładu w SMT, rozwinęli integrację rozumowania teorii w narzędziach do automatycznej weryfikacji. Ich wspólna praca przyczyniła się do ukształtowania podstaw i praktycznych zastosowań SMT w obszarach takich jak sprawdzanie modeli i weryfikacja oprogramowania.
+		Rozdział 11 z książki 'Handbook of Model Checking' - praca Barretta i Tinelliego - zawiera kompleksowy przegląd SMT z naciskiem na "leniwe podejście", powszechną metodę implementacji solverów SMT. Rozdział ten obejmuje podstawy techniczne, wprowadza współpracę między SAT i solverami teorii oraz bada solvery teorii  dla różnych teorii tła. Omówiono także techniki łączenia solverów teorii  i przedstawiono rozszerzenia podejścia leniwego. Wyjaśniono również alternatywne podejście, "eager approach", wykorzystujące solwery SAT w bardziej bezpośredni sposób, a ponadto, podkreśla kluczowe funkcje nowoczesnych solverów SMT wykraczające poza sprawdzanie satysfakcji, pokazując ich znaczenie  w zastosowaniach takich jak sprawdzanie modeli.
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Przegląd literatury}
+		Dennis Yurichev, nastepny autor w tym przeglądzie literatury, jest znaczącą postacią w dziedzinie walidacji oprogramowania. Jego praca, "SAT/SMT by Example", służy jako praktyczny przewodnik po implementacji solverów SAT i SMT. Dzięki swojemu doświadczeniu w tej dziedzinie, Yurichev dostarcza cennych spostrzeżeń poprzez ilustrujące przykłady, dzięki czemu książka jest niezbędnym źródłem informacji zarówno dla początkujących, jak  i doświadczonych specjalistów zainteresowanych praktycznymi aplikacjami  i implementacjami technik rozwiązywania SAT i SMT.
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}
+		\Huge{\centerline{Dziękuję za uwagę!}}
+	\end{frame}
 
 	%------------------------------------------------
 	
