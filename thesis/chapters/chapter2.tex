@@ -6,7 +6,7 @@ W poszukiwaniu optymalnego rozwiązania mamy do czynienia ze stale rosnącym zes
 
 Z perspektywy obliczeniowej, problemy NP-trudne są klasą problemów, dla których nie istnieje algorytm wielomianowy, który może zapewnić optymalne rozwiązanie we wszystkich przypadkach. Złożoność ta jest wyraźnie widoczna w problemach takich jak optymalizacja tras, gdzie ogromna przestrzeń rozwiązań nie pozwala na proste rozwiązanie. Złożoność takich problemów logistycznych odzwierciedla szersze trudności występujące w problemach NP-trudnych w różnych obszarach obliczeniowych i optymalizacyjnych.
 
-\section{Złożoność obliczeniowa}
+\section{Teoria złożoności obliczeniowej}
 
 W informatyce teoretycznej i matematyce, teoria złożoności obliczeniowej koncentruje się na klasyfikacji problemów obliczeniowych według ich wykorzystania zasobów i powiązaniu tych klas ze sobą. Problem obliczeniowy to zadanie rozwiązywane przez komputer. Problem obliczeniowy jest rozwiązywalny poprzez mechaniczne zastosowanie kroków matematycznych, takich jak algorytm.
 
@@ -17,21 +17,30 @@ Problem jest uważany za z natury trudny, jeśli jego rozwiązanie wymaga znaczn
 		\subsubsection{Instancjii problemu}
 Problem obliczeniowy może być rozważany jako nieskończony zbiór instancji wraz ze zbiorem (być może pustym) rozwiązań dla każdej instancji. Ciąg wejściowy dla problemu obliczeniowego jest określany jako instancja problemu i nie powinien być mylony z samym problemem. W teorii złożoności obliczeniowej, problem odnosi się do abstrakcyjnego pytania, które należy rozwiązać. W przeciwieństwie do tego, instancja problemu jest raczej konkretną wypowiedzią, która może służyć jako dane wejściowe dla problemu decyzyjnego. Dla przykładu, rozważmy problem testowania pierwotności. Instancją jest liczba (np. 15), a rozwiązaniem jest "tak", jeśli liczba jest pierwsza i "nie" w przeciwnym razie (w tym przypadku 15 nie jest pierwsza i odpowiedź brzmi "nie"). Innymi słowy, instancja jest konkretnym wejściem do problemu, a rozwiązanie jest wyjściem odpowiadającym danemu wejściu.
 
-Aby jeszcze bardziej podkreślić różnicę między problemem a instancją, rozważmy następującą instancję decyzyjnej wersji problemu objazdowego komiwojażera: Czy istnieje trasa o długości co najwyżej 2000 kilometrów przechodząca przez wszystkie 15 największych miast Niemiec? Ilościowa odpowiedź na ten konkretny przypadek problemu jest mało przydatny do rozwiązywania innych przypadków problemu, takich jak pytanie o podróż w obie strony przez wszystkie dzielnice Mediolanu, których łączna długość wynosi co najwyżej 10 km. Z tego powodu teoria złożoności zajmuje się problemami obliczeniowymi, a nie konkretnymi przypadkami problemów.
+Aby jeszcze bardziej podkreślić różnicę między problemem a instancją, rozważmy następującą instancję decyzyjnej wersji problemu komiwojażera: Czy istnieje trasa o długości co najwyżej 2000 kilometrów przechodząca przez wszystkie 15 największych miast Niemiec? Ilościowa odpowiedź na ten konkretny przypadek problemu jest mało przydatny do rozwiązywania innych przypadków, takich jak pytanie o podróż w obie strony przez wszystkie dzielnice Mediolanu, których łączna długość wynosi co najwyżej 10 km. Z tego powodu teoria złożoności zajmuje się problemami obliczeniowymi, a nie konkretnymi przypadkami problemów.
 
 		\subsubsection{Reprezentacja instancji problemu}
 
-Rozważając problemy obliczeniowe, instancja problemu jest ciągiem znaków w alfabecie. Zazwyczaj przyjmuje się, że alfabet jest alfabetem binarnym (tj. zbiorem {0,1}), a zatem ciągi są ciągami bitów. Podobnie jak w prawdziwym komputerze, obiekty matematyczne inne niż ciągi bitów muszą być odpowiednio zakodowane. Na przykład, liczby całkowite mogą być reprezentowane w notacji binarnej, a grafy mogą być kodowane bezpośrednio poprzez ich macierze sąsiedztwa lub poprzez kodowanie ich list sąsiedztwa w zapisie binarnym.
+Rozważając problemy obliczeniowe, instancja problemu jest ciągiem znaków w alfabecie. Zazwyczaj przyjmuje się, że alfabet jest alfabetem binarnym (tj. zbiorem $\{0,1\}$), a zatem ciągi są ciągami bitów. Podobnie jak w prawdziwym komputerze, obiekty matematyczne inne niż ciągi bitów muszą być odpowiednio zakodowane. Na przykład, liczby całkowite mogą być reprezentowane w notacji binarnej, a grafy mogą być kodowane bezpośrednio poprzez ich macierze sąsiedztwa lub poprzez kodowanie ich list sąsiedztwa w zapisie binarnym.
 
 		\subsubsection{Problemy decyzyjne jako języki formalne}
 
 Problem decyzyjny ma tylko dwa możliwe wyjścia, tak lub nie (lub naprzemiennie 1 lub 0) na dowolnym wejściu.
-Problemy decyzyjne są jednym z głównych przedmiotów badań w teorii złożoności obliczeniowej. Problem decyzyjny jest specjalnym rodzajem problemu obliczeniowego, którego odpowiedzią jest "tak" lub "nie", lub naprzemiennie "1" lub "0". Problem decyzyjny może być postrzegany jako język formalny, w którym jego elementami są przypadki, których wynikiem jest "tak", a poza nim są przypadki, których wynikiem jest "nie". Celem jest podjęcie decyzji, za pomocą algorytmu, czy dany ciąg wejściowy jest członkiem rozważanego języka formalnego. Jeśli algorytm rozwiązujący ten problem zwróci odpowiedź twierdzącą, mówi się, że algorytm akceptuje ciąg wejściowy, w przeciwnym razie mówi się, że odrzuca dane wejściowe.
+Problemy decyzyjne są jednym z głównych przedmiotów badań w teorii złożoności obliczeniowej. Problem decyzyjny jest specjalnym rodzajem problemu obliczeniowego, którego odpowiedzią jest "tak" lub "nie". Problem decyzyjny może być postrzegany jako język formalny, elementami którego są przypadki z wynikiem "tak", a poza nim są przypadki z wynikiem "nie". Celem jest podjęcie decyzji, za pomocą algorytmu, czy dany ciąg wejściowy jest członkiem rozważanego języka formalnego. Jeśli algorytm rozwiązujący ten problem zwróci odpowiedź twierdzącą, mówi się, że algorytm akceptuje ciąg wejściowy, w przeciwnym razie mówi się, że odrzuca dane wejściowe.
 
 Przykład problemu decyzyjnego jest następujący. Dane wejściowe to dowolny graf. Problem polega na rozstrzygnięciu, czy dany graf jest połączony, czy nie. Formalnym językiem związanym z tym problemem decyzyjnym jest zbiór wszystkich połączonych grafów - aby uzyskać dokładną definicję tego języka, należy zdecydować, w jaki sposób grafy są kodowane jako ciągi binarne.
 
 		\subsubsection{Problemy funkcyjne}
 
+Problem funkcyjny jest problemem obliczeniowym, w którym dla każdego wejścia oczekuje się pojedynczego wyniku (funkcji całkowitej), ale wynik jest bardziej złożony niż w przypadku problemu decyzyjnego - to znaczy, wynik nie jest tylko tak lub nie. Godnymi uwagi przykładami są problem komiwojażera i faktoryzacja liczb całkowitych.
+
+Może się wydawać, że pojęcie problemów funkcyjnych jest znacznie bogatsze niż pojęcie problemów decyzyjnych. Nie jest to jednak prawdą, ponieważ problemy funkcyjne można przekształcić w problemy decyzyjne. Na przykład, mnożenie dwóch liczb całkowitych może być wyrażone jako zbiór trójek $(a, b, c)$ takich, że zachodzi relacja $a × b = c$. Podjęcie decyzji, czy dana trójka jest członkiem tego zbioru, odpowiada rozwiązaniu problemu mnożenia dwóch liczb.
+
+		\subsubsection{Mierzenie rozmiaru instancji}
+
+Aby zmierzyć złożoność obliczeniową problemu, konieczne jest zbadanie czasu wykonania najlepszego algorytmu w zależności od rozmiaru instancji. Jest to istotne ze względu na fakt, że czas wykonania zależy od konkretnego zestawu danych wejściowych, a większe instancje problemu zazwyczaj wymagają dłuższego czasu na rozwiązanie. Czas ten (lub pamięć, lub jakakolwiek miara złożoności) jest tradycyjnie wyrażany jako funkcja rozmiaru instancji, zwykle rozumianego jako liczba bitów reprezentujących dane wejściowe. Teoria złożoności skupia się analizie skalowalności algorytmów wraz ze wzrostem rozmiaru danych wejściowych. Przykładowo, jak znacząco zwiększa się czas rozwiązania problemu dla grafu o 2n wierzchołkach w porównaniu do grafu o n wierzchołkach.
+
+Przyjmując, że rozmiar danych wejściowych wynosi n, czas potrzebny na rozwiązanie może być wyrażony jako funkcja n.  Ponieważ czas rozwiązania różnych zestawów danych o tym samym rozmiarze może się różnić, definiuje się najgorszą złożoność czasową T(n) jako maksymalny czas potrzebny do rozwiązania wszystkich danych wejściowych o rozmiarze n.  Jeśli T(n) jest wielomianem w n, to algorytm jest nazywany algorytmem czasu wielomianowego. Praca Cobhama potwierdza, że problem może być rozwiązany przy użyciu realnej ilości zasobów, jeśli dostępny jest algorytm wielomianowy.
 
 	\subsection{Modele i miary złożoności}
 
