@@ -8,6 +8,33 @@ Z perspektywy obliczeniowej, problemy NP-trudne są klasą problemów, dla któr
 
 \section{Złożoność obliczeniowa}
 
+W informatyce teoretycznej i matematyce, teoria złożoności obliczeniowej koncentruje się na klasyfikacji problemów obliczeniowych według ich wykorzystania zasobów i powiązaniu tych klas ze sobą. Problem obliczeniowy to zadanie rozwiązywane przez komputer. Problem obliczeniowy jest rozwiązywalny poprzez mechaniczne zastosowanie kroków matematycznych, takich jak algorytm.
+
+Problem jest uważany za z natury trudny, jeśli jego rozwiązanie wymaga znacznych zasobów, niezależnie od zastosowanego algorytmu. Teoria formalizuje tę intuicję, wprowadzając matematyczne modele obliczeń do badania tych problemów i kwantyfikując ich złożoność obliczeniową, tj. ilość zasobów potrzebnych do ich rozwiązania, takich jak czas i pamięć. Stosowane są również inne miary złożoności, takie jak ilość komunikacji (używana w złożoności komunikacyjnej), liczba bramek w obwodzie (używana w złożoności obwodu) i liczba procesorów (używana w obliczeniach równoległych). Jednym z zadań teorii złożoności obliczeniowej jest określenie praktycznych ograniczeń tego, co komputery mogą, a czego nie mogą zrobić. Problem P versus NP, jeden z siedmiu problemów nagrodzonych Millennium Prize, jest poświęcony dziedzinie złożoności obliczeniowej.
+
+Problem obliczeniowy może być rozważany jako nieskończony zbiór instancji wraz ze zbiorem (być może pustym) rozwiązań dla każdej instancji. Ciąg wejściowy dla problemu obliczeniowego jest określany jako instancja problemu i nie powinien być mylony z samym problemem. W teorii złożoności obliczeniowej, problem odnosi się do abstrakcyjnego pytania, które należy rozwiązać. W przeciwieństwie do tego, instancja problemu jest raczej konkretną wypowiedzią, która może służyć jako dane wejściowe dla problemu decyzyjnego. Dla przykładu, rozważmy problem testowania pierwotności. Instancją jest liczba (np. 15), a rozwiązaniem jest "tak", jeśli liczba jest pierwsza i "nie" w przeciwnym razie (w tym przypadku 15 nie jest pierwsza i odpowiedź brzmi "nie"). Innymi słowy, instancja jest konkretnym wejściem do problemu, a rozwiązanie jest wyjściem odpowiadającym danemu wejściu.
+
+Aby jeszcze bardziej podkreślić różnicę między problemem a instancją, rozważmy następującą instancję decyzyjnej wersji problemu objazdowego komiwojażera: Czy istnieje trasa o długości co najwyżej 2000 kilometrów przechodząca przez wszystkie 15 największych miast Niemiec? Ilościowa odpowiedź na ten konkretny przypadek problemu jest mało przydatny do rozwiązywania innych przypadków problemu, takich jak pytanie o podróż w obie strony przez wszystkie dzielnice Mediolanu, których łączna długość wynosi co najwyżej 10 km. Z tego powodu teoria złożoności zajmuje się problemami obliczeniowymi, a nie konkretnymi przypadkami problemów.
+
+Reprezentacja instancji problemu
+
+Rozważając problemy obliczeniowe, instancja problemu jest ciągiem znaków w alfabecie. Zazwyczaj przyjmuje się, że alfabet jest alfabetem binarnym (tj. zbiorem {0,1}), a zatem ciągi są ciągami bitów. Podobnie jak w prawdziwym komputerze, obiekty matematyczne inne niż ciągi bitów muszą być odpowiednio zakodowane. Na przykład, liczby całkowite mogą być reprezentowane w notacji binarnej, a grafy mogą być kodowane bezpośrednio poprzez ich macierze sąsiedztwa lub poprzez kodowanie ich list sąsiedztwa w zapisie binarnym.
+
+Historia
+
+Wczesnym przykładem badania złożoności algorytmów jest analiza czasu działania algorytmu Euklidesa przeprowadzona przez Gabriela Lamé w 1844 roku.
+
+Zanim rozpoczęły się rzeczywiste badania wyraźnie poświęcone złożoności problemów algorytmicznych, wielu badaczy opracowało ich podstawy. Najbardziej wpływowym z nich było zdefiniowanie maszyn Turinga przez Alana Turinga w 1936 roku, które okazały się bardzo stabilną i uniwersalną wersją komputera.
+
+Początek systematycznych badań nad złożonością obliczeniową przypisuje się przełomowej pracy z 1965 roku "On the Computational Complexity of Algorithms" autorstwa Jurisa Hartmanisa i Richarda E. Stearnsa, w której określono definicje złożoności czasowej i pamięciowej oraz udowodniono twierdzenia o hierarchii \cite{FortnowH03}. Ponadto, w 1965 roku Edmonds zasugerował, by za "dobry" algorytm uznać taki, którego czas działania jest ograniczony wielomianem rozmiaru danych wejściowych \cite{Karp86}.
+
+Wcześniejsze prace badające problemy rozwiązywalne przez maszyny Turinga z określonymi ograniczonymi zasobami obejmują \cite{FortnowH03} definicję liniowych automatów ograniczonych Johna Myhilla (Myhill 1960), badanie podstawowych zbiorów Raymonda Smullyana (1961), a także artykuł Hisao Yamady \cite{Yamada62a} na temat obliczeń w czasie rzeczywistym (1962). Nieco wcześniej Boris Trakhtenbrot (1956), pionier w tej dziedzinie z ZSRR, badał inną specyficzną miarę złożoności:
+
+"Jednak [moje] początkowe zainteresowanie [teorią automatów] było coraz bardziej odkładane na korzyść złożoności obliczeniowej, ekscytującej fuzji metod kombinatorycznych, odziedziczonych po teorii przełączania, z arsenałem pojęciowym teorii algorytmów. Pomysły te przyszły mi do głowy wcześniej, w 1955 roku, kiedy wymyśliłem termin "funkcja sygnalizacyjna", która obecnie jest powszechnie znana jako "miara złożoności"\cite{Trakhtenbrot08}."
+
+W 1967 roku Manuel Blum sformułował zestaw aksjomatów (obecnie znanych jako aksjomaty Bluma) określających pożądane właściwości miar złożoności na zbiorze funkcji obliczalnych i uzyskał ważny rezultat, tak zwane twierdzenie o przyspieszeniu. Dziedzina ta zaczęła się rozwijać w 1971 roku, kiedy Stephen Cook i Leonid Levin udowodnili istnienie praktycznie ważnych problemów, które są NP-zupełne. W 1972 roku Richard Karp posunął tę ideę o krok naprzód w swoim przełomowym artykule "Reducibility Among Combinatorial Problems", w którym wykazał, że 21 różnych problemów kombinatorycznych i grafowych, z których każdy znany jest z niewykonalności obliczeniowej, są NP-zupełne.
+
+
 \section{Problem spełnialnośći}
 
 \section{Definicja klasy problemów NP-trudnych}
