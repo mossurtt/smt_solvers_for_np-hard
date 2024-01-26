@@ -36,6 +36,12 @@ Problem funkcyjny jest problemem obliczeniowym, w którym dla każdego wejścia 
 
 Może się wydawać, że pojęcie problemów funkcyjnych jest znacznie bogatsze niż pojęcie problemów decyzyjnych. Nie jest to jednak prawdą, ponieważ problemy funkcyjne można przekształcić w problemy decyzyjne. Na przykład, mnożenie dwóch liczb całkowitych może być wyrażone jako zbiór trójek $(a, b, c)$ takich, że zachodzi relacja $a × b = c$. Podjęcie decyzji, czy dana trójka jest członkiem tego zbioru, odpowiada rozwiązaniu problemu mnożenia dwóch liczb.
 
+		\subsubsection{Mierzenie rozmiaru instancji}
+
+Aby zmierzyć złożoność obliczeniową problemu, konieczne jest zbadanie czasu wykonania najlepszego algorytmu w zależności od rozmiaru instancji. Jest to istotne ze względu na fakt, że czas wykonania zależy od konkretnego zestawu danych wejściowych, a większe instancje problemu zazwyczaj wymagają dłuższego czasu na rozwiązanie. Czas ten (lub pamięć, lub jakakolwiek miara złożoności) jest tradycyjnie wyrażany jako funkcja rozmiaru instancji, zwykle rozumianego jako liczba bitów reprezentujących dane wejściowe. Teoria złożoności skupia się analizie skalowalności algorytmów wraz ze wzrostem rozmiaru danych wejściowych. Przykładowo, jak znacząco zwiększa się czas rozwiązania problemu dla grafu o 2n wierzchołkach w porównaniu do grafu o n wierzchołkach.
+
+Przyjmując, że rozmiar danych wejściowych wynosi n, czas potrzebny na rozwiązanie może być wyrażony jako funkcja n.  Ponieważ czas rozwiązania różnych zestawów danych o tym samym rozmiarze może się różnić, definiuje się najgorszą złożoność czasową T(n) jako maksymalny czas potrzebny do rozwiązania wszystkich danych wejściowych o rozmiarze n.  Jeśli T(n) jest wielomianem w n, to algorytm jest nazywany algorytmem czasu wielomianowego. Praca Cobhama potwierdza, że problem może być rozwiązany przy użyciu realnej ilości zasobów, jeśli dostępny jest algorytm wielomianowy.
+
 	\subsection{Modele i miary złożoności}
 
 	\subsection{Historia}
