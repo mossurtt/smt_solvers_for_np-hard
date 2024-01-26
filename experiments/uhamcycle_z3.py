@@ -1,49 +1,56 @@
 import z3
 
-graph_count = 0
 
 def hamiltonian_path(graph):
-    global graph_count
+    
     n = len(graph)
-    v = [z3.Int(f"v{i}") for i in range(n)]
+    vertice = [z3.Int(f"v{i}") for i in range(n)]
 
-    solver = z3.Solver()
-    solver.add(v[0] == 0)
+    bf = z3.Solver()
     
     for i in range(n):
-        solver.add(z3.Or([v[j] == (v[i] + 1) % n for j in graph[i]]))
+        for j in range(n):
+            bf.add(z3.And(vertice[i] != vertice[j]))
+    
+    for i in range(n):
+        bf.add(z3.And([vertice[j] == (vertice[i] + 1) for j in range(n)]))
 
-    smt2_representation = solver.to_smt2()
+    
+    smt2_representation = bf.to_smt2()
 
-    graph_count += 1
-    file_name = f'uhamcycle_state_{graph_count}.smt2'
+    
+    file_name = f'uhamcycle_state.smt2'
     with open(file_name, 'w') as file:
         file.write(smt2_representation)
 
-    return solver
-
-
-def get_input():
-    print("Enter the number of vertices:")
-    n = int(input())
-
-    graph = {}
-    for i in range(n):
-        print(f"Enter the neighbors of vertex {i}: (comma-separated, e.g. 1,2,3)")
-        neighbors_input = input().strip()
-
-        if neighbors_input:        
-            neighbors = list(map(int, neighbors_input.split(',')))
-        else:
-            neighbors = []
-            
-        graph[i] = neighbors
-
-    return graph
+    return bf
+        
 
 
 def examples():
-    graph = get_input()
+    graph = {
+    0: [1, 2, 3, 4, 5],
+    1: [6, 7],
+    2: [8, 9],
+    3: [10, 11],
+    4: [12, 13],
+    5: [14, 15],
+    6: [16, 17],
+    7: [18, 19],
+    8: [0],
+    9: [1],
+    10: [2],
+    11: [3],
+    12: [4],
+    13: [5],
+    14: [6],
+    15: [7],
+    16: [8],
+    17: [9],
+    18: [10],
+    19: [11],
+}
+
     solution = hamiltonian_path(graph)
     print(solution.check())
     
