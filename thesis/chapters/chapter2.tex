@@ -21,17 +21,20 @@ Aby jeszcze bardziej podkreślić różnicę między problemem a instancją, roz
 
 		\subsubsection{Reprezentacja instancji problemu}
 
-Rozważając problemy obliczeniowe, instancja problemu jest ciągiem znaków w alfabecie. Zazwyczaj przyjmuje się, że alfabet jest alfabetem binarnym (tj. zbiorem {0,1}), a zatem ciągi są ciągami bitów. Podobnie jak w prawdziwym komputerze, obiekty matematyczne inne niż ciągi bitów muszą być odpowiednio zakodowane. Na przykład, liczby całkowite mogą być reprezentowane w notacji binarnej, a grafy mogą być kodowane bezpośrednio poprzez ich macierze sąsiedztwa lub poprzez kodowanie ich list sąsiedztwa w zapisie binarnym.
+Rozważając problemy obliczeniowe, instancja problemu jest ciągiem znaków w alfabecie. Zazwyczaj przyjmuje się, że alfabet jest alfabetem binarnym (tj. zbiorem ${0,1}$), a zatem ciągi są ciągami bitów. Podobnie jak w prawdziwym komputerze, obiekty matematyczne inne niż ciągi bitów muszą być odpowiednio zakodowane. Na przykład, liczby całkowite mogą być reprezentowane w notacji binarnej, a grafy mogą być kodowane bezpośrednio poprzez ich macierze sąsiedztwa lub poprzez kodowanie ich list sąsiedztwa w zapisie binarnym.
 
 		\subsubsection{Problemy decyzyjne jako języki formalne}
 
-Problem decyzyjny ma tylko dwa możliwe wyjścia, tak lub nie (lub naprzemiennie 1 lub 0) na dowolnym wejściu.
+Problem decyzyjny ma tylko dwa możliwe wyjścia, tak lub nie (lub naprzemiennie $1 lub 0$) na dowolnym wejściu.
 Problemy decyzyjne są jednym z głównych przedmiotów badań w teorii złożoności obliczeniowej. Problem decyzyjny jest specjalnym rodzajem problemu obliczeniowego, którego odpowiedzią jest "tak" lub "nie", lub naprzemiennie "1" lub "0". Problem decyzyjny może być postrzegany jako język formalny, w którym jego elementami są przypadki, których wynikiem jest "tak", a poza nim są przypadki, których wynikiem jest "nie". Celem jest podjęcie decyzji, za pomocą algorytmu, czy dany ciąg wejściowy jest członkiem rozważanego języka formalnego. Jeśli algorytm rozwiązujący ten problem zwróci odpowiedź twierdzącą, mówi się, że algorytm akceptuje ciąg wejściowy, w przeciwnym razie mówi się, że odrzuca dane wejściowe.
 
 Przykład problemu decyzyjnego jest następujący. Dane wejściowe to dowolny graf. Problem polega na rozstrzygnięciu, czy dany graf jest połączony, czy nie. Formalnym językiem związanym z tym problemem decyzyjnym jest zbiór wszystkich połączonych grafów - aby uzyskać dokładną definicję tego języka, należy zdecydować, w jaki sposób grafy są kodowane jako ciągi binarne.
 
 		\subsubsection{Problemy funkcyjne}
 
+Problem funkcyjny jest problemem obliczeniowym, w którym dla każdego wejścia oczekuje się pojedynczego wyniku (funkcji całkowitej), ale wynik jest bardziej złożony niż w przypadku problemu decyzyjnego - to znaczy, wynik nie jest tylko tak lub nie. Godnymi uwagi przykładami są problem komiwojażera i faktoryzacja liczb całkowitych.
+
+Może się wydawać, że pojęcie problemów funkcyjnych jest znacznie bogatsze niż pojęcie problemów decyzyjnych. Nie jest to jednak prawdą, ponieważ problemy funkcyjne można przekształcić w problemy decyzyjne. Na przykład, mnożenie dwóch liczb całkowitych może być wyrażone jako zbiór trójek $(a, b, c)$ takich, że zachodzi relacja $a × b = c$. Podjęcie decyzji, czy dana trójka jest członkiem tego zbioru, odpowiada rozwiązaniu problemu mnożenia dwóch liczb.
 
 	\subsection{Modele i miary złożoności}
 
