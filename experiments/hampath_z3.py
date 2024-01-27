@@ -26,7 +26,6 @@ def main():
     }
     
     hamiltonian_path(digraph)
-    hamiltonian_path(graf)
 
 def hamiltonian_path(graph: dict[int, list[int]]):
 
