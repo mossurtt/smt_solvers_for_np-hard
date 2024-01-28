@@ -60,6 +60,12 @@ Konteksty są wysoce konfigurowalne. Każdy kontekst może być skonfigurowany d
 
 \textbf{Zarządzanie modelami} Jeśli zbiór formuł zadeklarowanych w kontekście jest spełnialny, to można skonstruować model formuł. Model odwzorowuje symbole formuł na konkretne wartości (np. liczby całkowite, wymierne lub stałe wektorowe). Interfejs API udostępnia funkcje do tworzenia i odpytywania modeli.
 
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{yices_architekture}
+	\caption{}
+	\label{fig:yices_architekture}
+\end{figure}
 
 Rysunek  przedstawia najwyższy poziom architektury Yices 2, podzielony na trzy główne moduły. Każdy kontekst składa się z dwóch oddzielnych komponentów: Solver wykorzystuje Boolean satisfiability solver i procedury decyzyjne do określania, czy formuły zawarte w kontekście są spełnialne. Upraszczacz/internalizator konwertuje format używany przez bazę danych termów do wewnętrznego formatu używanego przez solver. W szczególności
 internalizator przepisuje wszystkie formuły do koniunkcyjnej postaci normalnej, z czego korzysta wewnętrzny SAT solver \cite{yices2manual}.
