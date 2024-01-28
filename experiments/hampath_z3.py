@@ -24,8 +24,17 @@ def main():
         18: [10, 19, 17],
         19: [18, 12, 15]
     }
+
+#     unsatgraph = {
+#     0: [1, 2],
+#     1: [0, 2, 3],
+#     2: [0, 1],
+#     3: [1],
+#     4: [1]
+# }
     
     hamiltonian_path(digraph)
+#   hamiltonian_path(unsatgraph)
 
 def hamiltonian_path(graph: dict[int, list[int]]):
 
@@ -44,9 +53,10 @@ def hamiltonian_path(graph: dict[int, list[int]]):
     solver.add(z3.And(edges))
 
     smt2_representation = solver.to_smt2()
-    file_name = f'1hampath_state.smt2'
+    file_name = f'hampath_state.smt2'
     with open(file_name, 'w') as file:
-        file.write(smt2_representation)
+        file.write("(set-logic ALL)\n")
+        file.write(smt2_representation)  
     file.close()
 
     result = solver.check()
