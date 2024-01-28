@@ -45,5 +45,12 @@ Został opracowany w Laboratorium Informatyki SRI International przez Bruno Dute
 Yices 2 może przetwarzać dane wejściowe zapisane w notacji SMT-LIB (obsługiwane są zarówno wersje 2.0, jak i 1.2). Alternatywnie można pisać specyfikacje przy użyciu własnego języka specyfikacji Yices 2, który obejmuje krotki i typy skalarne. 
 Yices jest oprogramowaniem open source rozpowszechnianym na licencji GPLv3. Kod źródłowy Yices jest dostępny na GitHub \cite{yices2doc}.
 
+\subsection{Architektura}
+Yices posiada architekturę modularną. Pozwala ona wybrać konkretną kombinację solwerów teorii dla swoich potrzeb za pomocą interfejsu API lub pliku wykonywalnego yices. Dzięki API można utrzymywać kilka niezależnych kontekstów równolegle, z których każdy może wykorzystywać różne solvery i ustawienia.
+
+
+Rysunek  przedstawia najwyższy poziom architektury Yices 2, podzielony na trzy główne moduły. Każdy kontekst składa się z dwóch oddzielnych komponentów: Solver wykorzystuje Boolean satisfiability solver i procedury decyzyjne do określania, czy formuły zawarte w kontekście są spełnialne. Upraszczacz/internalizator konwertuje format używany przez bazę danych termów do wewnętrznego formatu używanego przez solver. W szczególności
+internalizator przepisuje wszystkie formuły do koniunkcyjnej postaci normalnej, z czego korzysta wewnętrzny SAT solver \cite{yices2manual}.
+
 \section{CVC5}
 sdsdcfsdfcdsf
