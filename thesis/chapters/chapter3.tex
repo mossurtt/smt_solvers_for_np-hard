@@ -48,6 +48,18 @@ Yices jest oprogramowaniem open source rozpowszechnianym na licencji GPLv3. Kod 
 \subsection{Architektura}
 Yices posiada architekturę modularną. Pozwala ona wybrać konkretną kombinację solwerów teorii dla swoich potrzeb za pomocą interfejsu API lub pliku wykonywalnego yices. Dzięki API można utrzymywać kilka niezależnych kontekstów równolegle, z których każdy może wykorzystywać różne solvery i ustawienia.
 
+Struktura oprogramowania Yices 2 jest podzielona na trzy główne moduły:
+
+\textbf{Baza termów} Yices 2 utrzymuje globalną bazę danych, w której przechowywane są wszystkie termy i typy.
+Yices 2 zapewnia interfejs API do konstruowania termów, formuł i typów w tej bazie danych.
+
+\textbf{Zarządzanie kontekstem} Kontekst jest centralną strukturą danych, która przechowuje formuły twierdzeń.
+Każdy kontekst zawiera zestaw twierdzeń, które mają być sprawdzane pod kątem spełnialności. Interfejs zarządzania kontekstami obsługuje operacje tworzenia i inicjowania kontekstów, przypisywania formuł do kontekstu oraz sprawdzania ich spełnialności. Opcjonalnie kontekst może obsługiwać operacje wycofania twierdzeń przy użyciu mechanizmu push/pop. Kilka kontekstów może być konstruowanych i manipulowanych niezależnie.
+
+Konteksty są wysoce konfigurowalne. Każdy kontekst może być skonfigurowany do obsługi określonej teorii i do korzystania z określonego solwera lub kombinacji solwerów.
+
+\textbf{Zarządzanie modelami} Jeśli zbiór formuł zadeklarowanych w kontekście jest spełnialny, to można skonstruować model formuł. Model odwzorowuje symbole formuł na konkretne wartości (np. liczby całkowite, wymierne lub stałe wektorowe). Interfejs API udostępnia funkcje do tworzenia i odpytywania modeli.
+
 
 Rysunek  przedstawia najwyższy poziom architektury Yices 2, podzielony na trzy główne moduły. Każdy kontekst składa się z dwóch oddzielnych komponentów: Solver wykorzystuje Boolean satisfiability solver i procedury decyzyjne do określania, czy formuły zawarte w kontekście są spełnialne. Upraszczacz/internalizator konwertuje format używany przez bazę danych termów do wewnętrznego formatu używanego przez solver. W szczególności
 internalizator przepisuje wszystkie formuły do koniunkcyjnej postaci normalnej, z czego korzysta wewnętrzny SAT solver \cite{yices2manual}.
