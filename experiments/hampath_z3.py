@@ -2,28 +2,32 @@ import z3
 
 def main():
 
-    digraph = {
-        0: [1, 4, 5],
-        1: [0, 7, 2],
-        2: [1, 9, 3],
-        3: [2, 11, 4],
-        4: [3, 13, 0],
-        5: [0, 14, 6],
-        6: [5, 16, 7],
-        7: [6, 8, 1],
-        8: [7, 17, 9],
-        9: [8, 10, 2],
-        10: [9, 18, 11],
-        11: [10, 3, 12],
-        12: [11, 19, 13],
-        13: [12, 14, 4],
-        14: [13, 15, 5],
-        15: [14, 16, 19],
-        16: [6, 17, 15],
-        17: [16, 8, 18],
-        18: [10, 19, 17],
-        19: [18, 12, 15]
-    }
+    filename = "unsatgraph.txt"
+    digraph = read_graph_from_file(filename)
+    
+
+    # digraph = {
+    #     0: [1, 4, 5],
+    #     1: [0, 7, 2],
+    #     2: [1, 9, 3],
+    #     3: [2, 11, 4],
+    #     4: [3, 13, 0],
+    #     5: [0, 14, 6],
+    #     6: [5, 16, 7],
+    #     7: [6, 8, 1],
+    #     8: [7, 17, 9],
+    #     9: [8, 10, 2],
+    #     10: [9, 18, 11],
+    #     11: [10, 3, 12],
+    #     12: [11, 19, 13],
+    #     13: [12, 14, 4],
+    #     14: [13, 15, 5],
+    #     15: [14, 16, 19],
+    #     16: [6, 17, 15],
+    #     17: [16, 8, 18],
+    #     18: [10, 19, 17],
+    #     19: [18, 12, 15]
+    # }
 
 #     unsatgraph = {
 #     0: [1, 2],
@@ -34,7 +38,17 @@ def main():
 # }
     
     hamiltonian_path(digraph)
-#   hamiltonian_path(unsatgraph)
+
+def read_graph_from_file(filename):
+    with open(filename, 'r') as file:
+        lines = file.readlines()
+
+    graph = {}
+    for i, line in enumerate(lines):
+        neighbors = [int(x) for x in line.strip().split(',')]
+        graph[i] = neighbors
+
+    return graph
 
 def hamiltonian_path(graph: dict[int, list[int]]):
 
