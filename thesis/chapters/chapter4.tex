@@ -1,17 +1,109 @@
 \chapter{Kodowanie problemów}
 
 Niniejszy rozdział wprowadza czytelnika do 12 wybranych problemów w teorii grafów i optymalizacji, takich jak:
-Ścieżka Hamiltona, 
+%Ścieżka Hamiltona w grafie skierowanym,
+%Ścieżka Hamiltona w grafie nieskierowanym, 
 Izomorfizm grafów, 
-Pokrycie wierzchołkowe (ang. Vertex Cover), 
-Problem kliki (ang. The maximum clique size problem), 
-Problem pokrycia zbioru (ang. Set Cover), 
+%Pokrycie wierzchołkowe (ang. Vertex Cover), 
+%Problem kliki (ang. The maximum clique size problem), 
+%Problem pokrycia zbioru (ang. Set Cover), 
 Problem maksymalnego zbioru niezależnego (ang. Maximum Independent Set), 
 Problem Komiwojażera, 
 Kolorowanie grafu, 
-Problem sumy podzbioru (ang. SubsetSum), 
+%Problem sumy podzbioru (ang. SubsetSum), 
 Drzewo Steinera (ang. Steiner Tree), 
 Problem plecakowy, 
 Problem najbliższego ciągu (ang. Closest string).
 
-Każda sekcja zawiera opis algorytmu oraz kod demonstracyjny, który ilustruje podejście do implementacji w języku Python oraz wykorzystanie biblioteki Z3 do rozwiązania tych problemów.
+Kodowanie problemów opiera się na podejściu zwanym Programowanie z ograniczeniami (ang. Constraint Programming, CP). Każdy problem, który analizuję w mojej pracy, jest kodowany jako zestaw ograniczeń logicznych, które definiują jego specyfikację i warunki jego rozwiązania. Wykorzystanie podejścia CP pozwala mi na elastyczne definiowanie problemów, wyrażanie ich w sposób zrozumiały dla maszyny, a także szybkie eksperymentowanie z różnymi zestawami ograniczeń oraz łatwe wprowadzanie zmian w modelach problemów.
+
+Każda sekcja zawiera opis algorytmu oraz kod demonstracyjny w języku Python z wykorzystaniem biblioteki Z3 do rozwiązania tych problemów.
+
+\section{Ścieżka Hamiltona}
+
+Problem ścieżki Hamiltona jest zagadnieniem z zakresu teorii złożoności i teorii grafów. Rozstrzyga on, czy graf skierowany lub nieskierowany G zawiera ścieżkę Hamiltona, czyli ścieżkę, która odwiedza każdy wierzchołek grafu dokładnie raz.
+
+Problem ścieżki Hamiltona ma zastosowanie w wielu dziedzinach, takich jak informatyka, telekomunikacja czy bioinformatyka. Rozwiązanie tego problemu jest często kluczowe w analizie sieci i trasowania w systemach komunikacyjnych \cite{enwiki:1190136070}.
+
+W implementacji wykorzystuje się strukturę danych reprezentującą graf za pomocą słownika, gdzie klucze odpowiadają wierzchołkom, a wartości są listami sąsiedztwa. Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu definiuje się cztery funkcje: 'check\verb|_|hampath', 'proper\verb|_|numbers', 'distinct\verb|_|vs' oraz 'edge'. Funkcja 'check\verb|_|hampath' odpowiada za główny algorytm rozwiązujący problem. Pozostałe funkcje służą do generowania ograniczeń logicznych.
+	
+Funkcja 'check\verb|_|hampath' przyjmuje jako argument słownik 'graph', który reprezentuje graf skierowany.
+
+\textbf{Inicjalizacja zmiennych: } na początku funkcja wyznacza liczbę wierzchołków grafu 'n' na podstawie jego rozmiaru; tworzy wektor zmiennych całkowitoliczbowych 'vertices' za pomocą funkcji 'z3.IntVector', gdzie każda zmienna odpowiada jednemu wierzchołkowi grafu.
+
+\begin{lstlisting}	
+	def check_hampath(graph: dict[int, list[int]]):
+		n = len(graph)
+		vertices = z3.IntVector("v", n)
+\end{lstlisting}
+	
+\textbf{Dodawanie ograniczeń: } dodaje ograniczenia dotyczące właściwości wierzchołków oraz krawędzi do solvera Z3.
+
+\begin{lstlisting}
+		solver.add(proper_numbers(vertices))
+	
+		solver.add(distinct_vs(vertices))
+	
+		edges = []
+		for i in range(n - 1):
+			edges.append(edge(graph, vertices[i], vertices[i + 1]))
+		solver.add(z3.And(edges))
+\end{lstlisting}
+
+\textbf{Rozwiązywanie problemu: } solver Z3 sprawdza spełnialność wszystkich dodanych ograniczeń. Jeśli znajdzie rozwiązanie ('z3.sat'), oznacza to istnienie ścieżki Hamiltona w grafie. W przypadku braku rozwiązania, informuje o tym użytkownika.
+
+\textbf{Prezentacja wyników: } jeśli solver znalazł rozwiązanie, funkcja wyświetla znalezioną ścieżkę Hamiltona, prezentując kolejność odwiedzania wierzchołków. W przeciwnym przypadku wyświetla wynik 'unsat'.
+
+\begin{lstlisting}
+		result = solver.check()
+		if result == z3.sat:
+			model = solver.model()
+			vertex_values = [(idx, model[v].as_long()) for idx, v in enumerate(vertices)]
+			sorted_vertices = sorted(vertex_values)
+			print("Hamiltonian Path:")
+			for idx, value in sorted_vertices[:-1]:
+				print(f"v__{value}", end=' -> ')
+			print(f"v__{sorted_vertices[-1][1]}")
+		else:
+			print(result)
+\end{lstlisting}
+\vspace{1cm}
+
+Funkcja 'proper\verb|_|numbers' ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' reprezentujące wierzchołki grafu są poprawnymi numerami wierzchołków, czyli są w zakresie od $0$ do $n - 1$, gdzie $n$ to liczba wierzchołków w grafie.
+
+\begin{lstlisting}
+	def proper_numbers(vertices):
+		n = len(vertices)
+		atoms = []
+		for i in range(n - 1):
+			atoms.append(z3.And(vertices[i] >= 0, vertices[i] < n))
+		bf = z3.And(atoms)
+		return bf
+\end{lstlisting}
+\vspace{1cm}
+
+Funkcja 'distinct\verb|_|vs' zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwa wirzchołki nie mają tej samej wartości. 
+		
+\begin{lstlisting}	
+	def distinct_vs(vertices):
+		n = len(vertices)
+		atoms = []
+		for i in range(n - 1):
+			for j in range(i + 1, n):
+				atoms.append(vertices[i] != vertices[j])
+		bf = z3.And(atoms)
+		return bf
+\end{lstlisting}
+\vspace{1cm}
+
+Funkcja 'edge' generuje ograniczenia logiczne dla krawędzi między wierzchołkami na podstawie podanego grafu.
+	
+\begin{lstlisting}	
+	def edge(graph: dict[int, list[int]], s, t):
+		atoms = []
+		for source in graph:
+			for target in graph[source]:
+				atoms.append(z3.And([s == source, t == target]))
+		bf = z3.Or(atoms)
+		return bf
+\end{lstlisting}
