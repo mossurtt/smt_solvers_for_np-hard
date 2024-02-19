@@ -1,11 +1,10 @@
 import z3 
 
 def main():
-
-    filename = "inputs/unsatgraph.txt"
+    filename = "inputs/digraph.txt"
     digraph = read_graph_from_file(filename)
-
-    hamiltonian_path(digraph)
+    
+    check_hampath(digraph)
 
 def read_graph_from_file(filename):
     with open(filename, 'r') as file:
@@ -18,7 +17,7 @@ def read_graph_from_file(filename):
 
     return graph
 
-def hamiltonian_path(graph: dict[int, list[int]]):
+def check_hampath(graph: dict[int, list[int]]):
 
     n = len(graph)
     vertices = z3.IntVector("v", n)
@@ -45,11 +44,11 @@ def hamiltonian_path(graph: dict[int, list[int]]):
     if result == z3.sat:
         model = solver.model()
         vertex_values = [(idx, model[v].as_long()) for idx, v in enumerate(vertices)]
-        sorted_vertices = sorted(vertex_values)
+        sorted_verticess = sorted(vertex_values)
         print("Hamiltonian Path:")
-        for idx, value in sorted_vertices[:-1]:
+        for idx, value in sorted_verticess[:-1]:
             print(f"v__{value}", end=' -> ')
-        print(f"v__{sorted_vertices[-1][1]}")
+        print(f"v__{sorted_verticess[-1][1]}")
     else:
         print(result)
     
@@ -59,7 +58,6 @@ def proper_numbers(vertices):
     for i in range(n - 1):
         atoms.append(z3.And(vertices[i] >= 0, vertices[i] < n))
     bf = z3.And(atoms)
-    z3.simplify(bf)
     return bf
 
 def distinct_vs(vertices):
@@ -69,17 +67,14 @@ def distinct_vs(vertices):
         for j in range(i + 1, n):
             atoms.append(vertices[i] != vertices[j])
     bf = z3.And(atoms)
-    z3.simplify(bf)
     return bf
 
 def edge(graph: dict[int, list[int]], s, t):
     atoms = []
     for source in graph:
         for target in graph[source]:
-            atoms.append(z3.And([s == source, t == target])) 
-            atoms.append(z3.And([s == target, t == source]))
+            atoms.append(z3.And([s == source, t == target]))
     bf = z3.Or(atoms)
-    z3.simplify(bf)
     return bf
 
 
