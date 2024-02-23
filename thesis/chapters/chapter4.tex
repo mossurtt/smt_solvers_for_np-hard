@@ -9,10 +9,10 @@ Izomorfizm grafów,
 %Problem pokrycia zbioru (ang. Set Cover), 
 %Problem maksymalnego zbioru niezależnego (ang. Maximum Independent Set), 
 Problem Komiwojażera, 
-Kolorowanie grafu, 
+%Kolorowanie grafu, 
 %Problem sumy podzbioru (ang. SubsetSum), 
 Drzewo Steinera (ang. Steiner Tree), 
-Problem plecakowy, 
+%Problem plecakowy, 
 Problem najbliższego ciągu (ang. Closest string).
 
 Każdy problem, który analizuję w mojej pracy, jest kodowany jako zestaw ograniczeń logicznych, które definiują jego specyfikację i warunki jego rozwiązania. Wykorzystanie tego podejścia pozwala mi na elastyczne definiowanie problemów, wyrażanie ich w sposób zrozumiały dla maszyny, a także szybkie eksperymentowanie z różnymi zestawami ograniczeń oraz łatwe wprowadzanie zmian w modelach problemów.
@@ -26,6 +26,19 @@ Problem ścieżki Hamiltona jest zagadnieniem z zakresu teorii złożoności i t
 Problem ścieżki Hamiltona ma zastosowanie w wielu dziedzinach, takich jak informatyka, telekomunikacja czy bioinformatyka. Rozwiązanie tego problemu jest często kluczowe w analizie sieci i trasowania w systemach komunikacyjnych \cite{enwiki:1190136070}.
 
 W implementacji wykorzystuje się strukturę danych reprezentującą graf za pomocą słownika, gdzie klucze odpowiadają wierzchołkom, a wartości są listami sąsiedztwa. Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu definiuje się cztery funkcje: 'check\verb|_|hampath', 'proper\verb|_|numbers', 'distinct\verb|_|vs' oraz 'edge'. Funkcja 'check\verb|_|hampath' odpowiada za główny algorytm rozwiązujący problem. Pozostałe funkcje służą do generowania ograniczeń logicznych.
+
+Problem ścieżki Hamiltona w postaci formuły logicznej:
+
+\begin{align*}
+	H(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
+	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land 
+	\left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (x_i = s \land x_{i+1} = t) \right)
+\end{align*}
+gdzie:
+\begin{itemize}
+	\item \(n\) to liczba wierzchołków w grafie,
+	\item \(E\) to zbiór wszystkich krawędzi
+\end{itemize}
 	
 Funkcja 'check\verb|_|hampath' przyjmuje jako argument słownik 'graph', który reprezentuje graf skierowany.
 
