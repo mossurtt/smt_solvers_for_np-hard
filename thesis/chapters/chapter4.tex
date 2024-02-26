@@ -32,9 +32,9 @@ W implementacji wykorzystuje się strukturę danych reprezentującą graf za pom
 Problem ścieżki Hamiltona w grafie skierowanym w postaci formuły logicznej:
 
 \begin{align*}
-	HamPath(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
-	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land 
-	\left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (x_i = s \land x_{i+1} = t) \right)
+	\HamPath(n, E) = & \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
+	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\ 
+	& \left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (x_i = s \land x_{i+1} = t) \right)
 \end{align*}
 gdzie:
 \begin{itemize}
