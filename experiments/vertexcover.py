@@ -1,7 +1,12 @@
-import z3
+import sys
+import z3 
 
 def main():
-    filename = "inputs/clique.txt"
+    if len(sys.argv) != 2:
+        print("Usage: python3 vertexcover.py <filename>")
+        return
+
+    filename = sys.argv[1]
     graph = read_graph_from_file(filename)
 
     print(check_vertexcover(graph))

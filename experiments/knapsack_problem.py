@@ -1,7 +1,12 @@
-import z3
+import sys
+import z3 
 
 def main():
-    filename = 'inputs/input_knapsack.txt'
+    if len(sys.argv) != 2:
+        print("Usage: python3 knapsack_problem.py <filename>")
+        return
+
+    filename = sys.argv[1]
     values, weights, capacity = read_input_from_file(filename)
 
     print(check_knapsack(values, weights, capacity))

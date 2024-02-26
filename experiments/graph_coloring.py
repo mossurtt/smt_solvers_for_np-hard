@@ -1,9 +1,14 @@
+import sys
 import z3  
 import networkx as nx 
 import matplotlib.pyplot as plt
 
 def main():
-    filename = 'inputs/petersen_graph.txt'
+    if len(sys.argv) != 2:
+        print("Usage: python3 graph_coloring.py <filename>")
+        return
+
+    filename = sys.argv[1]
     petersen_graph = read_graph_from_file(filename)
     
     check_coloring(petersen_graph)

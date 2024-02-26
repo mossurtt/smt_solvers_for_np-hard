@@ -1,8 +1,12 @@
+import sys
 import z3 
 
 def main():
+    if len(sys.argv) != 2:
+        print("Usage: python3 uhampath.py <filename>")
+        return
 
-    filename = "inputs/unsatgraph.txt"
+    filename = sys.argv[1]
     digraph = read_graph_from_file(filename)
 
     hamiltonian_path(digraph)

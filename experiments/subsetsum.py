@@ -1,7 +1,12 @@
+import sys
 import z3 
 
 def main():
-    filename = "inputs/set.txt"
+    if len(sys.argv) != 2:
+        print("Usage: python3 subsetsum.py <filename>")
+        return
+
+    filename = sys.argv[1]
     input_set = read_set_from_file(filename)
     
     check_subsetsum(input_set)

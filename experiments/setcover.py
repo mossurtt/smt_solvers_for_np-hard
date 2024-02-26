@@ -1,7 +1,12 @@
-import z3
+import sys
+import z3 
 
 def main():
-    filename = 'inputs/input_setcover.txt'
+    if len(sys.argv) != 2:
+        print("Usage: python3 setcover.py <filename>")
+        return
+
+    filename = sys.argv[1]
     universe, subsets = read_input_from_file(filename)
     
     print(check_setcover(universe, subsets))
