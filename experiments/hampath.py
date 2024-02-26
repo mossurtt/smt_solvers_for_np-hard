@@ -1,7 +1,12 @@
+import sys
 import z3 
 
 def main():
-    filename = "inputs/digraph.txt"
+    if len(sys.argv) != 2:
+        print("Usage: python3 hampath.py <filename>")
+        return
+
+    filename = sys.argv[1]
     digraph = read_graph_from_file(filename)
     
     check_hampath(digraph)

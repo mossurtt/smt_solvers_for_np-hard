@@ -25,24 +25,71 @@ Problem ścieżki Hamiltona jest zagadnieniem z zakresu teorii złożoności i t
 
 Problem ścieżki Hamiltona ma zastosowanie w wielu dziedzinach, takich jak informatyka, telekomunikacja czy bioinformatyka. Rozwiązanie tego problemu jest często kluczowe w analizie sieci i trasowania w systemach komunikacyjnych \cite{enwiki:1190136070}.
 
-W implementacji wykorzystuje się strukturę danych reprezentującą graf za pomocą słownika, gdzie klucze odpowiadają wierzchołkom, a wartości są listami sąsiedztwa. Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu definiuje się cztery funkcje: 'check\verb|_|hampath', 'proper\verb|_|numbers', 'distinct\verb|_|vs' oraz 'edge'. Funkcja 'check\verb|_|hampath' odpowiada za główny algorytm rozwiązujący problem. Pozostałe funkcje służą do generowania ograniczeń logicznych.
+Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu definiuje się cztery funkcje: 'check\verb|_|hampath', 'proper\verb|_|numbers', 'distinct\verb|_|vs' oraz 'edge'. Funkcja 'check\verb|_|hampath' odpowiada za główny algorytm rozwiązujący problem. Pozostałe funkcje służą do generowania ograniczeń logicznych.
 
 \subsection{Ścieżka Hamiltona w grafie skierowanym}
 
-Problem ścieżki Hamiltona w grafie skierowanym w postaci formuły logicznej:
+Pierwszą z funkcji, która została wykorzystana w modelowaniu problemu, jest funkcja 'proper\verb|_|numbers', która ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' ($v_1, v_2, …, v_n$) reprezentujące wierzchołki grafu są w zakresie od $1$ do $n$, gdzie $n$ to liczba wierzchołków w grafie. Poniższa formuła logiczna określa przypisanie odpowiednich wartości wierzchołkóm:
+
+\begin{align*}
+	\mli{proper\textunderscore numbers}(n) = \left( \bigwedge_{j=0}^{n-1} (v_j \geq 1 \land v_j \leq n) \right) 
+\end{align*}
+
+\begin{lstlisting}
+	def proper_numbers(vertices):
+	n = len(vertices)
+	atoms = []
+	for i in range(n - 1):
+	atoms.append(z3.And(vertices[i] >= 0, vertices[i] < n))
+	bf = z3.And(atoms)
+	return bf
+\end{lstlisting}
+\vspace{1cm}
+
+Kolejna funkcja 'distinct\verb|_|vs' zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwa wierzchołki nie mają tej samej wartości:
+
+\begin{align*}
+	\mli{distinct\textunderscore vs}(n) = \left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (v_i \neq v_j) \right)
+\end{align*}
+
+\begin{lstlisting}	
+	def distinct_vs(vertices):
+	n = len(vertices)
+	atoms = []
+	for i in range(n - 1):
+	for j in range(i + 1, n):
+	atoms.append(vertices[i] != vertices[j])
+	bf = z3.And(atoms)
+	return bf
+\end{lstlisting}
+\vspace{1cm}
+
+Funkcja 'edge' generuje ograniczenia logiczne dla krawędzi między wierzchołkami na podstawie podanego grafu. Niech $v_1, v_2, …, v_n$ to wierzchołki grafu, a \(E\) to zbiór wszystkich krawędzi, w przypadku grafu skierowanego zbiór uporządkowanych par (s, t), gdzie pierwsza zmienna s oznacza punkt źródłowy krawędzi, i t jest punktem końcowym:
+
+\begin{align*}
+	\mli{edges}(n, E) = \left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (v_i = s \land v_{i+1} = t) \right)
+\end{align*}
+
+\begin{lstlisting}	
+	def edge(graph: dict[int, list[int]], s, t):
+	atoms = []
+	for source in graph:
+	for target in graph[source]:
+	atoms.append(z3.And([s == source, t == target]))
+	bf = z3.Or(atoms)
+	return bf
+\end{lstlisting}
+\vspace{1cm}
+
+Zatem cała formuła kodująca ścieżkę Hamiltona dla grafu skierowanego zawierającego \(n\) wierzchołków i zbiór krawędzi \(E\) jest następująca:
 
 \begin{align*}
 	\HamPath(n, E) = & \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
 	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\ 
 	& \left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (x_i = s \land x_{i+1} = t) \right)
 \end{align*}
-gdzie:
-\begin{itemize}
-	\item \(n\) to liczba wierzchołków w grafie,
-	\item \(E\) to zbiór wszystkich krawędzi
-\end{itemize}
-	
-Funkcja 'check\verb|_|hampath' przyjmuje jako argument słownik 'graph', który reprezentuje graf skierowany.
+
+W implementacji głównej funkcji 'check\verb|_|hampath' wykorzystuje się strukturę danych reprezentującą graf za pomocą słownika, gdzie klucze odpowiadają wierzchołkom, a wartości są listami sąsiedztwa.
 
 \textbf{Inicjalizacja zmiennych: } na początku funkcja wyznacza liczbę wierzchołków grafu 'n' na podstawie jego rozmiaru; tworzy wektor zmiennych całkowitoliczbowych 'vertices' za pomocą funkcji 'z3.IntVector', gdzie każda zmienna odpowiada jednemu wierzchołkowi grafu.
 
@@ -52,7 +99,7 @@ Funkcja 'check\verb|_|hampath' przyjmuje jako argument słownik 'graph', który 
 		vertices = z3.IntVector("v", n)
 \end{lstlisting}
 	
-\textbf{Dodawanie ograniczeń: } dodaje ograniczenia dotyczące właściwości wierzchołków oraz krawędzi do solvera Z3.
+\textbf{Dodawanie ograniczeń: } dodaje wyżej opisane ograniczenia do solvera Z3.
 
 \begin{lstlisting}
 		solver.add(proper_numbers(vertices))
@@ -84,44 +131,6 @@ Funkcja 'check\verb|_|hampath' przyjmuje jako argument słownik 'graph', który 
 \end{lstlisting}
 \vspace{1cm}
 
-Funkcja 'proper\verb|_|numbers' ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' reprezentujące wierzchołki grafu są poprawnymi numerami wierzchołków, czyli są w zakresie od $0$ do $n - 1$, gdzie $n$ to liczba wierzchołków w grafie.
-
-\begin{lstlisting}
-	def proper_numbers(vertices):
-		n = len(vertices)
-		atoms = []
-		for i in range(n - 1):
-			atoms.append(z3.And(vertices[i] >= 0, vertices[i] < n))
-		bf = z3.And(atoms)
-		return bf
-\end{lstlisting}
-\vspace{1cm}
-
-Funkcja 'distinct\verb|_|vs' zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwa wirzchołki nie mają tej samej wartości. 
-		
-\begin{lstlisting}	
-	def distinct_vs(vertices):
-		n = len(vertices)
-		atoms = []
-		for i in range(n - 1):
-			for j in range(i + 1, n):
-				atoms.append(vertices[i] != vertices[j])
-		bf = z3.And(atoms)
-		return bf
-\end{lstlisting}
-\vspace{1cm}
-
-Funkcja 'edge' generuje ograniczenia logiczne dla krawędzi między wierzchołkami na podstawie podanego grafu.
-	
-\begin{lstlisting}	
-	def edge(graph: dict[int, list[int]], s, t):
-		atoms = []
-		for source in graph:
-			for target in graph[source]:
-				atoms.append(z3.And([s == source, t == target]))
-		bf = z3.Or(atoms)
-		return bf
-\end{lstlisting}
 
 \subsection{Ścieżka Hamiltona w grafie nieskierowanym}
 
