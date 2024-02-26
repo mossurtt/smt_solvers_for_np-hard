@@ -1,25 +1,25 @@
 \chapter{Kodowanie problemów}
 
 Niniejszy rozdział wprowadza czytelnika do 12 wybranych problemów w teorii grafów i optymalizacji, takich jak:
-%Ścieżka Hamiltona w grafie skierowanym,
-%Ścieżka Hamiltona w grafie nieskierowanym, 
+Ścieżka Hamiltona w grafie skierowanym,
+Ścieżka Hamiltona w grafie nieskierowanym, 
 Izomorfizm grafów, 
-%Pokrycie wierzchołkowe (ang. Vertex Cover), 
-%Problem kliki (ang. The maximum clique size problem), 
-%Problem pokrycia zbioru (ang. Set Cover), 
-%Problem maksymalnego zbioru niezależnego (ang. Maximum Independent Set), 
+Pokrycie wierzchołkowe (ang. Vertex Cover), 
+Problem kliki (ang. The maximum clique size problem), 
+Problem pokrycia zbioru (ang. Set Cover), 
+Problem maksymalnego zbioru niezależnego (ang. Maximum Independent Set), 
 Problem Komiwojażera, 
-%Kolorowanie grafu, 
-%Problem sumy podzbioru (ang. SubsetSum), 
+Kolorowanie grafu, 
+Problem sumy podzbioru (ang. SubsetSum), 
 Drzewo Steinera (ang. Steiner Tree), 
-%Problem plecakowy, 
+Problem plecakowy, 
 Problem najbliższego ciągu (ang. Closest string).
 
 Każdy problem, który analizuję w mojej pracy, jest kodowany jako zestaw ograniczeń logicznych, które definiują jego specyfikację i warunki jego rozwiązania. Wykorzystanie tego podejścia pozwala mi na elastyczne definiowanie problemów, wyrażanie ich w sposób zrozumiały dla maszyny, a także szybkie eksperymentowanie z różnymi zestawami ograniczeń oraz łatwe wprowadzanie zmian w modelach problemów.
 
 Każda sekcja zawiera opis algorytmu oraz kod demonstracyjny w języku Python z wykorzystaniem biblioteki Z3 do rozwiązania tych problemów.
 
-\section{Ścieżka Hamiltona}
+\section{Problem ścieżki Hamiltona}
 
 Problem ścieżki Hamiltona jest zagadnieniem z zakresu teorii złożoności i teorii grafów. Rozstrzyga on, czy graf skierowany lub nieskierowany G zawiera ścieżkę Hamiltona, czyli ścieżkę, która odwiedza każdy wierzchołek grafu dokładnie raz.
 
@@ -27,10 +27,12 @@ Problem ścieżki Hamiltona ma zastosowanie w wielu dziedzinach, takich jak info
 
 W implementacji wykorzystuje się strukturę danych reprezentującą graf za pomocą słownika, gdzie klucze odpowiadają wierzchołkom, a wartości są listami sąsiedztwa. Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu definiuje się cztery funkcje: 'check\verb|_|hampath', 'proper\verb|_|numbers', 'distinct\verb|_|vs' oraz 'edge'. Funkcja 'check\verb|_|hampath' odpowiada za główny algorytm rozwiązujący problem. Pozostałe funkcje służą do generowania ograniczeń logicznych.
 
-Problem ścieżki Hamiltona w postaci formuły logicznej:
+\subsection{Ścieżka Hamiltona w grafie skierowanym}
+
+Problem ścieżki Hamiltona w grafie skierowanym w postaci formuły logicznej:
 
 \begin{align*}
-	H(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
+	HamPath(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
 	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land 
 	\left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (x_i = s \land x_{i+1} = t) \right)
 \end{align*}
@@ -120,3 +122,95 @@ Funkcja 'edge' generuje ograniczenia logiczne dla krawędzi między wierzchołka
 		bf = z3.Or(atoms)
 		return bf
 \end{lstlisting}
+
+\subsection{Ścieżka Hamiltona w grafie nieskierowanym}
+
+Problem ścieżki Hamiltona w grafie nieskierowanym w postaci formuły logicznej:
+
+\begin{align*}
+	HamPath(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
+	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\
+	\left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (x_i = s \land x_{i+1} = t) \lor (x_i = t \land x_{i+1} = s) \right)
+\end{align*}
+\text{gdzie:}
+\begin{itemize}
+	\item \(n\) to liczba wierzchołków w grafie,
+	\item \(E\) to zbiór wszystkich krawędzi
+\end{itemize}
+
+\section{Problem maksymalnej kliki}
+
+\begin{align*}
+	MaxClique(n, N) = \left( \bigwedge_{j=0}^{n-1} (x_j = True) \right) \land 
+	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{\substack{j=i+1 \\ j \notin N(i)}}^{n} ((x_i \land x_j) \implies (\lnot x_i \lor \lnot x_j)) \right)	
+\end{align*}
+
+\section{Problem maksymalnego zbioru niezależnego}
+
+\begin{align*}
+	MaxIndSet(n) = \left( \bigwedge_{j=0}^{n-1} (x_j = True) \right) \land 
+	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{\substack{j=i+1 \\ j \in N(i)}}^{n} (\lnot(x_i \land x_j)) \right)	
+\end{align*}
+
+\section{Pokrycie wierzchołkowe}
+
+\begin{align*}
+	VertexCover(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j = True) \right) \land 
+	\left( \sum_{i=0}^{n-1} x_i\leq min\textunderscore size \right) \land 
+	\left( \bigwedge_{u, v \in E} (x_u \lor x_v) \right)
+\end{align*}
+
+\section{Kolorowanie grafu}
+
+\begin{align*}
+	GraphColoring(n, N) = \left( \bigwedge_{j=0}^{n-1} (color_j \geq 0 \land color_j < 3) \right) \land 
+	\left( \bigwedge_{j \in N(i)} (color_i \neq color_j) \right)
+\end{align*}
+
+\section{Izomorfizm grafów}
+
+\begin{align*}
+	GI() = \left( \bigwedge_{i=0}^{n-1} \left( \bigvee_{j=1}^{n-1} (v_i^1 \leftrightarrow v_j^2) \right) \right) 
+	\land \left( \bigwedge_{(v_i^1, v_j^1) \in E_1} \left( \bigvee_{(v_p^2, v_q^2) \in E_2} ((v_i^1 \leftrightarrow v_p^2) \land (v_j^1 \leftrightarrow v_q^2)) \right) \right) \\
+	\land \left( \bigwedge_{i=0}^{n-1} \left( \bigvee_{j=0}^{n-1} (v_i^2 \leftrightarrow v_j^1) \right) \right)	
+\end{align*}
+
+\section{Problem Komiwojażera}
+
+\begin{align*}
+	TSP() = \left(  \right) 
+\end{align*}
+
+\section{Drzewo Steinera}
+
+\begin{align*}
+	SteinerTree() = \left(  \right) 
+\end{align*}
+
+\section{Problem pokrycia zbioru}
+
+\begin{align*}
+	SetCover(n, m) = \left( \bigwedge_{i=0}^{n-1} (\bigvee_{j=0}^{m-1} s_j = True) \right) \land 
+	min \left( \sum_{i=0}^{m-1} s_i \right) 
+\end{align*}
+
+\section{Problem sumy podzbioru}
+
+\begin{align*}
+	SubsetSum(n) = \left( \bigwedge_{j=0}^{n-1} (x_j = 0 \lor x_j = 1) \right) \land 
+	\left( \sum_{i=0}^{n-1} (x_i \times s_i) = 0 \right) \land 
+	\left( \sum_{i=0}^{n-1} x_i > 1 \right)
+\end{align*}
+
+\section{Problem plecakowy}
+
+\begin{align*}
+	Knapsack(n) = \left( \sum_{i=0}^{n-1} (weights[i]) \leq capacity \right) \land 
+	max \left( \sum_{i=0}^{n-1} (values[i]) \right)
+\end{align*}
+
+\section{Problem najbliższego ciągu}
+
+\begin{align*}
+	ClosestStr() = \left(  \right) 
+\end{align*}
