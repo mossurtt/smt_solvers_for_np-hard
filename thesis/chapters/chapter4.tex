@@ -129,32 +129,60 @@ W implementacji głównej funkcji 'check\verb|_|hampath' wykorzystuje się struk
 		else:
 			print(result)
 \end{lstlisting}
-\vspace{1cm}
 
 
 \subsection{Ścieżka Hamiltona w grafie nieskierowanym}
 
-Problem ścieżki Hamiltona w grafie nieskierowanym w postaci formuły logicznej:
+W przypadku grafów nieskierowanych krawędzie nie mają określonego kierunku, dlatego ścieżka Hamiltona może przechodzić przez krawędź w obie strony. 
+
+W kontekście modelowania problemu ścieżki Hamiltona w grafie nieskierowanym należy zapewnić możliwość przechodzenia przez krawędź w obie strony, co można osiągnąć poprzez stworzenie formuły logicznej, która będzie uwzględniała możliwość istnienia krawędzi pomiędzy wierzchołkami w obu kierunkach:
 
 \begin{align*}
-	HamPath(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
+	UHamPath(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
 	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\
 	\left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (x_i = s \land x_{i+1} = t) \lor (x_i = t \land x_{i+1} = s) \right)
 \end{align*}
-\text{gdzie:}
-\begin{itemize}
-	\item \(n\) to liczba wierzchołków w grafie,
-	\item \(E\) to zbiór wszystkich krawędzi
-\end{itemize}
 
-\section{Problem maksymalnej kliki}
+Poniższy fragment kodu demonstruje sposób kodowania danego ograniczenia:
+
+\begin{lstlisting}
+	def edge(graph: dict[int, list[int]], s, t):
+		atoms = []
+		for source in graph:
+			for target in graph[source]:
+				atoms.append(z3.And([s == source, t == target])) 
+				atoms.append(z3.And([s == target, t == source]))
+		bf = z3.Or(atoms)
+		z3.simplify(bf)
+		return bf
+\end{lstlisting}
+
+\section{Problem maksymalnej kliki w grafie nieskierowanym}
+
+Klika w grafie nieskierowanym \(G\) to pełny podgraf, czyli taki, w którym każde dwa wierzchołki są połączone krawędzią. Problem kliki polega na sprawdzeniu, czy graf zwiera klikę o określonym rozmiarze. Maksymalna klika to taka, która zawiera największą możliwą liczbę wierzchołków \cite{Sipser0086373}. Niech
+\begin{align*}
+	\mli{MAX\textunderscore CLIQUE} = \{<G, k> |\text{ największa klika w grafie $G$ ma rozmiar dokładnie $k$}\}.
+\end{align*}
 
 \begin{align*}
-	MaxClique(n, N) = \left( \bigwedge_{j=0}^{n-1} (x_j = True) \right) \land 
+	MaxClique(n, N) = 
 	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{\substack{j=i+1 \\ j \notin N(i)}}^{n} ((x_i \land x_j) \implies (\lnot x_i \lor \lnot x_j)) \right)	
 \end{align*}
 
-\section{Problem maksymalnego zbioru niezależnego}
+\section{Problem maksymalnego zbioru niezależnego w grafie nieskierowanym}
+
+Niezależny zbiór w grafie nieskierowanym jest podzbiorem wierzchołków grafu G, z których żadne dwa nie sąsiadują ze sobą. Problem maksymalnego zbioru niezależnego ma na celu obliczenie rozmiaru największego niezależnego zbioru w danym grafie. Rozmiar niezależnego zbioru to liczba zawartych w nim wierzchołków \cite{Korshunov1974}.
+
+Dla grafu $G = (V, E)$, niezależny zbiór \(S\) jest maksymalnym jeżeli dla $v \in V$ jedno z poniższych twierdzeń jest prawdziwe \cite{maxIndSetDef}:
+
+\begin{itemize}
+	\item $v \in S$;
+	\item $N(v) \cap S \neq \emptyset$, gdzie \(N(v)\) oznacza sąsiadów \(v\).
+\end{itemize}
+
+Problem maksymalnego niezależnego zbioru i jego dopełnienie, problem minimalnego pokrycia wierzchołków, są zaangażowane w dowodzenie złożoności obliczeniowej wielu problemów teoretycznych \cite{Skiena20}.
+
+
 
 \begin{align*}
 	MaxIndSet(n) = \left( \bigwedge_{j=0}^{n-1} (x_j = True) \right) \land 
