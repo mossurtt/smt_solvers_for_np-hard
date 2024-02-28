@@ -36,6 +36,11 @@ defernumbers=true,
 
 \usepackage{macros}
 
+\defbibfilter{books_and_proceedings}{
+	type=book or
+	type=inproceedings
+}
+
 \bibliography{literatura}
 
 \lstset{ %
@@ -129,7 +134,7 @@ Treść załącznika dwa.
 %\bibliography{literatura}
 
 \printbibliography[type=article,title={Bibliografia - artykuły}]
-\printbibliography[type=book,title={Bibliografia - książki}]
+\printbibliography[filter=books_and_proceedings,title={Bibliografia - książki  i referaty konferencyjne}]
 \printbibliography[type=misc,title={Bibliografia - strony internetowe}]
 
 % spis tabel (jeżeli jest potrzebny):

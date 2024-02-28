@@ -8,8 +8,7 @@ Z3 może być zbudowany przy użyciu Visual Studio, pliku Makefile lub CMake. Za
 
 \subsection{Architektura systemu}
 
-
-	Z3 integruje nowoczesny solver SAT oparty na DPLL, bazowy solwer dla teorii, który obsługuje równości i funkcje nieinterpretowane, specjalistyczne silniki (dla arytmetyki, tablic itp.) oraz maszynę abstrakcyjną E-matching (dla kwantyfikatorów). Z3 jest zaimplementowany w C++. Schematyczny przegląd Z3 pokazano na poniższym rysunku.	
+Z3 integruje nowoczesny solver SAT oparty na DPLL, bazowy solwer dla teorii, który obsługuje równości i funkcje nieinterpretowane, specjalistyczne silniki (dla arytmetyki, tablic itp.) oraz maszynę abstrakcyjną E-matching (dla kwantyfikatorów). Z3 jest zaimplementowany w C++. Schematyczny przegląd Z3 pokazano na rysunku 3.1.	
 	
 
 	\begin{figure}
@@ -39,11 +38,12 @@ Z3 może być zbudowany przy użyciu Visual Studio, pliku Makefile lub CMake. Za
 
 \textbf{Generowanie modeli}. Z3 pozwala na generowanie modeli jako części danych wyjściowych. Modele przypisują wartości do stałych na wejściu i generują częściowe grafy dla predykatów oraz symboli funkcji \cite{demoura08z}.
 
+
 \section{Yices}
 Yices to SMT solver, który rozwiązuje formuły zawierające niezinterpretowane symbole funkcji z równością, arytmetykę rzeczywistą i całkowitą, wektory bitowe, typy skalarne i krotki. Yices 2 obsługuje zarówno arytmetykę liniową, jak i nieliniową.
 Został opracowany w Laboratorium Informatyki SRI International przez Bruno Dutertre, Dejana Jovanovica, Stéphane Graham-Lengrand i Iana A. Masona.
 Yices 2 może przetwarzać dane wejściowe zapisane w notacji SMT-LIB (obsługiwane są zarówno wersje 2.0, jak i 1.2). Alternatywnie można pisać specyfikacje przy użyciu własnego języka specyfikacji Yices 2, który obejmuje krotki i typy skalarne. 
-Yices jest oprogramowaniem open source rozpowszechnianym na licencji GPLv3. Kod źródłowy Yices jest dostępny na GitHub \cite{yices2doc}.
+Yices jest oprogramowaniem open source rozpowszechnianym na licencji GPLv3. Kod źródłowy Yices jest dostępny na GitHub \cite{yices2.2}.
 
 \subsection{Architektura}
 Yices 2 posiada architekturę modularną. Pozwala ona wybrać konkretną kombinację solwerów teorii dla swoich potrzeb za pomocą interfejsu API lub pliku wykonywalnego yices. Dzięki API można utrzymywać kilka niezależnych kontekstów równolegle, z których każdy może wykorzystywać różne solvery i ustawienia.
@@ -68,7 +68,51 @@ Konteksty są wysoce konfigurowalne. Każdy kontekst może być skonfigurowany d
 \end{figure}
 
 Rysunek 3.2. przedstawia najwyższy poziom architektury Yices 2, podzielony na trzy główne moduły. Każdy kontekst składa się z dwóch oddzielnych komponentów: Solver wykorzystuje Boolean satisfiability solver i procedury decyzyjne do określania, czy formuły zawarte w kontekście są spełnialne. Upraszczacz/internalizator konwertuje format używany przez bazę danych termów do wewnętrznego formatu używanego przez solver. W szczególności
-internalizator przepisuje wszystkie formuły do koniunkcyjnej postaci normalnej, z czego korzysta wewnętrzny SAT solver \cite{yices2manual}.
+internalizator przepisuje wszystkie formuły do koniunkcyjnej postaci normalnej, z czego korzysta wewnętrzny SAT solver \cite{yices2.2}.
 
-\section{CVC5}
-sdsdcfsdfcdsf
+
+\section{cvc5}
+Narzędzia z kategorii CVC (cooperating validity checker) odgrywają ważną rolę zarówno w badaniach, jak i w praktyce. Najnowsze wcielenie, CVC4, było przepisaną od podstaw wersją CVC3, napisaną w celu stworzenia elastycznej i wydajnej architektury, która mogłaby przetrwać w przyszłości. cvc5, kolejny solver z tej serii, nie jest
+przepisaniem CVC4 lecz bazuje na jego sprawdzonej architekturze i bazie kodu. W porównaniu do innych solverów SMT, cvc5 zapewnia zróżnicowany zestaw teorii (wszystkie standardowe teorie SMT-LIB i wiele niestandardowych) oraz funkcjonalności poza SMT, takie jak rozumowanie wyższego rzędu i synteza sterowana składnią (SyGuS). Zmiana nazwy raczej odzwierciedla zarówno nowy zespół programistów, jak również znaczącą ewolucję, jaką narzędzie przeszło od czasu opisania CVC4 w 2011 roku. Ponadto, cvc5 zawiera aktualizowaną dokumentację, nowe i ulepszone interfejsy API oraz bardziej przyjazną dla użytkownika instalację. Co najważniejsze, wprowadzono kilka istotnych nowych funkcji. Podobnie jak jego poprzednicy, cvc5 jest dostępny na 3-klauzulowej licencji BSD open source i działa na wszystkich głównych platformach (Linux, macOS, Windows).
+
+cvc5 to wspólny projekt prowadzony przez Uniwersytet Stanforda i Uniwersytet Iowa \cite{BarbosaBBKLMMMN22}.
+
+\subsection{Architektura}
+
+cvc5 obsługuje rozumowanie w zakresie formuł bezkwantyfikatorowych i kwantyfikatorowych w szerokim zakresie teorii tła, w tym wszystkich teorii standaryzowanych w SMT-LIB. Ponadto wspiera kilka niestandardowych teorii i rozszerzeń. Należą do nich, między innymi, logika separacji, teoria sekwencji, teoria zbiorów skończonych i relacji oraz rozszerzenie teorii liczb rzeczywistych o funkcje transcendentalne. 
+
+Ogólny przegląd architektury systemu przedstawiono na rysunku 3.3.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{cvc5_architecture}
+	\caption{}
+	\label{fig:cvc5_architecture}
+\end{figure}
+
+Centralnym elementem cvc5 jest moduł SMT Solver, oparty na frameworku CDCL(T) \cite{NieuwenhuisOT06} i dostosowanej wersji solvera propozycyjnego MiniSat. Moduł ten składa się z kilku komponentów: modułów Rewriter i Preprocessor, które stosują uproszczenia odpowiednio lokalnie (na poziomie wyrażenia) i globalnie (na całej formule wejściowej); Propositional Engine, który służy jako menedżer dla CDCL(T) SAT solvera; oraz Theory Engine, który zarządza kombinacją teorii i wszystkimi procedurami rozumowania kwantyfikatorowego.
+
+Oprócz standardowego sprawdzania spełnialności, cvc5 zapewnia dodatkową funkcjonalność, taką jak abdukcja, interpolacja, synteza kierowana składnią (SyGuS) oraz eliminacja kwantyfikatorów. Każda z tych funkcji jest zaimplementowana jako dodatkowy solver zbudowany na bazie modułu SMT Solver. SyGuS jest głównym punktem wejścia
+dla zapytań o syntezę, które kodują problemy SyGuS jako problemy spełnialności (wyższego rzędu) z ograniczeniami semantycznymi i syntaktycznymi. Quantifer Elimination Solver wykonuje eliminację kwantyfikatorów w oparciu o śledzenie instancji kwantyfikatorów przez SMT Solver. Abduction Solver i Interpolation Solver są oparte na SyGuS, a zatem są zbudowane jako warstwy nad modułem SyGuS Solver \cite{BarbosaBBKLMMMN22}.
+
+cvc5 zapewnia API C++ jako główny interfejs, nie tylko dla zewnętrznego oprogramowania klienta, ale także dla własnego parsera i dodatkowych wiązań języka w Javie i Pythonie. cvc5 dostarcza również tekstowy interfejs wiersza poleceń (CLI), zbudowany na parserze, który obsługuje języki wejściowe SMT-LIBv2, SyGuS2 i TPTP. Moduł Proof może wyprowadzać formalne dowody niespełnialności w trzech formatach: Lean 4 \cite{Moura021}, Alethe \cite{abs-2107-02354} i LFSC \cite{StumpORHT13}.
+
+\subsubsection{Moduł SMT Solver} Moduł ten odpowiada za obsługę wszystkich zapytań SMT. Jego funkcjonalność obejmuje, oprócz sprawdzania spełnialności, konstruowanie modeli dla formuł spełnialnych oraz wyodrębnianie założeń, rdzeni i obiektów dowodu dla formuł niespełnialnych. Główne składniki modułu są opisane poniżej.
+
+\textbf{Preprocessor} Przed jakąkolwiek weryfikacją spełnialności cvc5 stosuje do każdej formuły z problemu wejściowego sekwencję transformacji zachowujących spełnialność Te transformacje obejmują normalizacje, uproszczenia i przekształcenia formuł między różnymi logikami. Preprocesor wykonuje 34 różne transformacje, które mogą być dostosowywane poprzez opcje konfiguracyjne.
+
+\textbf{Silnik Propozycyjny} Jest to podstawowy silnik CDCL(T) \cite{NieuwenhuisOT06}, który przekształca abstrakcje logiczne formuł wejściowych w postać CNF i korzysta z MiniSat jako podstawowego solvera SAT. Silnik ten używa także mechanizmów decyzyjnych do dostosowywania heurystyk wyboru decyzji.
+
+\textbf{Przepisywacz} Ten submoduł jest odpowiedzialny za przekształcanie termów według reguł przepisywania na semantycznie równoważne postacie normalne. W przeciwieństwie do preprocessora działa na termach w trakcie rozwiązywania problemu i jest wykorzystywany przez inne komponenty cvc5 \cite{NotzliRBNPBT19}.
+
+\textbf{Silnik Teorii} Jest to główny składnik odpowiedzialny za sprawdzanie spójności teorii literałów, zatwierdzonych przez Silnik Propozycyjny. Koordynuje on działanie różnych solverów teorii, które obsługują różnorodne dziedziny matematyczne, takie jak arytmetyka liniowa, nieliniowa, tablice, bit-wektory, typy danych, arytmetyka zmiennoprzecinkowa, zbiory i relacje, logika separacji, stringi i sekwencje oraz funkcje niezinterpretowane.
+
+\textbf{Solvery Teorii} cvc5 obsługuje szeroki zakres teorii, w tym arytmetykę liniową, nieliniową, tablice, bit-wektory, typy danych, arytmetykę zmiennoprzecinkową, zbiory i relacje, logikę separacji, łańcuchy znaków oraz funkcje niezinterpretowane. Ponadto wszystkie teorie przekazują kroki rozumowania do reszty systemu za pośrednictwem Menedżera wnioskowania teorii. Każdy z tych solverów emituje lematy, klauzule konfliktowe i propagowane literały za pośrednictwem tego interfejsu \cite{BarbosaBBKLMMMN22}.
+
+\subsubsection{Proof Module} Moduł Dowodów w cvc5 został zbudowany od podstaw, zastępując system dowodowy CVC4 \cite{HadareanBRTD15}, który był niekompletny i cierpiał z powodu licznych wad architektonicznych. Projektowanie modułu Dowodów cvc5 kierowało się kilkoma zasadami: minimalizacją narzutu czasowego generowania dowodów, zapewnieniem wystarczająco szczegółowych dowodów umożliwiających efektywne sprawdzanie, elastycznością w emitowaniu dowodów w różnych formatach oraz minimalizacją wyłączania komponentów systemu w trybie produkcji. Moduł Dowodów w cvc5 generuje szczegółowe dowody dla prawie wszystkich teorii, reguł przepisywania, przejść wstępnych, wewnętrznych solwerów SAT oraz silników kombinacyjnych teorii. Dodatkowo obsługuje on produkowanie dowodów zarówno natychmiastowe, jak i leniwe, z wbudowaną rekonstrukcją dowodów \cite{ReynoldsWBBLT17}. cvc5 jest w stanie emitować dowody w różnych formatach, w tym tych obsługiwanych przez tester dowodów LFSC \cite{StumpORHT13}, oraz asystenty dowodowe Isabelle/HOL \cite{NipkowPW02}, Lean 4 \cite{Moura021} i Coq \cite{BertotC04}.
+
+\subsubsection{Node Manager} W cvc5 formuły i termy są reprezentowane jednolicie jako wierzchołki w grafie skierowanym acyklicznym, zarządzane przez Menedżera Węzłów. Menedżer Węzłów zarządza również Menedżerem Skolema, odpowiedzialnym za śledzenie symboli Skolema wprowadzanych podczas rozwiązywania. Węzły są niezmienne i są współdzielone za pomocą techniki hash consing, co zapewnia efektywne zarządzanie pamięcią i sprawdzanie równości składniowej w czasie stałym. Menedżer Skolema centralnie generuje stałe Skolema, co pozwala na deterministyczne generowanie nowych stałych podczas rozwiązywania i minimalizację ich liczby dla wydajności \cite{ReynoldsNBT20}. 
+
+\subsubsection{Context-Dependent Data Structures} Aby wspierać aplikacje SMT wymagające wielokrotnych sprawdzeń spełnialności podobnych twierdzeń, cvc5 definiuje pojęcie poziomu kontekstu i wdraża kontekstowo zależne struktury danych. Te struktury zachowują się podobnie do odpowiadających im mutowalnych struktur danych w standardowej bibliotece C++, ale są związane z poziomem kontekstu i automatycznie zapisują oraz przywracają swój stan wraz ze zmianą kontekstu \cite{BarbosaBBKLMMMN22}.
+
+
