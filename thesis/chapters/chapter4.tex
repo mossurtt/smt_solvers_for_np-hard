@@ -21,13 +21,26 @@ Każda sekcja zawiera opis algorytmu oraz kod demonstracyjny w języku Python z 
 
 \section{Problem ścieżki Hamiltona}
 
-Problem ścieżki Hamiltona jest zagadnieniem z zakresu teorii złożoności i teorii grafów. Rozstrzyga on, czy graf skierowany lub nieskierowany G zawiera ścieżkę Hamiltona, czyli ścieżkę, która odwiedza każdy wierzchołek grafu dokładnie raz.
+Problem ścieżki Hamiltona jest zagadnieniem z zakresu teorii złożoności i teorii grafów. Rozstrzyga on, czy graf zawiera ścieżkę Hamiltona, czyli ścieżkę, która odwiedza każdy wierzchołek grafu dokładnie raz.
 
 Problem ścieżki Hamiltona ma zastosowanie w wielu dziedzinach, takich jak informatyka, telekomunikacja czy bioinformatyka. Rozwiązanie tego problemu jest często kluczowe w analizie sieci i trasowania w systemach komunikacyjnych \cite{enwiki:1190136070}.
 
-Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu definiuje się cztery funkcje: 'check\verb|_|hampath', 'proper\verb|_|numbers', 'distinct\verb|_|vs' oraz 'edge'. Funkcja 'check\verb|_|hampath' odpowiada za główny algorytm rozwiązujący problem. Pozostałe funkcje służą do generowania ograniczeń logicznych.
-
 \subsection{Ścieżka Hamiltona w grafie skierowanym}
+
+Dla grafu skierowanego $G = (V, E)$, gdzie:
+\begin{itemize}
+	\item \(V\) jest zbiorem wierzchołków.
+	\item \(E\) jest zbiorem skierowanych krawędzi.
+\end{itemize}
+Ścieżka Hamiltona jest sekwencją wierzchołków $v_1, v_2, …, v_n$ taką, że:
+\begin{enumerate}
+	\item Każdy wierzchołek z \(V\) występuje dokładnie raz.
+	\item Dla każdej pary kolejnych wierzchołków \(v_i\) i \(v_{i+1}\) w sekwencji istnieje skierowana krawędź od \(v_i\) do \(v_{i+1}\) w \(E\). 
+\end{enumerate}
+
+Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i kończyć w dowolnym innym wierzchołku.
+
+Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu definiuje się cztery funkcje: 'check\verb|_|hampath', 'proper\verb|_|numbers', 'distinct\verb|_|vs' oraz 'edge'. Funkcja 'check\verb|_|hampath' odpowiada za główny algorytm rozwiązujący problem. Pozostałe funkcje służą do generowania ograniczeń logicznych.
 
 Pierwszą z funkcji, która została wykorzystana w modelowaniu problemu, jest funkcja 'proper\verb|_|numbers', która ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' ($v_1, v_2, …, v_n$) reprezentujące wierzchołki grafu są w zakresie od $1$ do $n$, gdzie $n$ to liczba wierzchołków w grafie. Poniższa formuła logiczna określa przypisanie odpowiednich wartości wierzchołkóm:
 
@@ -135,10 +148,23 @@ W implementacji głównej funkcji 'check\verb|_|hampath' wykorzystuje się struk
 
 W przypadku grafów nieskierowanych krawędzie nie mają określonego kierunku, dlatego ścieżka Hamiltona może przechodzić przez krawędź w obie strony. 
 
+Dla grafu nieskierowanego $G = (V, E)$, gdzie:
+\begin{itemize}
+	\item \(V\) jest zbiorem wierzchołków.
+	\item \(E\) jest zbiorem krawędzi.
+\end{itemize}
+Ścieżka Hamiltona jest sekwencją wierzchołków $v_1, v_2, …, v_n$ taką, że:
+\begin{enumerate}
+	\item Każdy wierzchołek z \(V\) występuje dokładnie raz.
+	\item Dla każdej pary kolejnych wierzchołków \(v_i\) i \(v_{i+1}\) w sekwencji istnieje krawędź między \(v_i\) a \(v_{i+1}\) w \(E\). 
+\end{enumerate}
+
+Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i kończyć w dowolnym innym wierzchołku.
+
 W kontekście modelowania problemu ścieżki Hamiltona w grafie nieskierowanym należy zapewnić możliwość przechodzenia przez krawędź w obie strony, co można osiągnąć poprzez stworzenie formuły logicznej, która będzie uwzględniała możliwość istnienia krawędzi pomiędzy wierzchołkami w obu kierunkach:
 
 \begin{align*}
-	UHamPath(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
+	\UHamPath(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
 	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\
 	\left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (x_i = s \land x_{i+1} = t) \lor (x_i = t \land x_{i+1} = s) \right)
 \end{align*}
@@ -159,13 +185,21 @@ Poniższy fragment kodu demonstruje sposób kodowania danego ograniczenia:
 
 \section{Problem maksymalnej kliki w grafie nieskierowanym}
 
-Klika w grafie nieskierowanym \(G\) to pełny podgraf, czyli taki, w którym każde dwa wierzchołki są połączone krawędzią. Problem kliki polega na sprawdzeniu, czy graf zwiera klikę o określonym rozmiarze. Maksymalna klika to taka, która zawiera największą możliwą liczbę wierzchołków \cite{Sipser0086373}. Niech
-\begin{align*}
-	\mli{MAX\textunderscore CLIQUE} = \{<G, k> |\text{ największa klika w grafie $G$ ma rozmiar dokładnie $k$}\}.
-\end{align*}
+Klika w grafie nieskierowanym \(G\) to pełny podgraf, czyli taki, w którym każde dwa wierzchołki są połączone krawędzią. Problem kliki polega na sprawdzeniu, czy graf zwiera klikę o określonym rozmiarze. Maksymalna klika to taka, która zawiera największą możliwą liczbę wierzchołków \cite{Sipser0086373}. 
+
+Dla grafu nieskierowanego $G = (V, E)$, gdzie:
+\begin{itemize}
+ 	\item \(V\) jest zbiorem wierzchołków.
+ 	\item \(E\) jest zbiorem krawędzi.
+\end{itemize}
+Maksymalną kliką w grafie \(G\) jest podzbiór $C \subseteq V$ taki, że:
+\begin{enumerate}
+ 	\item Dla każdej pary wierzchołków \(u\) i \(v\) w \(C\) istnieje krawędź między \(u\) a \(v\) w \(E\), tj. ${u, v}\in E$. 
+ 	\item \(C\) nie można rozszerzyć przez dodanie dowolnego wierzchołka $w\in V$ takiego, że $C \cup {w}$ tworzą klikę, tj. nie istnieje żaden wierzchołek \(w\) sąsiadujący z jakimkolwiek wierzchołkiem z \(C\), który nie występuje już w \(C\).
+\end{enumerate}
 
 \begin{align*}
-	MaxClique(n, N) = 
+	\MAXCLIQUE(n, N) = 
 	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{\substack{j=i+1 \\ j \notin N(i)}}^{n} ((x_i \land x_j) \implies (\lnot x_i \lor \lnot x_j)) \right)	
 \end{align*}
 
