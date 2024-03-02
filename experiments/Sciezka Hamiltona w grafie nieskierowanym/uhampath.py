@@ -39,7 +39,7 @@ def hamiltonian_path(graph: dict[int, list[int]]):
     solver.add(z3.And(edges))
 
     smt2_representation = solver.to_smt2()
-    file_name = f'hampath_state.smt2'
+    file_name = f'uhampath_state.smt2'
     with open(file_name, 'w') as file:
         file.write("(set-logic ALL)\n")
         file.write(smt2_representation)  
@@ -63,7 +63,6 @@ def proper_numbers(vertices):
     for i in range(n - 1):
         atoms.append(z3.And(vertices[i] >= 0, vertices[i] < n))
     bf = z3.And(atoms)
-    z3.simplify(bf)
     return bf
 
 def distinct_vs(vertices):
@@ -73,7 +72,6 @@ def distinct_vs(vertices):
         for j in range(i + 1, n):
             atoms.append(vertices[i] != vertices[j])
     bf = z3.And(atoms)
-    z3.simplify(bf)
     return bf
 
 def edge(graph: dict[int, list[int]], s, t):
@@ -83,7 +81,6 @@ def edge(graph: dict[int, list[int]], s, t):
             atoms.append(z3.And([s == source, t == target])) 
             atoms.append(z3.And([s == target, t == source]))
     bf = z3.Or(atoms)
-    z3.simplify(bf)
     return bf
 
 

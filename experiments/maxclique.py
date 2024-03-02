@@ -1,5 +1,5 @@
 import sys
-import z3
+import z3 
 
 def main():
     if len(sys.argv) != 2:
@@ -7,13 +7,9 @@ def main():
         return
 
     filename = sys.argv[1]
-    graph = read_graph_from_file(filename)
-    maxclique = check_maxclique(graph)
-    if maxclique:
-        print("Maximal clique:", maxclique)
-        print("Size:", len(maxclique))
-    else:
-        print("Graph doesn't contain a clique.")
+    digraph = read_graph_from_file(filename)
+
+    check_clique(digraph)
 
 def read_graph_from_file(filename):
     with open(filename, 'r') as file:
@@ -23,52 +19,61 @@ def read_graph_from_file(filename):
     for i, line in enumerate(lines):
         neighbors = [int(x) for x in line.strip().split(',')]
         graph[i] = neighbors
+
     return graph
 
-def check_maxclique(graph):
+def check_clique(graph: dict[int, list[int]]):
+
     n = len(graph)
-    
-    vertices =  z3.IntVector('v', n)
-    
+    vertices = z3.IntVector("v", n)
+
     solver = z3.Solver()
+
     solver.add(proper_numbers(vertices))
+
     solver.add(distinct_vs(vertices))
-    max_size = 0
-    left = 0
-    right = n
-    
-    while left <= right:
-        mid = (left + right) // 2
-        solver.reset()
-        solver.add(z3.Sum([z3.If(v > 1, 1, 0) for v in vertices]) <= mid)
+
+    k = 0
+    lo, hi = 0, n
+
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        # solver.reset()
         
-        for i in range(n):
-            for j in range(i + 1, n):
-                if j not in graph[i]: 
-                    solver.add(z3.Implies(z3.And(vertices[i] > 0, vertices[j] > 0), z3.Or(vertices[i] <= 0, vertices[j] <= 0)))
-        
+        edges = []
+        for i in range(k):
+            for j in range(i + 1, k):
+                edges.append(edge(graph, vertices[i], vertices[j]))
+        solver.add(z3.And(edges))
+
         if solver.check() == z3.sat:
-            max_size = mid
-            left = mid + 1
+            k = mid
+            lo = mid + 1
         else:
-            right = mid - 1
-    
-    
+            hi = mid - 1
+
     smt2_representation = solver.to_smt2()
     file_name = f'maxclique_state.smt2'
     with open(file_name, 'w') as file:
         file.write("(set-logic ALL)\n")
         file.write(smt2_representation)  
     file.close()
-    print(solver.model())
-    return [i for i in range(n) if solver.model()[vertices[i]].as_long() > 0]
 
+    result = solver.check()
+    if result == z3.sat:
+        model = solver.model()
+        for i in range(k):
+            print(f'Vertex {i}: {model[vertices[i]]}')
+    else:
+        print(result)
+    
 def proper_numbers(vertices):
     n = len(vertices)
     atoms = []
     for i in range(n - 1):
         atoms.append(z3.And(vertices[i] >= 0, vertices[i] < n))
     bf = z3.And(atoms)
+    z3.simplify(bf)
     return bf
 
 def distinct_vs(vertices):
@@ -78,7 +83,22 @@ def distinct_vs(vertices):
         for j in range(i + 1, n):
             atoms.append(vertices[i] != vertices[j])
     bf = z3.And(atoms)
+    z3.simplify(bf)
     return bf
+
+def edge(graph: dict[int, list[int]], s, t):
+    atoms = []
+    for source in graph:
+        for target in graph[source]:
+            atoms.append(z3.And([s == source, t == target])) 
+            atoms.append(z3.And([s == target, t == source]))
+    bf = z3.Or(atoms)
+    z3.simplify(bf)
+    return bf
+
 
 if __name__ == "__main__":
     main()
+
+    
+    
