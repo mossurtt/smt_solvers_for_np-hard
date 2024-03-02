@@ -183,6 +183,27 @@ Poniższy fragment kodu demonstruje sposób kodowania danego ograniczenia:
 		return bf
 \end{lstlisting}
 
+\section{Problem k-kliki w grafie nieskierowanym}
+
+Klika w grafie nieskierowanym \(G\) to pełny podgraf, czyli taki, w którym każde dwa wierzchołki są połączone krawędzią. Problem kliki polega na sprawdzeniu, czy graf zwiera klikę o określonym rozmiarze \cite{Sipser0086373}. 
+
+Dla grafu nieskierowanego $G = (V, E)$, gdzie:
+\begin{itemize}
+	\item \(V\) jest zbiorem wierzchołków.
+	\item \(E\) jest zbiorem krawędzi.
+\end{itemize}
+K-kliką w grafie \(G\) jest podzbiór $C \subseteq V$ taki, że:
+\begin{enumerate}
+	\item Dla każdej pary wierzchołków \(u\) i \(v\) w \(C\) istnieje krawędź między \(u\) a \(v\) w \(E\), tj. ${u, v}\in E$. 
+	\item Suma wierzchołków w \(C\) musi być równa \(k\).
+\end{enumerate}
+
+\begin{align*}
+	\KCLIQUE(n, k) = &\left( \bigwedge_{j=1}^{n} (x_j \geq 1 \land x_j \leq n) \right) \land 
+	\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\
+	&\left( \bigwedge_{i=1}^{k} \bigwedge_{j=i+1}^{k} \bigvee_{(s,t) \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
+\end{align*}
+
 \section{Problem maksymalnej kliki w grafie nieskierowanym}
 
 Klika w grafie nieskierowanym \(G\) to pełny podgraf, czyli taki, w którym każde dwa wierzchołki są połączone krawędzią. Problem kliki polega na sprawdzeniu, czy graf zwiera klikę o określonym rozmiarze. Maksymalna klika to taka, która zawiera największą możliwą liczbę wierzchołków \cite{Sipser0086373}. 
