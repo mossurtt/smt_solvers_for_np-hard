@@ -7,50 +7,58 @@ def main():
         return
 
     filename = sys.argv[1]
-    digraph = read_graph_from_file(filename)
+    graph = read_graph_from_file(filename)
 
-    check_clique(digraph)
+    max_clique = check_clique(graph)
+    if max_clique:
+        print('Maximal clique:', max_clique)
+        print('Size: ', len(max_clique))
+    else:
+        print('unsat')
 
 def read_graph_from_file(filename):
     with open(filename, 'r') as file:
         lines = file.readlines()
 
     graph = {}
-    for i, line in enumerate(lines):
-        neighbors = [int(x) for x in line.strip().split(',')]
-        graph[i] = neighbors
-
+    for line in lines:
+        source, target = [int(x) for x in line.strip().split()]
+        if source not in graph:
+            graph[source] = []
+        if target not in graph:
+            graph[target] = []
+        graph[source].append(target)
+        graph[target].append(source)
+    print(graph)
+        
     return graph
 
 def check_clique(graph: dict[int, list[int]]):
 
     n = len(graph)
-    vertices = z3.IntVector("v", n)
+    k = 1
 
-    solver = z3.Solver()
+    for k in range(2, n + 1):
+        vertices = z3.IntVector("v", n)
+        solver = z3.Solver()
 
-    solver.add(proper_numbers(vertices))
-
-    solver.add(distinct_vs(vertices))
-
-    k = 0
-    lo, hi = 0, n
-
-    while lo <= hi:
-        mid = (lo + hi) // 2
-        # solver.reset()
-        
+        solver.add(proper_numbers(vertices))
+        solver.add(distinct_vs(vertices))
+            
         edges = []
         for i in range(k):
             for j in range(i + 1, k):
                 edges.append(edge(graph, vertices[i], vertices[j]))
         solver.add(z3.And(edges))
 
-        if solver.check() == z3.sat:
-            k = mid
-            lo = mid + 1
+        result = solver.check() 
+        if result == z3.sat:
+            print('Znaleziono klike o rozmiarze', k)
+            model = solver.model()
+            max_clique = [model[vertices[i]].as_long() for i in range(k)]
         else:
-            hi = mid - 1
+            print('Nie znaleziono kliki o rozmiarze', k)
+            break
 
     smt2_representation = solver.to_smt2()
     file_name = f'maxclique_state.smt2'
@@ -59,13 +67,7 @@ def check_clique(graph: dict[int, list[int]]):
         file.write(smt2_representation)  
     file.close()
 
-    result = solver.check()
-    if result == z3.sat:
-        model = solver.model()
-        for i in range(k):
-            print(f'Vertex {i}: {model[vertices[i]]}')
-    else:
-        print(result)
+    return max_clique
     
 def proper_numbers(vertices):
     n = len(vertices)
