@@ -1,20 +1,32 @@
 \chapter{Teoretyczne podstawy Satisfiability Modulo Theories}
 
 \section{Wprowadzenie do SMT}
-	Satisfiability Modulo Theories (SMT) to dziedzina informatyki teoretycznej, która łączy w sobie problem spełnialności logicznej (SAT) z różnymi teoriami matematycznymi \cite{MouraB11}. 
-	W kontekście SMT, dany jest zestaw ograniczeń logicznych wyrażonych za pomocą formuł logiki pierwszego rzędu oraz dodatkowe ograniczenia wynikające z konkretnych teorii matematycznych, takich jak teoria liczb całkowitych, teoria równań różniczkowych, czy teoria tablic.
-	Problematyka SMT polega na stwierdzeniu, czy istnieją wartości zmiennych spełniające zarówno ograniczenia logiczne, jak i dodatkowe ograniczenia wynikające z wybranej teorii matematycznej. W przypadku pozytywnej odpowiedzi, rozwiązaniem problemu jest znaczenie konkretnych wartości zmiennych, które spełniają wszystkie warunki.
+
+\subsection{Problem spełnialnośći}
+Problem spełnialności formuł boolowskich (SAT) jest ważnym problemem algorytmicznym w teorii złożoności obliczeniowej.
+
+Obiektem problemu SAT jest formuła boolowska składająca się jedynie z nazw zmiennych, nawiasów i operacji 
+{\wedge} (AND), {\vee} (OR) oraz {\neg} (NOT). Problem polega na tym, czy możliwe jest przypisanie wartości false i true do wszystkich zmiennych występujących w formule, tak aby formuła stała się prawdziwa.
+
+Zgodnie z twierdzeniem Cooka, udowodnionym przez Stephena Cooka w 1971 roku, problem SAT dla formuł boolowskich zapisanych w koniunkcyjnej postaci normalnej jest NP-zupełny. Wymóg zapisu w postaci koniunkcyjnej jest ważny, ponieważ, na przykład, dla formuł reprezentowanych w dysjunkcyjnej postaci normalnej, problem SAT jest trywialnie rozwiązywany w czasie liniowym względem rozmiaru formuły.
+
+\subsection{Satisfiability Modulo Theories}
+Satisfiability Modulo Theories (SMT) to dziedzina informatyki teoretycznej, która łączy w sobie problem spełnialności logicznej (SAT) z różnymi teoriami matematycznymi \cite{MouraB11}. 
+W kontekście SMT, dany jest zestaw ograniczeń logicznych wyrażonych za pomocą formuł logiki pierwszego rzędu oraz dodatkowe ograniczenia wynikające z konkretnych teorii matematycznych, takich jak teoria liczb całkowitych, teoria równań różniczkowych, czy teoria tablic.
+Problematyka SMT polega na stwierdzeniu, czy istnieją wartości zmiennych spełniające zarówno ograniczenia logiczne, jak i dodatkowe ograniczenia wynikające z wybranej teorii matematycznej. W przypadku pozytywnej odpowiedzi, rozwiązaniem problemu jest znaczenie konkretnych wartości zmiennych, które spełniają wszystkie warunki.
 	
 \section{Historia i rozwój SMT solverów}
+Pierwsze próby rozwiązywania problemów SMT miały na celu przekształcenie ich w formuły SAT (na przykład 32-bitowe zmienne zostały zakodowane przez 32 zmienne boolowskie, a odpowiadające im operacje na słowach zostały zakodowane jako niskopoziomowe operacje bitowe) i rozwiązanie formuły za pomocą SAT solvera. Podejście to ma swoje zalety - pozwala na wykorzystanie istniejących solverów SAT bez zmian (As-Is), a także na wykorzystanie wprowadzonych w nich optymalizacji. Z drugiej strony, utrata wysokopoziomowej semantyki leżącej u podstaw teorii oznacza, że solver SAT musi podjąć znaczne działania, aby wywnioskować "oczywiste" fakty (takie jak $x + y = y + x$ dla dodawania). Pomysł ten doprowadził do powstania wyspecjalizowanych solverów SMT, które integrują konwencjonalne dowody boolowskie w stylu algorytmu DPLL z solverami specyficznymi dla teorii ("T solvery"), które działają z dysjunkcjami i koniunkcjami predykatów z danej teorii. 
 Satisfiability Modulo Theories(SMT) uogólniają teorię spełnialności boole'owskiej (SAT) poprzez dodanie rozumowania równościowego, arytmetyki, bit-wektorów o stałym rozmiarze, tablic, kwantyfikatorów i innych przydatnych teorii pierwszego rzędu.
-SMT solver jest narzędziem do decydowania o spełnialności (lub poprawności) formuł w tych teoriach. 
-Solvery SMT umożliwiają aplikacje, takie jak rozszerzone sprawdzanie statyczne, abstrakcja predykatów, generowanie przypadków testowych i ograniczone sprawdzanie modelowego w nieskończonych dziedzinach.
+SMT solver jest narzędziem do decydowania o spełnialności formuł w tych teoriach. 
+%Solvery SMT umożliwiają aplikacje, takie jak rozszerzone sprawdzanie statyczne, abstrakcja predykatów, generowanie przypadków testowych i ograniczone sprawdzanie modelowe w nieskończonych dziedzinach.
 
 \section{Podstawowe teorie logiczne}
 % Omówienie kluczowych teorii logicznych, które są obsługiwane przez SMT-solvery. W tym miejscu warto skoncentrować się na teoriach istotnych dla klasycznych problemów NP-trudnych.
 
 \section{Zastosowanie SMT w praktyce}
 SMT solvery są powszechnie uznawane za niezbędne mechanizmy rozumowania dla różnych obszarów zastosowań, w tym weryfikacji oprogramowania i sprzętu, sprawdzania modelowego, typowania, analizy statycznej, bezpieczeństwa, automatycznego generowania przypadków testowych, syntezy, planowania i optymalizacji \cite{BarbosaBBKLMMMN22}. 
-% Przykłady rzeczywistych zastosowań SMT-solverów w różnych dziedzinach, takich jak weryfikacja oprogramowania, projektowanie układów scalonych czy analiza protokołów komunikacyjnych.
+% Przykłady rzeczywistych zastosowań SMT-solverów w różnych dziedzinach, takich jak weryfikacja oprogramowania, projektowanie układów scalonych czy analiza protokołów komunikacyjnych. na koniec problemy NP-trudne
+
 
 

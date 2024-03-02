@@ -44,6 +44,21 @@ Aby zmierzyć złożoność obliczeniową problemu, konieczne jest zbadanie czas
 Przyjmując, że rozmiar danych wejściowych wynosi n, czas potrzebny na rozwiązanie może być wyrażony jako funkcja n.  Ponieważ czas rozwiązania różnych zestawów danych o tym samym rozmiarze może się różnić, definiuje się najgorszą złożoność czasową T(n) jako maksymalny czas potrzebny do rozwiązania wszystkich danych wejściowych o rozmiarze n.  Jeśli T(n) jest wielomianem w n, to algorytm jest nazywany algorytmem czasu wielomianowego. Praca Cobhama potwierdza, że problem może być rozwiązany przy użyciu realnej ilości zasobów, jeśli dostępny jest algorytm wielomianowy.
 
 	\subsection{Modele i miary złożoności}
+	
+	\subsubsection{Maszyna Turinga}
+Maszyna Turinga to matematyczny model uniwersalnego komputera. Jest to teoretyczne urządzenie, które manipuluje symbolami zawartymi na taśmie. Maszyny Turinga nie są pomyślane jako praktyczna technologia obliczeniowa, ale raczej jako ogólny model maszyny obliczeniowej - od zaawansowanego superkomputera do matematyka z ołówkiem i kartką papieru. Uważa się, że jeśli jakiś problem może zostać rozwiązany za pomocą algorytmu, to istnieje maszyna Turinga, która rozwiązuje ten problem. Faktycznie, jest to stwierdzenie tezy Churcha-Turinga. Co więcej, wiadomo, że wszystko, co można obliczyć na innych znanych nam obecnie modelach obliczeniowych, takich jak maszyna RAM, Conway's Game of Life, automaty komórkowe, rachunek lambda lub dowolny język programowania, można obliczyć na maszynie Turinga. Ponieważ maszyny Turinga są łatwe do analizy matematycznej i uważa się, że są tak potężne, jak każdy inny model obliczeń, maszyna Turinga jest najczęściej używanym modelem w teorii złożoności.
+
+Wiele typów maszyn Turinga jest używanych do definiowania klas złożoności, takich jak deterministyczne maszyny Turinga, probabilistyczne maszyny Turinga, niedeterministyczne maszyny Turinga, kwantowe maszyny Turinga, symetryczne maszyny Turinga i naprzemienne maszyny Turinga. Zasadniczo wszystkie są równie potężne, ale gdy zasoby (takie jak czas lub przestrzeń) są ograniczone, niektóre z nich mogą być potężniejsze od innych.
+
+Deterministyczna maszyna Turinga jest najbardziej podstawową maszyną Turinga, która wykorzystuje ustalony zestaw reguł do określenia swoich przyszłych akcji. Probabilistyczna maszyna Turinga to deterministyczna maszyna Turinga z dodatkowym zapasem losowych bitów. Zdolność do podejmowania probabilistycznych decyzji często pomaga algorytmom rozwiązywać problemy bardziej efektywnie. Algorytmy wykorzystujące losowe bity nazywane są algorytmami losowymi. Niedeterministyczna maszyna Turinga to deterministyczna maszyna Turinga z dodatkową właściwością niedeterminizmu, która pozwala maszynie Turinga na wiele możliwych akcji w przyszłości z danego stanu. Niedeterminizm można rozumieć w ten sposób, że maszyna Turinga na każdym kroku rozgałęzia się na wiele możliwych ścieżek obliczeniowych, a jeśli rozwiąże problem w którejkolwiek z tych gałęzi, mówi się, że rozwiązała problem. Oczywiście model ten nie jest fizycznie możliwym do zrealizowania - to tylko teoretycznie użyteczna abstrakcyjna maszyna, który pozwala na wyróżnienie wielu klas złożoności. 
+
+\subsubsection{Miary złożoności}
+W celu dokładnego zdefiniowania, co oznacza rozwiązanie problemu przy użyciu danej ilości czasu i miejsca, stosuje się model obliczeniowy, taki jak deterministyczna maszyna Turinga. Czas wymagany przez deterministyczną maszynę Turinga M na wejściu x jest całkowitą liczbą przejść stanów lub kroków, które maszyna wykonuje zanim się zatrzyma i wyśle odpowiedź ("tak" lub "nie"). Mówi się, że maszyna Turinga M działa w czasie f(n), jeśli czas wymagany przez M na każdym wejściu o długości n wynosi co najwyżej f(n). Problem decyzyjny A może być rozwiązany w czasie f(n), jeśli istnieje maszyna Turinga działająca w czasie f(n), która rozwiązuje ten problem. Ponieważ teoria złożoności interesuje się klasyfikacją problemów na podstawie ich trudności, definiuje się zbiory problemów na podstawie pewnych kryteriów. Na przykład, zbiór problemów rozwiązywalnych w czasie f(n) na deterministycznej maszynie Turinga jest oznaczany przez DTIME(f(n)).
+
+Analogiczne definicje można stworzyć dla wymagań przestrzennych. Chociaż czas i pamięć są najbardziej znanymi zasobami złożoności, każda miara złożoności może być postrzegana jako zasób obliczeniowy. Miary złożoności są bardzo ogólnie definiowane przez aksjomaty złożoności Bluma. Inne miary złożoności stosowane w teorii złożoności obejmują złożoność komunikacyjną, złożoność obwodu i złożoność drzewa decyzyjnego.
+
+Złożoność algorytmu jest często wyrażana za pomocą notacji duże O.
+% sipser
 
 	\subsection{Historia}
 
@@ -59,13 +74,14 @@ Wcześniejsze prace badające problemy rozwiązywalne przez maszyny Turinga z ok
 
 W 1967 roku Manuel Blum sformułował zestaw aksjomatów (obecnie znanych jako aksjomaty Bluma) określających pożądane właściwości miar złożoności na zbiorze funkcji obliczalnych i uzyskał ważny rezultat, tak zwane twierdzenie o przyspieszeniu. Dziedzina ta zaczęła się rozwijać w 1971 roku, kiedy Stephen Cook i Leonid Levin udowodnili istnienie praktycznie ważnych problemów, które są NP-zupełne. W 1972 roku Richard Karp posunął tę ideę o krok naprzód w swoim przełomowym artykule "Reducibility Among Combinatorial Problems", w którym wykazał, że 21 różnych problemów kombinatorycznych i grafowych, z których każdy znany jest z niewykonalności obliczeniowej, są NP-zupełne \cite{Karp86}.
 
-
-\section{Problem spełnialnośći}
-
 \section{Definicja klasy problemów NP-trudnych}
 
 \subsection{Klasy złożoności}
+Klasa złożoności to zbiór problemów o zbliżonej złożoności obliczeniowej. 
 
+\subsection{Redukcja}
+
+\subsection{Klasa NP-hard}
 
 
 %\begin{lstlisting}
