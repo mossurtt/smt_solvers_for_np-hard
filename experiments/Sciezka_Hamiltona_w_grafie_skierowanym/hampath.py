@@ -16,10 +16,14 @@ def read_graph_from_file(filename):
         lines = file.readlines()
 
     graph = {}
-    for i, line in enumerate(lines):
-        neighbors = [int(x) for x in line.strip().split(',')]
-        graph[i] = neighbors
-
+    for line in lines:
+        source, target = [int(x) for x in line.strip().split()]
+        if source not in graph:
+            graph[source] = []
+        if target not in graph:
+            graph[target] = []
+        graph[source].append(target)
+        
     return graph
 
 def check_hampath(graph: dict[int, list[int]]):
