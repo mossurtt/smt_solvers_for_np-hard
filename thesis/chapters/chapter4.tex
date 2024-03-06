@@ -1,9 +1,8 @@
 \chapter{Kodowanie problemów}
 
-Niniejszy rozdział wprowadza czytelnika do 12 wybranych problemów w teorii grafów i optymalizacji, takich jak:
+Niniejszy rozdział wprowadza czytelnika do 10 wybranych problemów w teorii grafów i optymalizacji, takich jak:
 Ścieżka Hamiltona w grafie skierowanym,
 Ścieżka Hamiltona w grafie nieskierowanym, 
-Izomorfizm grafów, 
 Pokrycie wierzchołkowe (ang. Vertex Cover), 
 Problem kliki (ang. The maximum clique size problem), 
 Problem pokrycia zbioru (ang. Set Cover), 
@@ -11,9 +10,7 @@ Problem maksymalnego zbioru niezależnego (ang. Maximum Independent Set),
 Problem Komiwojażera, 
 Kolorowanie grafu, 
 Problem sumy podzbioru (ang. SubsetSum), 
-Drzewo Steinera (ang. Steiner Tree), 
-Problem plecakowy, 
-Problem najbliższego ciągu (ang. Closest string).
+Problem plecakowy.
 
 Każdy problem, który analizuję w mojej pracy, jest kodowany jako zestaw ograniczeń logicznych, które definiują jego specyfikację i warunki jego rozwiązania. Wykorzystanie tego podejścia pozwala mi na elastyczne definiowanie problemów, wyrażanie ich w sposób zrozumiały dla maszyny, a także szybkie eksperymentowanie z różnymi zestawami ograniczeń oraz łatwe wprowadzanie zmian w modelach problemów.
 
@@ -183,26 +180,6 @@ Poniższy fragment kodu demonstruje sposób kodowania danego ograniczenia:
 		return bf
 \end{lstlisting}
 
-\section{Problem k-kliki w grafie nieskierowanym}
-
-Klika w grafie nieskierowanym \(G\) to pełny podgraf, czyli taki, w którym każde dwa wierzchołki są połączone krawędzią. Problem kliki polega na sprawdzeniu, czy graf zwiera klikę o określonym rozmiarze \cite{Sipser0086373}. 
-
-Dla grafu nieskierowanego $G = (V, E)$, gdzie:
-\begin{itemize}
-	\item \(V\) jest zbiorem wierzchołków.
-	\item \(E\) jest zbiorem krawędzi.
-\end{itemize}
-K-kliką w grafie \(G\) jest podzbiór $C \subseteq V$ taki, że:
-\begin{enumerate}
-	\item Dla każdej pary wierzchołków \(u\) i \(v\) w \(C\) istnieje krawędź między \(u\) a \(v\) w \(E\), tj. ${u, v}\in E$. 
-	\item Suma wierzchołków w \(C\) musi być równa \(k\).
-\end{enumerate}
-
-\begin{align*}
-	\KCLIQUE(n, k) = &\left( \bigwedge_{j=1}^{n} (x_j \geq 1 \land x_j \leq n) \right) \land 
-	\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\
-	&\left( \bigwedge_{i=1}^{k} \bigwedge_{j=i+1}^{k} \bigvee_{(s,t) \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
-\end{align*}
 
 \section{Problem maksymalnej kliki w grafie nieskierowanym}
 
@@ -220,12 +197,13 @@ Maksymalną kliką w grafie \(G\) jest podzbiór $C \subseteq V$ taki, że:
 \end{enumerate}
 
 \begin{align*}
-	\MAXCLIQUE(n, N) = 
-	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{\substack{j=i+1 \\ j \notin N(i)}}^{n} ((x_i \land x_j) \implies (\lnot x_i \lor \lnot x_j)) \right)	
+	\MaxClique(n, k) = &\left( \bigwedge_{j=1}^{n} (x_j \geq 1 \land x_j \leq n) \right) \land 
+	\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\
+	&\left( \bigwedge_{i=1}^{k} \bigwedge_{j=i+1}^{k} \bigvee_{(s,t) \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
 \end{align*}
 
-\section{Problem maksymalnego zbioru niezależnego w grafie nieskierowanym}
 
+\section{Problem maksymalnego zbioru niezależnego w grafie nieskierowanym}
 Niezależny zbiór w grafie nieskierowanym jest podzbiorem wierzchołków grafu G, z których żadne dwa nie sąsiadują ze sobą. Problem maksymalnego zbioru niezależnego ma na celu obliczenie rozmiaru największego niezależnego zbioru w danym grafie. Rozmiar niezależnego zbioru to liczba zawartych w nim wierzchołków \cite{Korshunov1974}.
 
 Dla grafu $G = (V, E)$, niezależny zbiór \(S\) jest maksymalnym jeżeli dla $v \in V$ jedno z poniższych twierdzeń jest prawdziwe \cite{maxIndSetDef}:
@@ -235,49 +213,62 @@ Dla grafu $G = (V, E)$, niezależny zbiór \(S\) jest maksymalnym jeżeli dla $v
 	\item $N(v) \cap S \neq \emptyset$, gdzie \(N(v)\) oznacza sąsiadów \(v\).
 \end{itemize}
 
-Problem maksymalnego niezależnego zbioru i jego dopełnienie, problem minimalnego pokrycia wierzchołków, są zaangażowane w dowodzenie złożoności obliczeniowej wielu problemów teoretycznych \cite{Skiena20}.
-
-
+Problem maksymalnego niezależnego zbioru i jego dopełnienie, problem minimalnego pokrycia wierzchołkowego, są zaangażowane w dowodzenie złożoności obliczeniowej wielu problemów teoretycznych \cite{Skiena20}.
 
 \begin{align*}
-	MaxIndSet(n) = \left( \bigwedge_{j=0}^{n-1} (x_j = True) \right) \land 
-	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{\substack{j=i+1 \\ j \in N(i)}}^{n} (\lnot(x_i \land x_j)) \right)	
+	\MaxIndSet(n, k) = &\left( \bigwedge_{j=1}^{n} (x_j \geq 1 \land x_j \leq n) \right) \land 
+	\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\
+	&\left( \bigwedge_{i=1}^{k} \bigwedge_{j=i+1}^{k} \bigvee_{(s,t) \in E} \lnot((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
 \end{align*}
 
-\section{Pokrycie wierzchołkowe}
+
+\section{Problem pokrycia wierzchołkowego}
+Pokrycie wierzchołkowe grafu nieskierowanego $G = (V, E)$ to podzbiór $V' \subseteq V$ taki, że jeżeli $(u, v) \in E$, to $u \in V'$ lub $v \in V'$ (lub oba). To znaczy, że każdy wierzchołek "pokrywa" przylegające krawędzie, a pokrycie wierzchołkowe dla \(G\) jest zbiorem wierzchołków, który pokrywa wszystkie krawędzie z \(E\). Rozmiar pokrycia to liczba wierzchołków w nim zawartych.
+
+Problem pokrycia wierzchołkowego polega na znalezieniu minimalnego pokrycia w danym grafie. Dla tego problemu optymalizacyjnego, odpowiadający mu problem decyzyjny zadaje pytanie czy graf ma pokrycie o danym rozmiarze \(k\) \cite{CormenLRS0023376}.
 
 \begin{align*}
-	VertexCover(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j = True) \right) \land 
-	\left( \sum_{i=0}^{n-1} x_i\leq min\textunderscore size \right) \land 
-	\left( \bigwedge_{u, v \in E} (x_u \lor x_v) \right)
+	\VertexCover(n, k) = &\left( \bigwedge_{j=1}^{n} (x_j \geq 1 \land x_j \leq n) \right) \land 
+	\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\
+	&\left( \bigwedge_{j=1}^{k} \bigwedge_{(s,t) \in E} (v_j = s \lor v_j = t) \right)	
 \end{align*}
 
-\section{Kolorowanie grafu}
+
+\section{Problem kolorowania grafu}
+Projektanci map dążą do używania jak najmniejszej liczby kolorów podczas kolorowania krajów na mapie, z zastrzeżeniem, że jeśli dwa kraje mają wspólną granicę, muszą mieć różne kolory. Problem ten można zamodelować za pomocą grafu nieskierowanego $G = (V, E)$, w którym każdy wierzchołek reprezentuje kraj, i wierzchołki, których kraje mają wspólną granicę, ze sobą sąsiadują. Wtedy k-kolorowanie jest funkcją $c : V \impliedby {1, 2, …, k}$ taką, że $c(u) \neq c(v)$ dla każdej krawędzi $(u, v) \in E$. Innymi słowy, liczby $1, 2, …, k$ oznaczają \(k\) kolorów, zaś sąsiednie wierzchołki muszą mieć różne przypisane numery. Problem kolorowania grafu polega na określeniu minimalnej liczby kolorów potrzebnej do pokolorowania danego grafu.
 
 \begin{align*}
-	GraphColoring(n, N) = \left( \bigwedge_{j=0}^{n-1} (color_j \geq 0 \land color_j < 3) \right) \land 
-	\left( \bigwedge_{j \in N(i)} (color_i \neq color_j) \right)
+	\GraphColoring(n, E) = \left( \bigwedge_{j=1}^{n} (c_j \geq 1 \land c_j \leq k) \right) \land 
+	\left( \bigwedge_{u, v \in E} (c_u \neq c_v) \right)
 \end{align*}
 
-\section{Izomorfizm grafów}
-
-\begin{align*}
-	GI() = \left( \bigwedge_{i=0}^{n-1} \left( \bigvee_{j=1}^{n-1} (v_i^1 \leftrightarrow v_j^2) \right) \right) 
-	\land \left( \bigwedge_{(v_i^1, v_j^1) \in E_1} \left( \bigvee_{(v_p^2, v_q^2) \in E_2} ((v_i^1 \leftrightarrow v_p^2) \land (v_j^1 \leftrightarrow v_q^2)) \right) \right) \\
-	\land \left( \bigwedge_{i=0}^{n-1} \left( \bigvee_{j=0}^{n-1} (v_i^2 \leftrightarrow v_j^1) \right) \right)	
-\end{align*}
 
 \section{Problem Komiwojażera}
+Rozwiązanie Problemu Komiwojażera jest kluczowym zagadnieniem optymalizacyjnym, które ma szerokie zastosowanie w różnych dziedzinach, od logistyki po planowanie tras w sieciach komunikacyjnych. Jest to szczególny przypadek problemu cyklu Hamiltona, gdzie cykl ten musi minimalizować sumaryczny koszt podróży. Aby zrozumieć lepiej problem komiwojażera, warto zwrócić uwagę na definicję cyklu Hamiltona, który stanowi jego matematyczną podstawę.
+
+Problem znalezienia cyklu hamiltonowskiego w grafie nieskierowanym jest badany od ponad stu lat. Formalnie, cykl hamiltonowski grafu nieskierowanego $G = (V, E)$ jest prostym cyklem, który zawiera każdy wierzchołek w \(V\). Mówi się, że graf, zawierający cykl Hamiltona, jest hamiltonowskim, a w przeciwnym razie jest niehamiltonowskim. Nazwa pochodzi od nazwiska W. R. Hamiltona, który opisał grę matematyczną na dwunastościanie, w której jeden z graczy wbija pięć szpilek w dowolnych pięciu kolejnych wierzchołkach, a drugi gracz musi ukończyć ścieżkę, aby utworzyć cykl zawierający wszystkie wierzchołki.
+
+W problemie komiwojażera, komiwojażer musi odwiedzić \(n\) miast. Zamodelujmy ten problem jako kompletny graf z \(n\) wierzchołkami, tak aby komiwojażer wykonał trasę, czyli cykl hamiltonowski, odwiedzając każde miasto dokładnie raz i kończąc w mieście początkowym. Koszt podróży z miasta \(i\) do miasta \(j\) jest nieujemną liczbą całkowitą \(c(i, j)\). W wersji optymalizacyjnej problemu, zadaniem jest wybrać trasę, której sumaryczny koszt, tzn. suma wag poszczególnych krawędzi, jest minimalny.
+
+Dla pełnego grafu nieskierowanego $G = (V, E)$, gdzie:
+\begin{itemize}
+	\item \(V\) jest zbiorem wierzchołków.
+	\item \(E\) jest zbiorem krawędzi.
+\end{itemize}
+trasa o minimalnym koszcie jest sekwencją wierzchołków $v_1, v_2, …, v_n$ taką, że:
+\begin{enumerate}
+	\item Każdy wierzchołek z \(V\) występuje dokładnie raz.
+	\item Dla każdej pary kolejnych wierzchołków \(v_i\) i \(v_{i+1}\) w sekwencji istnieje krawędź między \(v_i\) a \(v_{i+1}\) w \(E\).
+	\item Suma wag wszystkich krawędzi jest co najwyżej \(k\).
+\end{enumerate}
 
 \begin{align*}
-	TSP() = \left(  \right) 
+	\TSP(n, c, E) = &\left( \bigwedge_{j=1}^{n} (v_j \geq 1 \land v_j \leq n) \right) \land 
+	\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} (v_i \neq v_j) \right) \land \\
+	&\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} \bigvee_{(s,t) \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	\land \\
+	&\left( \bigwedge_{(s,t) \in E} \sum c(s,t) <= k \right)
 \end{align*}
 
-\section{Drzewo Steinera}
-
-\begin{align*}
-	SteinerTree() = \left(  \right) 
-\end{align*}
 
 \section{Problem pokrycia zbioru}
 
@@ -301,8 +292,4 @@ Problem maksymalnego niezależnego zbioru i jego dopełnienie, problem minimalne
 	max \left( \sum_{i=0}^{n-1} (values[i]) \right)
 \end{align*}
 
-\section{Problem najbliższego ciągu}
 
-\begin{align*}
-	ClosestStr() = \left(  \right) 
-\end{align*}
