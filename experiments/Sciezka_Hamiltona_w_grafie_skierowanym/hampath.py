@@ -1,5 +1,7 @@
 import sys
 import z3 
+from utils.constraints import proper_numbers, distinct_vs, dir_edge
+from utils.read_input import read_digraph_from_file
 
 def main():
     if len(sys.argv) != 2:
@@ -7,24 +9,9 @@ def main():
         return
 
     filename = sys.argv[1]
-    digraph = read_graph_from_file(filename)
+    digraph = read_digraph_from_file(filename)
     
     check_hampath(digraph)
-
-def read_graph_from_file(filename):
-    with open(filename, 'r') as file:
-        lines = file.readlines()
-
-    graph = {}
-    for line in lines:
-        source, target = [int(x) for x in line.strip().split()]
-        if source not in graph:
-            graph[source] = []
-        if target not in graph:
-            graph[target] = []
-        graph[source].append(target)
-        
-    return graph
 
 def check_hampath(graph: dict[int, list[int]]):
 
@@ -39,7 +26,7 @@ def check_hampath(graph: dict[int, list[int]]):
 
     edges = []
     for i in range(n - 1):
-        edges.append(edge(graph, vertices[i], vertices[i + 1]))
+        edges.append(dir_edge(graph, vertices[i], vertices[i + 1]))
     solver.add(z3.And(edges))
 
     smt2_representation = solver.to_smt2()
@@ -60,31 +47,6 @@ def check_hampath(graph: dict[int, list[int]]):
         print(f"v__{sorted_verticess[-1][1]}")
     else:
         print(result)
-    
-def proper_numbers(vertices):
-    n = len(vertices)
-    atoms = []
-    for i in range(n - 1):
-        atoms.append(z3.And(vertices[i] >= 0, vertices[i] < n))
-    bf = z3.And(atoms)
-    return bf
-
-def distinct_vs(vertices):
-    n = len(vertices)
-    atoms = []
-    for i in range(n - 1):
-        for j in range(i + 1, n):
-            atoms.append(vertices[i] != vertices[j])
-    bf = z3.And(atoms)
-    return bf
-
-def edge(graph: dict[int, list[int]], s, t):
-    atoms = []
-    for source in graph:
-        for target in graph[source]:
-            atoms.append(z3.And([s == source, t == target]))
-    bf = z3.Or(atoms)
-    return bf
 
 
 if __name__ == "__main__":
