@@ -1,5 +1,7 @@
 import sys
 import z3 
+from utils.constraints import proper_numbers, distinct_vs
+from utils.read_input import read_graph_from_file
 
 def main():
     if len(sys.argv) != 2:
@@ -8,27 +10,14 @@ def main():
 
     filename = sys.argv[1]
     graph = read_graph_from_file(filename)
+    n = len(graph)
 
-    print(check_maxindset(graph, 3))
+    for k in range(1, n + 1):
+        result = check_vertexcover(graph, k)
+        if result == z3.sat:
+            break
 
-def read_graph_from_file(filename):
-    with open(filename, 'r') as file:
-        lines = file.readlines()
-
-    graph = {}
-    for line in lines:
-        source, target = [int(x) for x in line.strip().split()]
-        if source not in graph:
-            graph[source] = []
-        if target not in graph:
-            graph[target] = []
-        graph[source].append(target)
-        graph[target].append(source)
-    print(graph)
-        
-    return graph
-
-def check_maxindset(graph: dict[int, list[int]], k):
+def check_vertexcover(graph: dict[int, list[int]], k):
 
     n = len(graph)
     vertices = z3.IntVector("v", n)
@@ -36,11 +25,12 @@ def check_maxindset(graph: dict[int, list[int]], k):
 
     solver.add(proper_numbers(vertices))
     solver.add(distinct_vs(vertices))
-           
-    edges = []
+
+    vertex_in_cover = []
     for i in range(k):
-        edges.append(edge_covered(graph, vertices[i]))
-    solver.add(z3.And(edges))
+        for j in range(i + 1, k):
+            vertex_in_cover.append(edge_covered(graph, vertices[i], vertices[j]))
+    solver.add(z3.Or(vertex_in_cover))
 
     smt2_representation = solver.to_smt2()
     file_name = f'vertexcover_state.smt2'
@@ -51,44 +41,23 @@ def check_maxindset(graph: dict[int, list[int]], k):
 
     result = solver.check() 
     if result == z3.sat:
+        print('Znaleziono pokrycie o rozmiarze', k)
         model = solver.model()
-        print(model)
         vertex_cover = [model[vertices[i]].as_long() for i in range(k)]
-        return vertex_cover
+        print(vertex_cover) 
     else:
         print('Nie znaleziono pokrycia')
-        return(result)
+        model = None
 
-    
-def proper_numbers(vertices):
-    n = len(vertices)
-    atoms = []
-    for i in range(n - 1):
-        atoms.append(z3.And(vertices[i] >= 0, vertices[i] < n))
-    bf = z3.And(atoms)
-    z3.simplify(bf)
-    return bf
-
-def distinct_vs(vertices):
-    n = len(vertices)
-    atoms = []
-    for i in range(n - 1):
-        for j in range(i + 1, n):
-            atoms.append(vertices[i] != vertices[j])
-    bf = z3.And(atoms)
-    z3.simplify(bf)
-    return bf
-
-def edge_covered(graph: dict[int, list[int]], v):
+def edge_covered(graph: dict[int, list[int]], u, v):
     atoms = []
     for source in graph:
         for target in graph[source]:
-            atoms.append(z3.Or([v == source, v == target]))
-    bf = z3.And(atoms)
+            atoms.append(z3.Or([u == source, v == target]))
+            atoms.append(z3.Or([v == source, u == target]))
+    bf = z3.Or(atoms)
     z3.simplify(bf)
     return bf
-
-
 
 if __name__ == "__main__":
     main()
