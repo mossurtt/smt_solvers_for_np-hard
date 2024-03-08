@@ -1,5 +1,7 @@
 import sys
 import z3 
+from utils.constraints import proper_numbers, distinct_vs, wedge
+from utils.read_input import read_wgraph_from_file
 
 def main():
     if len(sys.argv) != 2:
@@ -7,42 +9,42 @@ def main():
         return
 
     filename = sys.argv[1]
-    distances = read_input_from_file(filename)
+    graph = read_wgraph_from_file(filename)
 
-    print(check_tsp(distances))
+    for k in range(5, 140, 5):
+        result, model = check_tsp(graph, k)
+        # Przy znalezieniu minimalnej trasy przerwij
+        if result != z3.unsat:
+            break
 
-def read_input_from_file(filename):
-    distances = []
-    with open(filename, 'r') as file:
-        for line in file:
-            distances.append([int(x) for x in line.strip().split(',')])
+def check_tsp(graph: dict[int, list[int]], k):
+    n = len(graph)
+    vertices = [z3.Int(f'v_{i}') for i in range(n)]
 
-    return distances
-
-def check_tsp(distances):
-    n = len(distances)
-    
-    x = {}
-    for i in range(n):
-        for j in range(i + 1, n):
-            x[i, j] = z3.Int(f'x_{i}_{j}')
-    
     solver = z3.Solver()
- 
-    for i in range(n):
-        solver.add(z3.Sum([z3.If(x[i, j] == 1, 1, 0) for j in range(i + 1, n)]) == 1)
 
-    for j in range(1, n):
-        solver.add(z3.Sum([z3.If(x[i, j] == 1, 1, 0) for i in range(j)]) == 1)
+    solver.add(proper_numbers(vertices))
+    solver.add(distinct_vs(vertices))
+    
+    edges = []
+    total_cost = z3.IntVal(0)
 
-    for i in range(n):
-        for j in range(i + 1, n):
-            solver.add(x.get((i, j), 0) == x.get((j, i), 0))
+    # Ścieżka Hamiltona z dodawaniem kosztów tras (wag krawędzi)
+    for i in range(n - 1):
+        c = z3.Int(f"w_{vertices[i]}_{vertices[i + 1]}")
+        tour_i = wedge(graph, vertices[i], vertices[i + 1], c)
+        edges.append(tour_i)
+        total_cost += c
 
-    objective = z3.Sum([distances[i][j] * x[i, j] for i in range(n) for j in range(i + 1, n)])
+    # Dodawanie trasy do pierwszego miasta z powrotem oraz jej kosztu
+    c_back = z3.Int(f"w_{vertices[n - 1]}_{vertices[0]}")
+    tour_back = wedge(graph, vertices[n - 1], vertices[0], c_back)
+    edges.append(tour_back)
+    total_cost += c_back
 
-    solver.add(objective <= 100000)
+    solver.add(z3.And(edges))
 
+    solver.add(total_cost <= k)
 
     smt2_representation = solver.to_smt2()
     file_name = f'tsp_state.smt2'
@@ -54,21 +56,25 @@ def check_tsp(distances):
     result = solver.check()
     if result == z3.sat:
         model = solver.model()
-        tour = [0]
-        current_city = 0
-        while len(tour) < n:
-            for j in range(1, n):
-                if model[x[current_city, j]] == 1:
-                    tour.append(j)
-                    current_city = j
-                    break
-        tour.append(0)
-        return tour
+        vertex_values = [(idx, model[v].as_long()) for idx, v in enumerate(vertices)]
+        sorted_vertices = sorted(vertex_values)
+        print("Tour:")
+        for idx, value in sorted_vertices:
+            print(f"v__{value}", end=' -> ')
+        print(f"v__{sorted_vertices[0][1]}")
+        
+        # Koszt sumaryczny z modelu
+        cost = 0
+        for decl in model.decls():
+            if decl.name().startswith("w_"):
+                value = model[decl].as_long()
+                cost += value
+        print("Cost:", cost)
     else:
-        return result
-   
-if __name__ == '__main__':
+        model = None
+
+    return result, model
+
+
+if __name__ == "__main__":
     main()
-
-
-

@@ -261,6 +261,7 @@ trasa o minimalnym koszcie jest sekwencją wierzchołków $v_1, v_2, …, v_n$ t
 \begin{enumerate}
 	\item Każdy wierzchołek z \(V\) występuje dokładnie raz.
 	\item Dla każdej pary kolejnych wierzchołków \(v_i\) i \(v_{i+1}\) w sekwencji istnieje krawędź między \(v_i\) a \(v_{i+1}\) w \(E\).
+	\item Istnieje krawędź między ostatnim \(v_n\) a pierwszym \(v_1\) wierzchołkiem w \(E\).
 	\item Suma wag wszystkich krawędzi jest co najwyżej \(k\).
 \end{enumerate}
 
@@ -268,7 +269,8 @@ trasa o minimalnym koszcie jest sekwencją wierzchołków $v_1, v_2, …, v_n$ t
 	\TSP(n, c, E) = &\left( \bigwedge_{j=1}^{n} (v_j \geq 1 \land v_j \leq n) \right) \land 
 	\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} (v_i \neq v_j) \right) \land \\
 	&\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} \bigvee_{(s,t) \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	\land \\
-	&\left( \bigwedge_{(s,t) \in E} \sum c(s,t) <= k \right)
+	&\left( \bigvee_{(s,t) \in E} ((v_n = s \land v_1 = t) \lor (v_1 = s \land v_n = t)) \right) \land
+	\left( \bigwedge_{(s,t) \in E} \sum c(s,t) <= k \right)
 \end{align*}
 
 
