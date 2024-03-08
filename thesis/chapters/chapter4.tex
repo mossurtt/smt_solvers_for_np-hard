@@ -1,50 +1,31 @@
 \chapter{Kodowanie problemów}
 
-Niniejszy rozdział wprowadza czytelnika do 10 wybranych problemów w teorii grafów i optymalizacji, takich jak:
+Niniejszy rozdział wprowadza czytelnika do 10 wybranych problemów w teorii grafów i optymalizacji kombinatorycznej, takich jak:
 Ścieżka Hamiltona w grafie skierowanym,
 Ścieżka Hamiltona w grafie nieskierowanym, 
-Pokrycie wierzchołkowe (ang. Vertex Cover), 
-Problem kliki (ang. The maximum clique size problem), 
-Problem pokrycia zbioru (ang. Set Cover), 
-Problem maksymalnego zbioru niezależnego (ang. Maximum Independent Set), 
-Problem Komiwojażera, 
+Maksymalnej kliki (ang. \textit{Maximum clique size problem}), 
+Problem maksymalnego zbioru niezależnego (ang. \textit{Maximum Independent Set}),
+Minimalnego pokrycia wierzchołkowego (ang. \textit{Minimal Vertex Cover}), 
+Problem Komiwojażera (ang. \textit{Traveling salesperson problem}), 
 Kolorowanie grafu, 
-Problem sumy podzbioru (ang. SubsetSum), 
-Problem plecakowy.
+Problem pokrycia zbioru (ang. Set Cover), 
+Problem sumy podzbioru (ang. Subset Sum), 
+Problem plecakowy (ang. Knapsack problem).
 
 Każdy problem, który analizuję w mojej pracy, jest kodowany jako zestaw ograniczeń logicznych, które definiują jego specyfikację i warunki jego rozwiązania. Wykorzystanie tego podejścia pozwala mi na elastyczne definiowanie problemów, wyrażanie ich w sposób zrozumiały dla maszyny, a także szybkie eksperymentowanie z różnymi zestawami ograniczeń oraz łatwe wprowadzanie zmian w modelach problemów.
 
 Każda sekcja zawiera opis algorytmu oraz kod demonstracyjny w języku Python z wykorzystaniem biblioteki Z3 do rozwiązania tych problemów.
 
-W celu optymalizacji procesu programowania oraz podniesienia czytelności kodu, przyjęto praktykę tworzenia pliku utils.py, który pełni rolę biblioteki narzędziowej. Plik ten zawiera zestaw funkcji, które powtarzają się w kodowaniu różnych problemów, umożliwiając ich wielokrotne wykorzystanie i uniknięcie redundancji. Centralizacja tych funkcji w jednym miejscu również ułatwia zrozumienie jego działania dla osób przeglądających kod. 
+W celu optymalizacji procesu programowania oraz podniesienia czytelności kodu, przyjęto praktykę tworzenia katalogu 'utils', który pełni rolę biblioteki narzędziowej. Katalog ten zawiera pliki z zestawami użytecznych funkcji (ang. \textit{utility functions}), które powtarzają się w kodowaniu różnych problemów, umożliwiając ich wielokrotne wykorzystanie i uniknięcie redundancji. Centralizacja tych funkcji w jednym miejscu również ułatwia zrozumienie działania programów dla osób przeglądających kod. 
 
-\section{Problem ścieżki Hamiltona}
+Pierwszy plik z katalogu 'utils' ma nazwę 'read\verb|_|input.py', który zawiera funkcje służące do wczytywania danych wejściowych w różnych formatach, co jest niezbędne dla przeprowadzenia eksperymentów.
 
-Problem ścieżki Hamiltona jest zagadnieniem z zakresu teorii złożoności i teorii grafów. Rozstrzyga on, czy graf zawiera ścieżkę Hamiltona, czyli ścieżkę, która odwiedza każdy wierzchołek grafu dokładnie raz.
+W kolejnym pliku 'constraints.py' umieszczono funkcje generujące ograniczenia logiczne, które są wielokrotnie stosowane w modelowaniu problemów.
 
-Problem ścieżki Hamiltona ma zastosowanie w wielu dziedzinach, takich jak informatyka, telekomunikacja czy bioinformatyka. Rozwiązanie tego problemu jest często kluczowe w analizie sieci i trasowania w systemach komunikacyjnych \cite{enwiki:1190136070}.
-
-\subsection{Ścieżka Hamiltona w grafie skierowanym}
-
-Dla grafu skierowanego $G = (V, E)$, gdzie:
-\begin{itemize}
-	\item \(V\) jest zbiorem wierzchołków.
-	\item \(E\) jest zbiorem skierowanych krawędzi.
-\end{itemize}
-Ścieżka Hamiltona jest sekwencją wierzchołków $v_1, v_2, …, v_n$ taką, że:
-\begin{enumerate}
-	\item Każdy wierzchołek z \(V\) występuje dokładnie raz.
-	\item Dla każdej pary kolejnych wierzchołków \(v_i\) i \(v_{i+1}\) w sekwencji istnieje skierowana krawędź od \(v_i\) do \(v_{i+1}\) w \(E\). 
-\end{enumerate}
-
-Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i kończyć w dowolnym innym wierzchołku.
-
-Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu definiuje się cztery funkcje: 'check\verb|_|hampath', 'proper\verb|_|numbers', 'distinct\verb|_|vs' oraz 'edge'. Funkcja 'check\verb|_|hampath' odpowiada za główny algorytm rozwiązujący problem. Pozostałe funkcje służą do generowania ograniczeń logicznych.
-
-Pierwszą z funkcji, która została wykorzystana w modelowaniu problemu, jest funkcja 'proper\verb|_|numbers', która ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' ($v_1, v_2, …, v_n$) reprezentujące wierzchołki grafu są w zakresie od $1$ do $n$, gdzie $n$ to liczba wierzchołków w grafie. Poniższa formuła logiczna określa przypisanie odpowiednich wartości wierzchołkóm:
+Pierwszą z nich jest funkcja 'proper\verb|_|numbers', która ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' ($v_0, v_1, …, v_{n-1}$), reprezentujących wierzchołki grafu, mieszczą się w zakresie od $0$ do $n - 1$, gdzie $n$ oznacza liczbę wierzchołków w grafie. Poniższa formuła logiczna określa przypisanie odpowiednich wartości wierzchołkóm:
 
 \begin{align*}
-	\mli{proper\textunderscore numbers}(n) = \left( \bigwedge_{j=0}^{n-1} (v_j \geq 1 \land v_j \leq n) \right) 
+	\propernumbers(n) = \left( \bigwedge_{j=0}^{n-1} (v_j \geq 0 \land v_j < n) \right) 
 \end{align*}
 
 \begin{lstlisting}
@@ -58,10 +39,10 @@ Pierwszą z funkcji, która została wykorzystana w modelowaniu problemu, jest f
 \end{lstlisting}
 \vspace{1cm}
 
-Kolejna funkcja 'distinct\verb|_|vs' zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwa wierzchołki nie mają tej samej wartości:
+Kolejną funkcją jest 'distinct\verb|_|vs', która zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwa wierzchołki nie mają tej samej wartości:
 
 \begin{align*}
-	\mli{distinct\textunderscore vs}(n) = \left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (v_i \neq v_j) \right)
+	\distinctvs(n) = \left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (v_i \neq v_j) \right)
 \end{align*}
 
 \begin{lstlisting}	
@@ -76,10 +57,10 @@ Kolejna funkcja 'distinct\verb|_|vs' zapewnia, że każdy wierzchołek grafu jes
 \end{lstlisting}
 \vspace{1cm}
 
-Funkcja 'edge' generuje ograniczenia logiczne dla krawędzi między wierzchołkami na podstawie podanego grafu. Niech $v_1, v_2, …, v_n$ to wierzchołki grafu, a \(E\) to zbiór wszystkich krawędzi, w przypadku grafu skierowanego zbiór uporządkowanych par (s, t), gdzie pierwsza zmienna s oznacza punkt źródłowy krawędzi, i t jest punktem końcowym:
+Funkcja 'dir\verb|_|edge' generuje ograniczenia logiczne dla skierowanych krawędzi między wierzchołkami na podstawie podanego grafu. Niech $v_0, v_1, …, v_{n-1}$ będą zmiennymi reprezentującymi wierzchołki grafu, a \(E\) zbiorem wszystkich krawędzi, w przypadku grafu skierowanego zbiór uporządkowanych par $(s, t)$, gdzie \(s\) oznacza punkt źródłowy krawędzi, a \(t\) jest punktem końcowym:
 
 \begin{align*}
-	\mli{edges}(n, E) = \left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (v_i = s \land v_{i+1} = t) \right)
+	\diredges(n, E) = \left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (v_i = s \land v_{i+1} = t) \right)
 \end{align*}
 
 \begin{lstlisting}	
@@ -91,14 +72,41 @@ Funkcja 'edge' generuje ograniczenia logiczne dla krawędzi między wierzchołka
 	bf = z3.Or(atoms)
 	return bf
 \end{lstlisting}
+
+Natomiast funkcja 'edge' 
+
+Funkcja 'wedge'
+
+\section{Problem ścieżki Hamiltona}
+
+Problem ścieżki Hamiltona jest zagadnieniem z zakresu teorii złożoności i teorii grafów. Rozstrzyga on, czy graf zawiera ścieżkę Hamiltona, czyli ścieżkę, która odwiedza każdy wierzchołek grafu dokładnie raz.
+
+Problem ścieżki Hamiltona ma zastosowanie w wielu dziedzinach, takich jak informatyka, telekomunikacja czy bioinformatyka. Rozwiązanie tego problemu jest często kluczowe w analizie sieci i trasowania w systemach komunikacyjnych \cite{enwiki:1190136070}.
+
+\subsection{Ścieżka Hamiltona w grafie skierowanym}
+
+Dla grafu skierowanego $G = (V, E)$, gdzie:
+\begin{itemize}
+	\item \(V\) jest zbiorem wierzchołków.
+	\item \(E\) jest zbiorem skierowanych krawędzi.
+\end{itemize}
+Ścieżka Hamiltona jest sekwencją wierzchołków $s_0, s_1, …, s_{n-1}$ taką, że:
+\begin{enumerate}
+	\item Każdy wierzchołek z \(V\) występuje dokładnie raz.
+	\item Dla każdej pary kolejnych wierzchołków \(s_i\) i \(s_{i+1}\) w sekwencji istnieje skierowana krawędź od \(s_i\) do \(s_{i+1}\) w \(E\). 
+\end{enumerate}
+
+Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i kończyć w dowolnym innym wierzchołku.
+
+Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu definiuje się cztery funkcje: 'check\verb|_|hampath', 'proper\verb|_|numbers', 'distinct\verb|_|vs' oraz 'edge'. Funkcja 'check\verb|_|hampath' odpowiada za główny algorytm rozwiązujący problem. Pozostałe funkcje służą do generowania ograniczeń logicznych.
+
+
 \vspace{1cm}
 
 Zatem cała formuła kodująca ścieżkę Hamiltona dla grafu skierowanego zawierającego \(n\) wierzchołków i zbiór krawędzi \(E\) jest następująca:
 
 \begin{align*}
-	\HamPath(n, E) = & \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
-	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\ 
-	& \left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (x_i = s \land x_{i+1} = t) \right)
+	\HamPath(n, E) = \propernumbers \land \distinctvs \land \diredges
 \end{align*}
 
 W implementacji głównej funkcji 'check\verb|_|hampath' wykorzystuje się strukturę danych reprezentującą graf za pomocą słownika, gdzie klucze odpowiadają wierzchołkom, a wartości są listami sąsiedztwa.
@@ -152,10 +160,10 @@ Dla grafu nieskierowanego $G = (V, E)$, gdzie:
 	\item \(V\) jest zbiorem wierzchołków.
 	\item \(E\) jest zbiorem krawędzi.
 \end{itemize}
-Ścieżka Hamiltona jest sekwencją wierzchołków $v_1, v_2, …, v_n$ taką, że:
+Ścieżka Hamiltona jest sekwencją wierzchołków $s_1, s_2, …, s_n$ taką, że:
 \begin{enumerate}
 	\item Każdy wierzchołek z \(V\) występuje dokładnie raz.
-	\item Dla każdej pary kolejnych wierzchołków \(v_i\) i \(v_{i+1}\) w sekwencji istnieje krawędź między \(v_i\) a \(v_{i+1}\) w \(E\). 
+	\item Dla każdej pary kolejnych wierzchołków \(s_i\) i \(s_{i+1}\) w sekwencji istnieje krawędź między \(s_i\) a \(s_{i+1}\) w \(E\). 
 \end{enumerate}
 
 Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i kończyć w dowolnym innym wierzchołku.
@@ -163,9 +171,7 @@ Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i k
 W kontekście modelowania problemu ścieżki Hamiltona w grafie nieskierowanym należy zapewnić możliwość przechodzenia przez krawędź w obie strony, co można osiągnąć poprzez stworzenie formuły logicznej, która będzie uwzględniała możliwość istnienia krawędzi pomiędzy wierzchołkami w obu kierunkach:
 
 \begin{align*}
-	\UHamPath(n, E) = \left( \bigwedge_{j=0}^{n-1} (x_j \geq 0 \land x_j < n) \right) \land 
-	\left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\
-	\left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (x_i = s \land x_{i+1} = t) \lor (x_i = t \land x_{i+1} = s) \right)
+	\edges(n, E) = \left( \bigwedge_{i=0}^{n-1} \bigvee_{\{s,t\} \in E} (v_i = s \land v_{i+1} = t) \lor (v_i = t \land v_{i+1} = s) \right)
 \end{align*}
 
 Poniższy fragment kodu demonstruje sposób kodowania danego ograniczenia:
@@ -182,6 +188,12 @@ Poniższy fragment kodu demonstruje sposób kodowania danego ograniczenia:
 		return bf
 \end{lstlisting}
 
+Zatem cała formuła kodująca ścieżkę Hamiltona dla grafu nieskierowanego zawierającego \(n\) wierzchołków i zbiór krawędzi \(E\) jest następująca:
+
+\begin{align*}
+	\UHamPath(n, E) = \propernumbers \land \distinctvs \land \edges
+\end{align*}
+
 
 \section{Problem maksymalnej kliki w grafie nieskierowanym}
 
@@ -194,45 +206,42 @@ Dla grafu nieskierowanego $G = (V, E)$, gdzie:
 \end{itemize}
 Maksymalną kliką w grafie \(G\) jest podzbiór $C \subseteq V$ taki, że:
 \begin{enumerate}
- 	\item Dla każdej pary wierzchołków \(u\) i \(v\) w \(C\) istnieje krawędź między \(u\) a \(v\) w \(E\), tj. ${u, v}\in E$. 
- 	\item \(C\) nie można rozszerzyć przez dodanie dowolnego wierzchołka $w\in V$ takiego, że $C \cup {w}$ tworzą klikę, tj. nie istnieje żaden wierzchołek \(w\) sąsiadujący z jakimkolwiek wierzchołkiem z \(C\), który nie występuje już w \(C\).
+ 	\item Dla każdej pary wierzchołków \(s\) i \(t\) w \(C\) istnieje krawędź między \(s\) a \(t\) w \(E\), tj. $\{s, t\}\in E$. 
+ 	\item \(C\) nie można rozszerzyć przez dodanie dowolnego wierzchołka $w\in V$ takiego, że $C \cup \{w\}$ tworzą klikę, tj. nie istnieje żaden wierzchołek \(w\) sąsiadujący z jakimkolwiek wierzchołkiem z \(C\), który nie występuje już w \(C\).
 \end{enumerate}
 
 \begin{align*}
-	\MaxClique(n, k) = &\left( \bigwedge_{j=1}^{n} (x_j \geq 1 \land x_j \leq n) \right) \land 
-	\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\
-	&\left( \bigwedge_{i=1}^{k} \bigwedge_{j=i+1}^{k} \bigvee_{(s,t) \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
+	&\MaxClique(n, E, k) = \propernumbers  \land \distinctvs  \land \\
+	&\left( \bigwedge_{i=0}^{k-1} \bigwedge_{j=i+1}^{k} \bigvee_{\{s,t\} \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
 \end{align*}
 
 
 \section{Problem maksymalnego zbioru niezależnego w grafie nieskierowanym}
 Niezależny zbiór w grafie nieskierowanym jest podzbiorem wierzchołków grafu G, z których żadne dwa nie sąsiadują ze sobą. Problem maksymalnego zbioru niezależnego ma na celu obliczenie rozmiaru największego niezależnego zbioru w danym grafie. Rozmiar niezależnego zbioru to liczba zawartych w nim wierzchołków \cite{Korshunov1974}.
 
-Dla grafu $G = (V, E)$, niezależny zbiór \(S\) jest maksymalnym jeżeli dla $v \in V$ jedno z poniższych twierdzeń jest prawdziwe \cite{maxIndSetDef}:
+Dla grafu $G = (V, E)$, niezależny zbiór \(S\) jest maksymalnym jeżeli dla $s \in V$ jedno z poniższych twierdzeń jest prawdziwe \cite{maxIndSetDef}:
 
 \begin{itemize}
-	\item $v \in S$;
-	\item $N(v) \cap S \neq \emptyset$, gdzie \(N(v)\) oznacza sąsiadów \(v\).
+	\item $s \in S$;
+	\item $N(s) \cap S \neq \emptyset$, gdzie \(N(s)\) oznacza sąsiadów \(s\).
 \end{itemize}
 
 Problem maksymalnego niezależnego zbioru i jego dopełnienie, problem minimalnego pokrycia wierzchołkowego, są zaangażowane w dowodzenie złożoności obliczeniowej wielu problemów teoretycznych \cite{Skiena20}.
 
 \begin{align*}
-	\MaxIndSet(n, k) = &\left( \bigwedge_{j=1}^{n} (x_j \geq 1 \land x_j \leq n) \right) \land 
-	\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} (x_i \neq x_j) \right) \land \\
-	&\left( \bigwedge_{i=1}^{k} \bigwedge_{j=i+1}^{k} \bigvee_{(s,t) \in E} \lnot((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
+	&\MaxIndSet(n, E, k) = \propernumbers \land \distinctvs \land \\
+	&\left( \bigwedge_{i=0}^{k-1} \bigwedge_{j=i+1}^{k} \bigvee_{\{s,t\} \in E} \lnot((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
 \end{align*}
 
 
 \section{Problem pokrycia wierzchołkowego}
-Pokrycie wierzchołkowe grafu nieskierowanego $G = (V, E)$ to podzbiór $V' \subseteq V$ taki, że jeżeli $(u, v) \in E$, to $u \in V'$ lub $v \in V'$ (lub oba). To znaczy, że każdy wierzchołek "pokrywa" przylegające krawędzie, a pokrycie wierzchołkowe dla \(G\) jest zbiorem wierzchołków, który pokrywa wszystkie krawędzie z \(E\). Rozmiar pokrycia to liczba wierzchołków w nim zawartych.
+Pokrycie wierzchołkowe grafu nieskierowanego $G = (V, E)$ to podzbiór $V' \subseteq V$ taki, że jeżeli $\{s, t\} \in E$, to $s \in V'$ lub $t \in V'$ (lub oba). To znaczy, że każdy wierzchołek "pokrywa" przylegające krawędzie, a pokrycie wierzchołkowe dla \(G\) jest zbiorem wierzchołków, który pokrywa wszystkie krawędzie z \(E\). Rozmiar pokrycia to liczba wierzchołków w nim zawartych.
 
 Problem pokrycia wierzchołkowego polega na znalezieniu minimalnego pokrycia w danym grafie. Dla tego problemu optymalizacyjnego, odpowiadający mu problem decyzyjny zadaje pytanie czy graf ma pokrycie o danym rozmiarze \(k\) \cite{CormenLRS0023376}.
 
 \begin{align*}
-	\VertexCover(n, k) = &\left( \bigwedge_{j=1}^{n} (v_j \geq 1 \land v_j \leq n) \right) \land 
-	\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} (v_i \neq v_j) \right) \land \\
-	&\left( \bigwedge_{j=1}^{k} \bigwedge_{(s,t) \in E} (v_j = s \lor v_j = t) \right)	
+	\VertexCover&(n, E, k) = \propernumbers \land \distinctvs \land \\
+	&\left( \bigwedge_{j=0}^{k-1} \bigwedge_{\{s,t\} \in E} (v_j = s \lor v_j = t) \right)	
 \end{align*}
 
 
@@ -254,23 +263,21 @@ W problemie komiwojażera, komiwojażer musi odwiedzić \(n\) miast. Zamodelujmy
 
 Dla pełnego grafu nieskierowanego $G = (V, E)$, gdzie:
 \begin{itemize}
-	\item \(V\) jest zbiorem wierzchołków.
+	\item \(V\) jest zbiorem etykietowanych wierzchołków.
 	\item \(E\) jest zbiorem krawędzi.
 \end{itemize}
-trasa o minimalnym koszcie jest sekwencją wierzchołków $v_1, v_2, …, v_n$ taką, że:
+trasa o minimalnym koszcie jest sekwencją wierzchołków $s_1, s_2, …, s_n$ taką, że:
 \begin{enumerate}
 	\item Każdy wierzchołek z \(V\) występuje dokładnie raz.
-	\item Dla każdej pary kolejnych wierzchołków \(v_i\) i \(v_{i+1}\) w sekwencji istnieje krawędź między \(v_i\) a \(v_{i+1}\) w \(E\).
-	\item Istnieje krawędź między ostatnim \(v_n\) a pierwszym \(v_1\) wierzchołkiem w \(E\).
+	\item Dla każdej pary kolejnych wierzchołków \(s_i\) i \(s_{i+1}\) w sekwencji istnieje krawędź między \(s_i\) a \(s_{i+1}\) w \(E\).
+	\item Istnieje krawędź między ostatnim \(s_n\) a pierwszym \(s_1\) wierzchołkiem w \(E\).
 	\item Suma wag wszystkich krawędzi jest co najwyżej \(k\).
 \end{enumerate}
 
 \begin{align*}
-	\TSP(n, c, E) = &\left( \bigwedge_{j=1}^{n} (v_j \geq 1 \land v_j \leq n) \right) \land 
-	\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} (v_i \neq v_j) \right) \land \\
-	&\left( \bigwedge_{i=1}^{n} \bigwedge_{j=i+1}^{n} \bigvee_{(s,t) \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	\land \\
-	&\left( \bigvee_{(s,t) \in E} ((v_n = s \land v_1 = t) \lor (v_1 = s \land v_n = t)) \right) \land
-	\left( \bigwedge_{(s,t) \in E} \sum c(s,t) <= k \right)
+	&\TSP(n, c, E, k) = \propernumbers \land \distinctvs \land \edges \land \\
+	&\left( \bigvee_{\{s,t\} \in E} ((v_{n-1} = s \land v_0 = t) \lor (v_0 = s \land v_{n-1} = t)) \right) \land \\
+	&\left( \bigwedge_{\{s,t\} \in E} \sum c(s,t) <= k \right)
 \end{align*}
 
 
@@ -288,7 +295,7 @@ W problemie pokrycia zbioru, rozważając zbiór \(U\) zawierający \(n\) elemen
 \section{Problem sumy podzbioru}
 
 
-W ogólnym sformułowaniu, problem sumy podzbiorów przyjmuje jako dane wejściowe skończony zbiór \(S\) liczb całkowitych i całkowitą wartość docelową \(t\), a pytanie polega na rozstrzygnięciu, czy istnieje podzbiór $S' \subseteq S$, którego elementy sumują się dokładnie do t. 
+W ogólnym sformułowaniu, problem sumy podzbiorów przyjmuje jako dane wejściowe skończony multizbiór \(S\) liczb całkowitych i całkowitą wartość docelową \(t\), a pytanie polega na rozstrzygnięciu, czy istnieje podzbiór $S' \subseteq S$, którego elementy sumują się dokładnie do t. 
 
 Weźmiemy pod uwagę wariant problemu, w którym dane wejściowe mogą być dodatnie lub ujemne, oraz \(t = 0\)
 \begin{align*}
@@ -302,8 +309,8 @@ Weźmiemy pod uwagę wariant problemu, w którym dane wejściowe mogą być doda
 Problem plecakowy jest zagadnieniem z zakresu optymalizacji kombinatorycznej - uogólnieniem $\SubsetSum$, w którym każdy element wejściowy ma zarówno wartość, jak i wagę. Celem jest maksymalizacja wartości z zastrzeżeniem ograniczenia na całkowitą wagę.
 
 \begin{align*}
-	\Knapsack(n) = \left( \sum_{i=0}^{n-1} (weights[i]) \leq capacity \right) \land 
-	max \left( \sum_{i=0}^{n-1} (values[i]) \right)
+	\Knapsack(n, k) = \left( \sum_{i=0}^{n-1} (weights[i]) \leq capacity \right) \land 
+	\left( \sum_{i=0}^{n-1} (values[i]) <= k \right)
 \end{align*}
 
 

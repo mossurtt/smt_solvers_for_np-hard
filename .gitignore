@@ -12,3 +12,4 @@
 *.toc
 magisterska.pdf
 .vscode
+__pycache__
