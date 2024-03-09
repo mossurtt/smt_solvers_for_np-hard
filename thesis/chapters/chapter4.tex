@@ -246,11 +246,22 @@ Problem pokrycia wierzchołkowego polega na znalezieniu minimalnego pokrycia w d
 
 
 \section{Problem kolorowania grafu}
-Projektanci map dążą do używania jak najmniejszej liczby kolorów podczas kolorowania krajów na mapie, z zastrzeżeniem, że jeśli dwa kraje mają wspólną granicę, muszą mieć różne kolory. Problem ten można zamodelować za pomocą grafu nieskierowanego $G = (V, E)$, w którym każdy wierzchołek reprezentuje kraj, i wierzchołki, których kraje mają wspólną granicę, ze sobą sąsiadują. Wtedy k-kolorowanie jest funkcją $c : V \implies {1, 2, …, k}$ taką, że $c(u) \neq c(v)$ dla każdej krawędzi $(u, v) \in E$. Innymi słowy, liczby $1, 2, …, k$ oznaczają \(k\) kolorów, zaś sąsiednie wierzchołki muszą mieć różne przypisane numery. Problem kolorowania grafu polega na określeniu minimalnej liczby kolorów potrzebnej do pokolorowania danego grafu.
+Projektanci map dążą do używania jak najmniejszej liczby kolorów podczas
+kolorowania krajów na mapie, z zastrzeżeniem, że jeśli dwa kraje mają wspólną
+granicę, muszą mieć różne kolory. Problem ten można zamodelować za pomocą grafu
+nieskierowanego $G = (V, E)$, w którym każdy wierzchołek reprezentuje kraj,
+i wierzchołki, których kraje mają wspólną granicę, ze sobą sąsiadują.
+%Wtedy k-kolorowanie jest funkcją $c : V \implies {1, 2, …, k}$ taką, że $c(u) \neq c(v)$ dla każdej krawędzi $(u, v) \in E$. 
+%AZ
+Wtedy k-kolorowanie jest funkcją $c\colon V \to \{1, 2, …, k\}$ taką, że $c(u) \neq c(v)$ dla każdej krawędzi $\{u, v\} \in E$. 
+Innymi słowy, liczby $1, 2, …, k$
+oznaczają \(k\) kolorów, zaś sąsiednie wierzchołki muszą mieć różne przypisane
+numery. Problem kolorowania grafu polega na określeniu minimalnej liczby kolorów
+potrzebnej do pokolorowania danego grafu.
 
 \begin{align*}
 	\GraphColoring(n, E) = \left( \bigwedge_{j=1}^{n} (c_j \geq 1 \land c_j \leq k) \right) \land 
-	\left( \bigwedge_{u, v \in E} (c_u \neq c_v) \right)
+	\left( \bigwedge_{\{u, v\} \in E} (c_u \neq c_v) \right)
 \end{align*}
 
 
