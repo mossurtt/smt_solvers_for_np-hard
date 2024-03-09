@@ -1,7 +1,9 @@
 import sys
 import z3  
+from utils.read_input import read_graph_from_file
 import networkx as nx 
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 
 def main():
     if len(sys.argv) != 2:
@@ -9,27 +11,17 @@ def main():
         return
 
     filename = sys.argv[1]
-    petersen_graph = read_graph_from_file(filename)
+    graph = read_graph_from_file(filename)
+    n = len(graph)
+    print(graph)
     
-    check_coloring(petersen_graph)
+    for k in range(1, n + 1):
+        result, model = check_coloring(graph, k)
+        if result != z3.unsat:
+            break
 
-def read_graph_from_file(filename):
-    with open(filename, 'r') as file:
-        lines = file.readlines()
 
-    graph = {}
-    for line in lines:
-        source, target = [int(x) for x in line.strip().split()]
-        if source not in graph:
-            graph[source] = []
-        if target not in graph:
-            graph[target] = []
-        graph[source].append(target)
-        graph[target].append(source)
-        
-    return graph
-
-def check_coloring(graph):
+def check_coloring(graph, k):
 
     vertices = list(graph.keys())
     n = len(vertices)
@@ -39,8 +31,8 @@ def check_coloring(graph):
     solver = z3.Solver()
 
     for i in range(n):
-        solver.add(vertex_color[i] >= 0)
-        solver.add(vertex_color[i] < 3)
+        solver.add(vertex_color[i] >= 1)
+        solver.add(vertex_color[i] <= k)
 
     for i in range(n):
         for neighbor in graph[vertices[i]]:
@@ -54,17 +46,17 @@ def check_coloring(graph):
     file.close()
 
     result = solver.check()
-    model = None
 
     if result == z3.sat:
         print(result)
         model = solver.model()
         print(model)
+        draw_graph(graph, vertex_color, model)
     else:
         print(result)
+        model = None
         
-
-    draw_graph(graph, vertex_color, model)
+    return result, model
 
 def draw_graph(graph, vertex_color, model):
     G = nx.Graph()
@@ -72,20 +64,12 @@ def draw_graph(graph, vertex_color, model):
         G.add_node(vertex)
         for neighbor in neighbors:
             G.add_edge(vertex, neighbor)
+    
     if model is not None:
-        z3_coloring = [model.evaluate(vertex_color[vertex]).as_long() for vertex in graph]
+        colors = [model.evaluate(vertex_color[v]).as_long() for v in graph]
+        # colormap = cm.tab10.colors[:max(colors) + 1]
 
-        nodes_with_colors = [(node, z3_color) for node, z3_color in zip(graph, z3_coloring)]
-
-        nodes_with_colors.sort(key=lambda x: x[1])
-
-        sorted_nodes, sorted_colors = zip(*nodes_with_colors)
-
-        rgba = [(1, 0, 0), (0, 1, 0), (0, 0, 1)]
-
-        colors = [rgba[color] for color in sorted_colors]
-
-        nx.draw(G, nodelist=sorted_nodes, with_labels=True, node_color=colors)
+        nx.draw(G, with_labels=True, node_color=colors, cmap = 'tab10')
         plt.show()
     else:
         nx.draw(G, with_labels=True)
