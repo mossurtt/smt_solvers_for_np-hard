@@ -18,38 +18,111 @@ Każda sekcja zawiera opis algorytmu oraz kod demonstracyjny w języku Python z 
 
 W celu optymalizacji procesu programowania oraz podniesienia czytelności kodu, przyjęto praktykę tworzenia katalogu 'utils', który pełni rolę biblioteki narzędziowej. Katalog ten zawiera pliki z zestawami użytecznych funkcji (ang. \textit{utility functions}), które powtarzają się w kodowaniu różnych problemów, umożliwiając ich wielokrotne wykorzystanie i uniknięcie redundancji. Centralizacja tych funkcji w jednym miejscu również ułatwia zrozumienie działania programów dla osób przeglądających kod. 
 
-Pierwszy plik z katalogu 'utils' ma nazwę 'read\verb|_|input.py', który zawiera funkcje służące do wczytywania danych wejściowych w różnych formatach, co jest niezbędne dla przeprowadzenia eksperymentów.
+Pierwszy plik z katalogu 'utils' ma nazwę \textit{'read\textunderscore input.py'}, i zawiera funkcje służące do odczytu danych z plików tekstowych i tworzenia odpowiednich struktur danych na ich podstawie:
 
-W kolejnym pliku 'constraints.py' umieszczono funkcje generujące ograniczenia logiczne, które są wielokrotnie stosowane w modelowaniu problemów.
+Funkcja \textbf{\textit{read\textunderscore graph\textunderscore from\textunderscore file}}(filename) odczytuje graf nieskierowany z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie liczby oddzielone spacją to numery wierzchołków połączonych krawędzią. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy sąsiedztwa.
 
-Pierwszą z nich jest funkcja 'proper\verb|_|numbers', która ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' ($v_0, v_1, …, v_{n-1}$), reprezentujących wierzchołki grafu, mieszczą się w zakresie od $0$ do $n - 1$, gdzie $n$ oznacza liczbę wierzchołków w grafie. 
+\begin{lstlisting}
+	def read_graph_from_file(filename):
+		with open(filename, 'r') as file:
+			lines = file.readlines()
+		
+		graph = {}
+		for line in lines:
+			source, target = [int(x) for x in line.strip().split()]
+			if source not in graph:
+				graph[source] = []
+			if target not in graph:
+				graph[target] = []
+			graph[source].append(target)
+			graph[target].append(source)
+		
+		return graph
+\end{lstlisting}
+\vspace{0.5cm}
+
+Funkcja \textbf{\textit{read\textunderscore digraph\textunderscore from\textunderscore file}}(filename) odczytuje graf skierowany z pliku o nazwie \textit{filename}. Działa analogicznie do poprzedniej funkcji, ale tworzy graf skierowany.
+
+\begin{lstlisting}
+	def read_digraph_from_file(filename):
+		with open(filename, 'r') as file:
+			lines = file.readlines()
+		
+		digraph = {}
+		for line in lines:
+			source, target = [int(x) for x in line.strip().split()]
+			if source not in digraph:
+				digraph[source] = []
+			if target not in digraph:
+				digraph[target] = []
+			digraph[source].append(target)
+		
+		return digraph
+\end{lstlisting}
+\vspace{0.5cm}
+
+Funkcja \textbf{\textit{read\textunderscore wgraph\textunderscore from\textunderscore file}}(filename) odczytuje graf nieskierowany z wagami krawędzi z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie trzy liczby oddzielone spacją to numery wierzchołków połączonych krawędzią oraz waga tej krawędzi. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy krotek (target, weight) reprezentujących numery wierzchołków i ich wagi.
+
+\begin{lstlisting}
+	def read_wgraph_from_file(filename):
+		with open(filename, 'r') as file:
+		lines = file.readlines()
+		
+		wgraph = {}
+		for line in lines:
+			source, target, weight = [int(x) for x in line.strip().split()]
+			if source not in wgraph:
+				wgraph[source] = []
+			if target not in wgraph:
+				wgraph[target] = []
+			wgraph[source].append((target, weight))
+			wgraph[target].append((source, weight))
+		
+		return wgraph
+\end{lstlisting}
+\vspace{0.5cm}
+
+Funkcja \textbf{\textit{read\textunderscore set\textunderscore from\textunderscore file}}(filename) odczytuje zbiór liczb całkowitych z pliku o nazwie \textit{filename}. Każda liczba w pliku powinna być oddzielona spacją. Funkcja zwraca listę zawierającą te liczby jako elementy.
+
+\begin{lstlisting}
+	def read_set_from_file(filename):
+		with open(filename, 'r') as file:
+			data = file.read().strip()
+			input_set = list(map(int, data.split()))
+		return input_set
+\end{lstlisting}
+\vspace{1cm}
+
+W kolejnym pliku \textit{'constraints.py'} umieszczono funkcje generujące ograniczenia logiczne, które są wielokrotnie stosowane w modelowaniu problemów.
+
+Pierwszą z nich jest funkcja \textbf\textit{{'proper\verb|_|numbers'}}, która ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' ($v_0, v_1, …, v_{n-1}$), reprezentujących wierzchołki grafu, mieszczą się w zakresie od $0$ do $n - 1$, gdzie $n$ oznacza liczbę wierzchołków w grafie. 
 
 \begin{lstlisting}
 	def proper_numbers(vertices):
-	n = len(vertices)
-	atoms = []
-	for i in range(n - 1):
-	atoms.append(z3.And(vertices[i] >= 0, vertices[i] < n))
-	bf = z3.And(atoms)
-	return bf
+		n = len(vertices)
+		atoms = []
+		for i in range(n - 1):
+			atoms.append(z3.And(vertices[i] >= 0, vertices[i] < n))
+		bf = z3.And(atoms)
+		return bf
 \end{lstlisting}
-\vspace{1cm}
+\vspace{0.5cm}
 
-Kolejną funkcją jest 'distinct\verb|_|vs', która zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwa wierzchołki nie mają tej samej wartości:
+Kolejną funkcją jest \textbf\textit{{'distinct\verb|_|vs'}}, która zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwa wierzchołki nie mają tej samej wartości:
 
 \begin{lstlisting}	
 	def distinct_vs(vertices):
-	n = len(vertices)
-	atoms = []
-	for i in range(n - 1):
-	for j in range(i + 1, n):
-	atoms.append(vertices[i] != vertices[j])
-	bf = z3.And(atoms)
-	return bf
+		n = len(vertices)
+		atoms = []
+		for i in range(n - 1):
+			for j in range(i + 1, n):
+				atoms.append(vertices[i] != vertices[j])
+		bf = z3.And(atoms)
+		return bf
 \end{lstlisting}
-\vspace{1cm}
+\vspace{0.5cm}
 
-Funkcja 'dir\verb|_|edge' generuje ograniczenia logiczne dla skierowanych krawędzi między wierzchołkami na podstawie podanego grafu. Niech $v_0, v_1, …, v_{n-1}$ będą zmiennymi reprezentującymi wierzchołki grafu, a \(E\) zbiorem wszystkich krawędzi, w przypadku grafu skierowanego zbiór uporządkowanych par $(s, t)$, gdzie \(s\) oznacza punkt źródłowy krawędzi, a \(t\) jest punktem końcowym:
+Funkcja \textbf\textit{{'dir\verb|_|edge'}} generuje ograniczenia logiczne dla skierowanych krawędzi między wierzchołkami na podstawie podanego grafu. Niech $v_0, v_1, …, v_{n-1}$ będą zmiennymi reprezentującymi wierzchołki grafu, a \(E\) zbiorem wszystkich krawędzi, w przypadku grafu skierowanego zbiór uporządkowanych par $(s, t)$, gdzie \(s\) oznacza punkt źródłowy krawędzi, a \(t\) jest punktem końcowym:
 
 \begin{lstlisting}	
 	def dir_edge(graph: dict[int, list[int]], s, t):
@@ -60,8 +133,9 @@ Funkcja 'dir\verb|_|edge' generuje ograniczenia logiczne dla skierowanych krawę
 		bf = z3.Or(atoms)
 		return bf
 \end{lstlisting}
+\vspace{0.5cm}
 
-Natomiast funkcja 'edge' generuje ograniczenia dla nieskierowanych krawędzi. Dla zmiennych $v_0, v_1, …, v_{n-1}$ reprezentujących wierzchołki grafu, i zbioru wszystkich krawędzi \(E\) (w przypadku grafu nieskierowanego jest to zbiór nieuporządkowanych par $\{s, t\}$) funkcja ta przedstawia się następująco:
+Natomiast funkcja \textbf\textit{{'edge'}} generuje ograniczenia dla nieskierowanych krawędzi. Dla zmiennych $v_0, v_1, …, v_{n-1}$ reprezentujących wierzchołki grafu, i zbioru wszystkich krawędzi \(E\) (w przypadku grafu nieskierowanego jest to zbiór nieuporządkowanych par $\{s, t\}$) funkcja ta przedstawia się następująco:
 
 \begin{lstlisting}
 	def edge(graph: dict[int, list[int]], s, t):
@@ -73,8 +147,9 @@ Natomiast funkcja 'edge' generuje ograniczenia dla nieskierowanych krawędzi. Dl
 		bf = z3.Or(atoms)
 		return bf
 \end{lstlisting}
+\vspace{0.5cm}
 
-Funkcja 'wedge' generuje ograniczenie dla etykietowanych nieskierowanych krawędzi pomiędzy dwoma wierzchołkami \(s\) i \(t\) w grafie, przy użyciu zmiennej \(w\) reprezentującej wagę krawędzi:
+Funkcja \textbf\textit{{'wedge'}} generuje ograniczenie dla etykietowanych nieskierowanych krawędzi pomiędzy dwoma wierzchołkami \(s\) i \(t\) w grafie, przy użyciu zmiennej \(w\) reprezentującej wagę krawędzi:
 
 \begin{lstlisting}
 	def wedge(graph: dict[int, list[int]], s, t, w):
@@ -86,7 +161,6 @@ Funkcja 'wedge' generuje ograniczenie dla etykietowanych nieskierowanych krawęd
 		bf = z3.Or(atoms)
 		return bf
 \end{lstlisting}
-
 
 
 \section{Problem ścieżki Hamiltona}
