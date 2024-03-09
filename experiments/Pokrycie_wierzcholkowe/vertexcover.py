@@ -14,7 +14,7 @@ def main():
 
     for k in range(1, n + 1):
         result, model = check_vertexcover(graph, k)
-        if result == z3.sat:
+        if result != z3.unsat:
             break
 
 def check_vertexcover(graph: dict[int, list[int]], k):
@@ -44,21 +44,19 @@ def check_vertexcover(graph: dict[int, list[int]], k):
         print('Znaleziono pokrycie o rozmiarze', k)
         model = solver.model()
         vertex_cover = [model[vertices[i]].as_long() for i in range(k)]
-        min_vertex_cover = [vertex for vertex in range(k)]
-        print(min_vertex_cover) 
+        print(model, vertex_cover) 
     else:
         print('Nie znaleziono pokrycia')
         model = None
 
     return result, model
 
-def edge_covered(graph: dict[int, list[int]], u, v):
+def edge_covered(graph: dict[int, list[int]], s, t):
     atoms = []
     for source in graph:
         for target in graph[source]:
-            atoms.append(z3.Or([u == source, v == target]))
-            atoms.append(z3.Or([v == source, u == target]))
-    bf = z3.Or(atoms)
+            atoms.append(z3.Or([s == source, t == target]))  
+    bf = z3.And(atoms)
     z3.simplify(bf)
     return bf
 

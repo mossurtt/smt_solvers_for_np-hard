@@ -71,6 +71,7 @@ def check_tsp(graph: dict[int, list[int]], k):
                 cost += value
         print("Cost:", cost)
     else:
+        print(result)
         model = None
 
     return result, model
