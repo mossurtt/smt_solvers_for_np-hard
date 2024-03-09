@@ -3,7 +3,6 @@ import z3
 from utils.read_input import read_graph_from_file
 import networkx as nx 
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 
 def main():
     if len(sys.argv) != 2:
@@ -67,7 +66,6 @@ def draw_graph(graph, vertex_color, model):
     
     if model is not None:
         colors = [model.evaluate(vertex_color[v]).as_long() for v in graph]
-        # colormap = cm.tab10.colors[:max(colors) + 1]
 
         nx.draw(G, with_labels=True, node_color=colors, cmap = 'tab10')
         plt.show()
