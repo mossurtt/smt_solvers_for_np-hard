@@ -18,7 +18,6 @@ def main():
             break
 
 def check_maxindset(graph: dict[int, list[int]], k):
-
     n = len(graph)
 
     vertices = z3.IntVector("v", n)
@@ -39,6 +38,7 @@ def check_maxindset(graph: dict[int, list[int]], k):
         maxindset = [model[vertices[i]].as_long() for i in range(k)]
         print(maxindset)
     else:
+        print(result)
         model = None
 
     smt2_representation = solver.to_smt2()

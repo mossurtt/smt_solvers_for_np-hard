@@ -12,7 +12,6 @@ def main():
     filename = sys.argv[1]
     graph = read_graph_from_file(filename)
     n = len(graph)
-    print(graph)
     
     for k in range(1, n + 1):
         result, model = check_coloring(graph, k)
@@ -21,7 +20,6 @@ def main():
 
 
 def check_coloring(graph, k):
-
     vertices = list(graph.keys())
     n = len(vertices)
 
@@ -47,7 +45,6 @@ def check_coloring(graph, k):
     result = solver.check()
 
     if result == z3.sat:
-        print(result)
         model = solver.model()
         print(model)
         draw_graph(graph, vertex_color, model)
@@ -64,13 +61,10 @@ def draw_graph(graph, vertex_color, model):
         for neighbor in neighbors:
             G.add_edge(vertex, neighbor)
     
-    if model is not None:
-        colors = [model.evaluate(vertex_color[v]).as_long() for v in graph]
+    colors = [model.evaluate(vertex_color[v]).as_long() for v in graph]
 
-        nx.draw(G, with_labels=True, node_color=colors, cmap = 'tab10')
-        plt.show()
-    else:
-        nx.draw(G, with_labels=True)
+    nx.draw(G, with_labels=True, node_color=colors, cmap = 'tab10')
+    plt.show()
 
 if __name__ == '__main__':
     main()

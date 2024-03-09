@@ -18,7 +18,6 @@ def main():
             break
 
 def check_clique(graph: dict[int, list[int]], k):
-
     n = len(graph)
 
     vertices = z3.IntVector("v", n)
