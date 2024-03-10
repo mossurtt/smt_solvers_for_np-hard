@@ -22,23 +22,7 @@ Pierwszy plik z katalogu 'utils' ma nazwę \textit{'read\textunderscore input.py
 
 Funkcja \textbf{\textit{read\textunderscore graph\textunderscore from\textunderscore file}}(filename) odczytuje graf nieskierowany z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie liczby oddzielone spacją to numery wierzchołków połączonych krawędzią. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy sąsiedztwa.
 
-\begin{lstlisting}
-	def read_graph_from_file(filename):
-		with open(filename, 'r') as file:
-			lines = file.readlines()
-		
-		graph = {}
-		for line in lines:
-			source, target = [int(x) for x in line.strip().split()]
-			if source not in graph:
-				graph[source] = []
-			if target not in graph:
-				graph[target] = []
-			graph[source].append(target)
-			graph[target].append(source)
-		
-		return graph
-\end{lstlisting}
+\lstinputlisting{./codes/read_graph_from_file.py}[caption={Czytanie grafu z pliku}]
 \vspace{0.5cm}
 
 Funkcja \textbf{\textit{read\textunderscore digraph\textunderscore from\textunderscore file}}(filename) odczytuje graf skierowany z pliku o nazwie \textit{filename}. Działa analogicznie do poprzedniej funkcji, ale tworzy graf skierowany.
