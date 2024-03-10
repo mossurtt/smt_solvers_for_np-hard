@@ -20,132 +20,51 @@ W celu optymalizacji procesu programowania oraz podniesienia czytelności kodu, 
 
 Pierwszy plik z katalogu 'utils' ma nazwę \textit{'read\textunderscore input.py'}, i zawiera funkcje służące do odczytu danych z plików tekstowych i tworzenia odpowiednich struktur danych na ich podstawie:
 
-Funkcja \textbf{\textit{read\textunderscore graph\textunderscore from\textunderscore file}}(filename) odczytuje graf nieskierowany z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie liczby oddzielone spacją to numery wierzchołków połączonych krawędzią. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy sąsiedztwa.
+Funkcja $\readgraph$(filename) odczytuje graf nieskierowany z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie liczby oddzielone spacją to numery wierzchołków połączonych krawędzią. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy sąsiedztwa.
 
 \lstinputlisting{./codes/read_graph_from_file.py}[caption={Czytanie grafu z pliku}]
 \vspace{0.5cm}
 
-Funkcja \textbf{\textit{read\textunderscore digraph\textunderscore from\textunderscore file}}(filename) odczytuje graf skierowany z pliku o nazwie \textit{filename}. Działa analogicznie do poprzedniej funkcji, ale tworzy graf skierowany.
+Funkcja $\readdigraph$(filename) odczytuje graf skierowany z pliku o nazwie \textit{filename}. Działa analogicznie do poprzedniej funkcji, ale tworzy graf skierowany.
 
-\begin{lstlisting}
-	def read_digraph_from_file(filename):
-		with open(filename, 'r') as file:
-			lines = file.readlines()
-		
-		digraph = {}
-		for line in lines:
-			source, target = [int(x) for x in line.strip().split()]
-			if source not in digraph:
-				digraph[source] = []
-			if target not in digraph:
-				digraph[target] = []
-			digraph[source].append(target)
-		
-		return digraph
-\end{lstlisting}
+\lstinputlisting{./codes/read_digraph_from_file.py}[caption={Czytanie skierowanego grafu z pliku}]
 \vspace{0.5cm}
 
-Funkcja \textbf{\textit{read\textunderscore wgraph\textunderscore from\textunderscore file}}(filename) odczytuje graf nieskierowany z wagami krawędzi z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie trzy liczby oddzielone spacją to numery wierzchołków połączonych krawędzią oraz waga tej krawędzi. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy krotek (target, weight) reprezentujących numery wierzchołków i ich wagi.
+Funkcja $\readwgraph$(filename) odczytuje graf nieskierowany z wagami krawędzi z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie trzy liczby oddzielone spacją to numery wierzchołków połączonych krawędzią oraz waga tej krawędzi. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy krotek (target, weight) reprezentujących numery wierzchołków i ich wagi.
 
-\begin{lstlisting}
-	def read_wgraph_from_file(filename):
-		with open(filename, 'r') as file:
-		lines = file.readlines()
-		
-		wgraph = {}
-		for line in lines:
-			source, target, weight = [int(x) for x in line.strip().split()]
-			if source not in wgraph:
-				wgraph[source] = []
-			if target not in wgraph:
-				wgraph[target] = []
-			wgraph[source].append((target, weight))
-			wgraph[target].append((source, weight))
-		
-		return wgraph
-\end{lstlisting}
+\lstinputlisting{./codes/read_wgraph_from_file.py}[caption={Czytanie grafu z wagami}]
 \vspace{0.5cm}
 
-Funkcja \textbf{\textit{read\textunderscore set\textunderscore from\textunderscore file}}(filename) odczytuje zbiór liczb całkowitych z pliku o nazwie \textit{filename}. Każda liczba w pliku powinna być oddzielona spacją. Funkcja zwraca listę zawierającą te liczby jako elementy.
+Funkcja $\readset$(filename) odczytuje zbiór liczb całkowitych z pliku o nazwie \textit{filename}. Każda liczba w pliku powinna być oddzielona spacją. Funkcja zwraca listę zawierającą te liczby jako elementy.
 
-\begin{lstlisting}
-	def read_set_from_file(filename):
-		with open(filename, 'r') as file:
-			data = file.read().strip()
-			input_set = list(map(int, data.split()))
-		return input_set
-\end{lstlisting}
+\lstinputlisting{./codes/read_set_from_file.py}[caption={Czytanie zbioru z pliku}]
 \vspace{1cm}
 
 W kolejnym pliku \textit{'constraints.py'} umieszczono funkcje generujące ograniczenia logiczne, które są wielokrotnie stosowane w modelowaniu problemów.
 
-Pierwszą z nich jest funkcja \textbf\textit{{'proper\verb|_|numbers'}}, która ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' ($v_0, v_1, …, v_{n-1}$), reprezentujących wierzchołki grafu, mieszczą się w zakresie od $0$ do $n - 1$, gdzie $n$ oznacza liczbę wierzchołków w grafie. 
+Pierwszą z nich jest funkcja $\propernumbers$, która ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' ($v_0, v_1, …, v_{n-1}$), reprezentujących wierzchołki grafu, mieszczą się w zakresie od $0$ do $n - 1$, gdzie $n$ oznacza liczbę wierzchołków w grafie. 
 
-\begin{lstlisting}
-	def proper_numbers(vertices):
-		n = len(vertices)
-		atoms = []
-		for i in range(n - 1):
-			atoms.append(z3.And(vertices[i] >= 0, vertices[i] < n))
-		bf = z3.And(atoms)
-		return bf
-\end{lstlisting}
+\lstinputlisting{./codes/proper_numbers.py}
 \vspace{0.5cm}
 
-Kolejną funkcją jest \textbf\textit{{'distinct\verb|_|vs'}}, która zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwa wierzchołki nie mają tej samej wartości:
+Kolejną funkcją jest $\distinctvs$, która zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwa wierzchołki nie mają tej samej wartości:
 
-\begin{lstlisting}	
-	def distinct_vs(vertices):
-		n = len(vertices)
-		atoms = []
-		for i in range(n - 1):
-			for j in range(i + 1, n):
-				atoms.append(vertices[i] != vertices[j])
-		bf = z3.And(atoms)
-		return bf
-\end{lstlisting}
+\lstinputlisting{./codes/distinct_vs.py}
 \vspace{0.5cm}
 
-Funkcja \textbf\textit{{'dir\verb|_|edge'}} generuje ograniczenia logiczne dla skierowanych krawędzi między wierzchołkami na podstawie podanego grafu. Niech $v_0, v_1, …, v_{n-1}$ będą zmiennymi reprezentującymi wierzchołki grafu, a \(E\) zbiorem wszystkich krawędzi, w przypadku grafu skierowanego zbiór uporządkowanych par $(s, t)$, gdzie \(s\) oznacza punkt źródłowy krawędzi, a \(t\) jest punktem końcowym:
+Funkcja $\diredge$ generuje ograniczenia logiczne dla skierowanych krawędzi między wierzchołkami na podstawie podanego grafu. Niech $v_0, v_1, …, v_{n-1}$ będą zmiennymi reprezentującymi wierzchołki grafu, a \(E\) zbiorem wszystkich krawędzi, w przypadku grafu skierowanego zbiór uporządkowanych par $(s, t)$, gdzie \(s\) oznacza punkt źródłowy krawędzi, a \(t\) jest punktem końcowym:
 
-\begin{lstlisting}	
-	def dir_edge(graph: dict[int, list[int]], s, t):
-		atoms = []
-		for source in graph:
-			for target in graph[source]:
-				atoms.append(z3.And([s == source, t == target]))
-		bf = z3.Or(atoms)
-		return bf
-\end{lstlisting}
+\lstinputlisting{./codes/dir_edge.py}
 \vspace{0.5cm}
 
-Natomiast funkcja \textbf\textit{{'edge'}} generuje ograniczenia dla nieskierowanych krawędzi. Dla zmiennych $v_0, v_1, …, v_{n-1}$ reprezentujących wierzchołki grafu, i zbioru wszystkich krawędzi \(E\) (w przypadku grafu nieskierowanego jest to zbiór nieuporządkowanych par $\{s, t\}$) funkcja ta przedstawia się następująco:
+Natomiast funkcja $\edge$ generuje ograniczenia dla nieskierowanych krawędzi. Dla zmiennych $v_0, v_1, …, v_{n-1}$ reprezentujących wierzchołki grafu, i zbioru wszystkich krawędzi \(E\) (w przypadku grafu nieskierowanego jest to zbiór nieuporządkowanych par $\{s, t\}$) funkcja ta przedstawia się następująco:
 
-\begin{lstlisting}
-	def edge(graph: dict[int, list[int]], s, t):
-		atoms = []
-		for source in graph:
-			for target in graph[source]:
-				atoms.append(z3.And([s == source, t == target])) 
-				atoms.append(z3.And([s == target, t == source]))
-		bf = z3.Or(atoms)
-		return bf
-\end{lstlisting}
+\lstinputlisting{./codes/edge.py}
 \vspace{0.5cm}
 
-Funkcja \textbf\textit{{'wedge'}} generuje ograniczenie dla etykietowanych nieskierowanych krawędzi pomiędzy dwoma wierzchołkami \(s\) i \(t\) w grafie, przy użyciu zmiennej \(w\) reprezentującej wagę krawędzi:
+Funkcja $\weedge$ generuje ograniczenie dla etykietowanych nieskierowanych krawędzi pomiędzy dwoma wierzchołkami \(s\) i \(t\) w grafie, przy użyciu zmiennej \(w\) reprezentującej wagę krawędzi:
 
-\begin{lstlisting}
-	def wedge(graph: dict[int, list[int]], s, t, w):
-		atoms = []
-		for source in graph:
-			for target, weight in graph[source]:
-				atoms.append(z3.And([s == source, t == target, w == weight])) 
-				atoms.append(z3.And([s == target, t == source, w == weight]))
-		bf = z3.Or(atoms)
-		return bf
-\end{lstlisting}
-
+\lstinputlisting{./codes/wedge.py}
 
 \section{Problem ścieżki Hamiltona}
 
@@ -170,18 +89,31 @@ Dla grafu skierowanego $G = (V, E)$, gdzie:
 
 Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i kończyć w dowolnym innym wierzchołku.
 
-Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu definiuje się cztery funkcje: 'check\verb|_|hampath', 'proper\verb|_|numbers', 'distinct\verb|_|vs' oraz 'edge'. Funkcja 'check\verb|_|hampath' odpowiada za główny algorytm rozwiązujący problem. Pozostałe funkcje służą do generowania ograniczeń logicznych.
+Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu stosują się trzy funkcje z katalogu 'utils': $\propernumbers$, $\distinctvs$ oraz $\diredge$, które służą do generowania ograniczeń. Funkcja $\checkhampath$ odpowiada za główny algorytm rozwiązujący problem.
 
-Poniższa formuła logiczna określa przypisanie odpowiednich wartości wierzchołkóm:
+Poniższe podformuły służą do zapewnienia odpowiednich warunków dla zmiennych używanych w rozwiązaniu problemu.
+
+Przedstawione oznaczenia używane w formułach oznaczają:
+\begin{itemize}
+	\item \(n\) - rozmiar zbioru zmiennych, 
+	\item \(v_j\) - zmienna oznaczająca wierzchołek grafu,
+	\item \(E\) - zbiór krawędzi w grafie,
+	\item \(s\) i \(t\) - końce krawędzi.
+\end{itemize}
+
+$\propernumbers(n)$ gwarantuje, że każda zmienna \(v_j\) znajduje się w zakresie od 0 do $n − 1$, gdzie \(n\) jest rozmiarem zbioru zmiennych.
 
 \begin{align*}
 	\propernumbers(n) = \left( \bigwedge_{j=0}^{n-1} (v_j \geq 0 \land v_j < n) \right) 
 \end{align*}
 
+$\distinctvs(n)$ zapewnia, że każda para zmiennych \(v_i\) i \(v_j\) jest różna od siebie, eliminując powtarzające się wartości między zmiennymi.
 
 \begin{align*}
 	\distinctvs(n) = \left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (v_i \neq v_j) \right)
 \end{align*}
+
+$\diredges(n,E)$ sprawdza, czy istnieją krawędzie w grafie o zadanych wierzchołkach \(s\) i \(t\), zapewniając, że dla każdej zmiennej \(v_i\) istnieje skierowana krawędź od niej do kolejnej zmiennej \(v_{i+1}\).​
 
 \begin{align*}
 	\diredges(n, E) = \left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (v_i = s \land v_{i+1} = t) \right)
@@ -195,46 +127,17 @@ Zatem cała formuła kodująca ścieżkę Hamiltona dla grafu skierowanego zawie
 	\HamPath(n, E) = \propernumbers \land \distinctvs \land \diredges
 \end{align*}
 
-W implementacji głównej funkcji 'check\verb|_|hampath' wykorzystuje się strukturę danych reprezentującą graf za pomocą słownika, gdzie klucze odpowiadają wierzchołkom, a wartości są listami sąsiedztwa.
+W implementacji głównej funkcji $\checkhampath$ wykorzystuje się strukturę danych reprezentującą graf za pomocą słownika, gdzie klucze odpowiadają wierzchołkom, a wartości są listami sąsiedztwa.
 
 \textbf{Inicjalizacja zmiennych: } na początku funkcja wyznacza liczbę wierzchołków grafu 'n' na podstawie jego rozmiaru; tworzy wektor zmiennych całkowitoliczbowych 'vertices' za pomocą funkcji 'z3.IntVector', gdzie każda zmienna odpowiada jednemu wierzchołkowi grafu.
-
-\begin{lstlisting}	
-	def check_hampath(graph: dict[int, list[int]]):
-		n = len(graph)
-		vertices = z3.IntVector("v", n)
-\end{lstlisting}
 	
 \textbf{Dodawanie ograniczeń: } dodaje wyżej opisane ograniczenia do solvera Z3.
-
-\begin{lstlisting}
-		solver.add(proper_numbers(vertices))
-	
-		solver.add(distinct_vs(vertices))
-	
-		edges = []
-		for i in range(n - 1):
-			edges.append(edge(graph, vertices[i], vertices[i + 1]))
-		solver.add(z3.And(edges))
-\end{lstlisting}
 
 \textbf{Rozwiązywanie problemu: } solver Z3 sprawdza spełnialność wszystkich dodanych ograniczeń. Jeśli znajdzie rozwiązanie ('z3.sat'), oznacza to istnienie ścieżki Hamiltona w grafie. W przypadku braku rozwiązania, informuje o tym użytkownika.
 
 \textbf{Prezentacja wyników: } jeśli solver znalazł rozwiązanie, funkcja wyświetla znalezioną ścieżkę Hamiltona, prezentując kolejność odwiedzania wierzchołków. W przeciwnym przypadku wyświetla wynik 'unsat'.
 
-\begin{lstlisting}
-		result = solver.check()
-		if result == z3.sat:
-			model = solver.model()
-			vertex_values = [(idx, model[v].as_long()) for idx, v in enumerate(vertices)]
-			sorted_vertices = sorted(vertex_values)
-			print("Hamiltonian Path:")
-			for idx, value in sorted_vertices[:-1]:
-				print(f"v__{value}", end=' -> ')
-			print(f"v__{sorted_vertices[-1][1]}")
-		else:
-			print(result)
-\end{lstlisting}
+\lstinputlisting{./codes/check_hampath.py}[caption={Funkcja $\checkhampath$}]
 
 
 \subsection{Ścieżka Hamiltona w grafie nieskierowanym}
@@ -254,7 +157,7 @@ Dla grafu nieskierowanego $G = (V, E)$, gdzie:
 
 Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i kończyć w dowolnym innym wierzchołku.
 
-W kontekście modelowania problemu ścieżki Hamiltona w grafie nieskierowanym należy zapewnić możliwość przechodzenia przez krawędź w obie strony, co można osiągnąć poprzez stworzenie formuły logicznej, która będzie uwzględniała możliwość istnienia krawędzi pomiędzy wierzchołkami w obu kierunkach:
+W kontekście modelowania problemu ścieżki Hamiltona w grafie nieskierowanym należy zapewnić możliwość przechodzenia przez krawędź w obie strony, co można osiągnąć poprzez stworzenie formuły logicznej, która będzie uwzględniała możliwość istnienia krawędzi w \(E\) pomiędzy wierzchołkami \(v_i\) a \(v_{i+1}\) w obu kierunkach:
 
 \begin{align*}
 	\edges(n, E) = \left( \bigwedge_{i=0}^{n-1} \bigvee_{\{s,t\} \in E} (v_i = s \land v_{i+1} = t) \lor (v_i = t \land v_{i+1} = s) \right)
@@ -288,48 +191,13 @@ Maksymalną kliką w grafie \(G\) jest podzbiór $C \subseteq V$ taki, że:
 	&\left( \bigwedge_{i=0}^{k-1} \bigwedge_{j=i+1}^{k} \bigvee_{\{s,t\} \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
 \end{align*}
 
-Funkcja \textit{\textbf{'check\textunderscore clique'}} przyjmuje graf graph reprezentowany jako słownik oraz liczbę całkowitą \textit{k} reprezentującą rozmiar kliki do sprawdzenia. Inicjalizuje solver Z3 i definiuje zmienne całkowite \textit{vertices} do reprezentowania wierzchołków grafu. Następnie dodaje ograniczenia, importowane z pliku \textit{constraints.py}, aby każda zmienna reprezentowała inny wierzchołek grafu: $\propernumbers$ i $\distinctvs$. Następnie generuje ograniczenia, aby zapewnić, że wybrane wierzchołki tworzą klikę o rozmiarze \textit{k}, dodając krawędzie między wszystkimi parami wierzchołków w klice. Sprawdza spełnialność ograniczeń za pomocą solvera Z3. Jeśli znaleziono przypisanie spełniające, co oznacza istnienie kliki o rozmiarze \textit{k}, wyświetla szczegóły kliki wraz z modelem uzyskanym od solvera. W przeciwnym razie informuje, że w grafie nie istnieje klika o rozmiarze k. Na koniec zapisuje stan solvera do pliku w formacie SMT-LIB dla dalszych eksperymentów.
+Funkcja $\checkclique$ przyjmuje graf graph reprezentowany jako słownik oraz liczbę całkowitą \textit{k} reprezentującą rozmiar kliki do sprawdzenia. Inicjalizuje solver Z3 i definiuje zmienne całkowite \textit{vertices} do reprezentowania wierzchołków grafu. Następnie dodaje ograniczenia, importowane z pliku \textit{constraints.py}, aby każda zmienna reprezentowała inny wierzchołek grafu: $\propernumbers$ i $\distinctvs$. Następnie generuje ograniczenia, aby zapewnić, że wybrane wierzchołki tworzą klikę o rozmiarze \textit{k}, dodając krawędzie między wszystkimi parami wierzchołków w klice. Sprawdza spełnialność ograniczeń za pomocą solvera Z3. Jeśli znaleziono przypisanie spełniające, co oznacza istnienie kliki o rozmiarze \textit{k}, wyświetla szczegóły kliki wraz z modelem uzyskanym od solvera. W przeciwnym razie informuje, że w grafie nie istnieje klika o rozmiarze k. Na koniec zapisuje stan solvera do pliku w formacie SMT-LIB dla dalszych eksperymentów.
 
-\begin{lstlisting}
-	def check_clique(graph: dict[int, list[int]], k):	
-		n = len(graph)
-		
-		vertices = z3.IntVector("v", n)
-		solver = z3.Solver()
-		
-		solver.add(proper_numbers(vertices))
-		solver.add(distinct_vs(vertices))
-		
-		edges = []
-		for i in range(k):
-			for j in range(i + 1, k):
-				edges.append(edge(graph, vertices[i], vertices[j]))
-		solver.add(z3.And(edges))
-		
-		result = solver.check() 
-		if result == z3.sat:
-			print('Znaleziono klike o rozmiarze', k)
-			model = solver.model()
-			clique = [model[vertices[i]].as_long() for i in range(k)]
-			print(model, clique)
-		else:
-			print('Nie znaleziono kliki o rozmiarze', k)
-			model = None
-		
-		smt2_representation = solver.to_smt2()
-		file_name = f'maxclique_state.smt2'
-		with open(file_name, 'w') as file:
-			file.write("(set-logic ALL)\n")
-			file.write(smt2_representation)  
-		file.close()
-		
-		return (result, model)
-	
-\end{lstlisting}
+\lstinputlisting{./codes/check_clique.py}
 
-Funkcja \textit{\textbf{main}} koordynuje proces znajdowania maksymalnej kliki w grafie odczytanym z pliku. Upewnia się, że podane są poprawne argumenty wiersza poleceń, a następnie przystępuje do odczytu grafu z określonego pliku. Iteruje po możliwych rozmiarach kliki od 2 do liczby wierzchołków w grafie. Dla każdego rozmiaru kliki \textit{k} wywołuje funkcję \textit{'check\textunderscore clique'}, aby sprawdzić, czy istnieje klika o rozmiarze \textit{k} w grafie. Jeśli taka klika \textit{k} zostanie znaleziona, funkcja wyświetla jej szczegóły wraz z modelem uzyskanym od solvera. 
+Funkcja $\main$ koordynuje proces znajdowania maksymalnej kliki w grafie odczytanym z pliku. Upewnia się, że podane są poprawne argumenty wiersza poleceń, a następnie przystępuje do odczytu grafu z określonego pliku. Iteruje po możliwych rozmiarach kliki od 2 do liczby wierzchołków w grafie. Dla każdego rozmiaru kliki \textit{k} wywołuje funkcję \textit{'check\textunderscore clique'}, aby sprawdzić, czy istnieje klika o rozmiarze \textit{k} w grafie. Jeśli taka klika \textit{k} zostanie znaleziona, funkcja wyświetla jej szczegóły wraz z modelem uzyskanym od solvera. 
 
-Ważnym aspektem funkcji \textit{main} jest cykl $\mli{for}$, który iteruje po możliwych rozmiarach kliki. Wewnątrz tego cyklu, po sprawdzeniu, czy istnieje klika o aktualnym rozmiarze k, następuje sprawdzenie wyniku \textit{result}. Jeśli wynik jest inny niż sat (co oznacza, że nie znaleziono spełnienia ograniczeń), funkcja przerywa dalsze iteracje, ponieważ nie ma potrzeby kontynuowania poszukiwań. W momencie, gdy nie można znaleźć kliki o określonym rozmiarze, dalsze poszukiwania dla większych rozmiarów kliki są bezcelowe, ponieważ każda klika musiałaby zawierać wierzchołki kliki mniejszych. Dlatego przerwanie cyklu w momencie, gdy wynik jest inny niż sat, optymalizuje działanie funkcji main i przyspiesza proces znajdowania maksymalnej kliki w grafie.
+Ważnym aspektem funkcji \textit{main} jest cykl $\textit{'for'}$, który iteruje po możliwych rozmiarach kliki. Wewnątrz tego cyklu, po sprawdzeniu, czy istnieje klika o aktualnym rozmiarze k, następuje sprawdzenie wyniku \textit{result}. Jeśli wynik jest inny niż sat (co oznacza, że nie znaleziono spełnienia ograniczeń), funkcja przerywa dalsze iteracje, ponieważ nie ma potrzeby kontynuowania poszukiwań. W momencie, gdy nie można znaleźć kliki o określonym rozmiarze, dalsze poszukiwania dla większych rozmiarów kliki są bezcelowe, ponieważ każda klika musiałaby zawierać wierzchołki kliki mniejszych. Dlatego przerwanie cyklu w momencie, gdy wynik jest inny niż SAT, optymalizuje działanie funkcji main i przyspiesza proces znajdowania maksymalnej kliki w grafie.
 
 \begin{lstlisting}
 	def main():
@@ -367,43 +235,11 @@ Formuła logiczna:
 	&\left( \bigwedge_{i=0}^{k-1} \bigwedge_{j=i+1}^{k} \bigvee_{\{s,t\} \in E} \lnot((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
 \end{align*}
 
-Funkcja \textit{\textbf{check\textunderscore maxindset}} przyjmuje graf oraz rozmiar potencjalnego maksymalnego zbioru niezależnego. Tworzy wektor zmiennych całkowitoliczbowych \textit{vertices}, dodaje odpowiednie ograniczenia (wszystkie wierzchołki muszą być w zakresie od 0 do n i nie mogą się powtarzać), a następnie definiuje warunki, które wykluczają istnienie krawędzi między wierzchołkami w potencjalnym zbiorze niezależnym. Po dodaniu ograniczeń solver próbuje znaleźć rozwiązanie. Po sprawdzeniu wyniku działania solvera, jeśli udało się znaleźć maksymalny zbiór niezależny, program wypisuje ten zbiór na ekranie. W przeciwnym przypadku kończy działanie, nie wypisując żadnego wyniku. Program zapisuje stan rozwiązania w pliku o formacie .smt2, co pozwala na późniejsze analizy i debugowanie.
+Funkcja $\checkmaxindset$ przyjmuje graf oraz rozmiar potencjalnego maksymalnego zbioru niezależnego. Tworzy wektor zmiennych całkowitoliczbowych \textit{vertices}, dodaje odpowiednie ograniczenia (wszystkie wierzchołki muszą być w zakresie od 0 do n i nie mogą się powtarzać), a następnie definiuje warunki, które wykluczają istnienie krawędzi między wierzchołkami w potencjalnym zbiorze niezależnym. Po dodaniu ograniczeń solver próbuje znaleźć rozwiązanie. Po sprawdzeniu wyniku działania solvera, jeśli udało się znaleźć maksymalny zbiór niezależny, program wypisuje ten zbiór na ekranie. W przeciwnym przypadku kończy działanie, nie wypisując żadnego wyniku. Program zapisuje stan rozwiązania w pliku o formacie .smt2, co pozwala na późniejsze analizy i debugowanie.
 
-\begin{lstlisting}
-	def check_maxindset(graph: dict[int, list[int]], k):
-		n = len(graph)
-		
-		vertices = z3.IntVector("v", n)
-		solver = z3.Solver()
-		
-		solver.add(proper_numbers(vertices))
-		solver.add(distinct_vs(vertices))
-		
-		no_edges = []
-		for i in range(k):
-			for j in range(i + 1, k):
-				no_edges.append(z3.Not(edge(graph, vertices[i], vertices[j])))
-		solver.add(z3.And(no_edges))
-		
-		result = solver.check() 
-		if result == z3.sat:
-			model = solver.model()
-			maxindset = [model[vertices[i]].as_long() for i in range(k)]
-			print(maxindset)
-		else:
-			model = None
-		
-		smt2_representation = solver.to_smt2()
-		file_name = f'maxindset_state.smt2'
-		with open(file_name, 'w') as file:
-			file.write("(set-logic ALL)\n")
-			file.write(smt2_representation)  
-		file.close()
-		
-		return result, model
-\end{lstlisting}
+\lstinputlisting{./codes/check_maxindset.py}
 
-W programie \textit{maxindset.py} funkcja \textit{\textbf{main}} ma analogiczną rolę do funkcji \textit{\textbf{main}} z programu \textit{maxclique.py}. Obydwie funkcje mają taką samą strukturę kontrolną i wykonują te same czynności, ale w odniesieniu do różnych problemów. 
+W programie \textit{maxindset.py} funkcja $\main$ ma analogiczną rolę do funkcji \textit{\textbf{main}} z programu \textit{maxclique.py}. Obydwie funkcje mają taką samą strukturę kontrolną i wykonują te same czynności, ale w odniesieniu do różnych problemów. 
 
 \begin{lstlisting}
 	def main():
@@ -458,7 +294,7 @@ Program \textit{graph\textunderscore coloring.py} służy do kolorowania grafu m
 
 Importuje niezbędne moduły i funkcje, w tym moduł \textit{read\textunderscore input} do wczytywania grafów z plików tekstowych, bibliotekę \textit{networkx} do manipulacji grafami oraz \textit{matplotlib.pyplot} do rysowania grafów.
 
-Definiuje funkcję main(), która jest punktem wejścia do programu. Sprawdza ona, czy została podana prawidłowa liczba argumentów wiersza poleceń i wczytuje nazwę pliku zawierającego graf. Następnie iteruje po różnych możliwych liczbach kolorów (od 1 do liczby wierzchołków w grafie), aby znaleźć poprawne pokolorowanie grafu. Jeśli tak, program kończy działanie i wyświetla znalezione pokolorowanie. Jeśli nie, iteruje dalej.
+Definiuje funkcję $\main$, która jest punktem wejścia do programu. Sprawdza ona, czy została podana prawidłowa liczba argumentów wiersza poleceń i wczytuje nazwę pliku zawierającego graf. Następnie iteruje po różnych możliwych liczbach kolorów (od 1 do liczby wierzchołków w grafie), aby znaleźć poprawne pokolorowanie grafu. Jeśli tak, program kończy działanie i wyświetla znalezione pokolorowanie. Jeśli nie, iteruje dalej.
 
 Ta strategia wyszukiwania do pierwszego wyniku SAT jest zastosowana ze względu na fakt, że poszukujemy minimalnej liczby kolorów potrzebnych do pokolorowania grafu. Jeśli znajdziemy rozwiązanie SAT, oznacza to, że znaleźliśmy minimalną liczbę kolorów. Wtedy możemy przerwać dalsze iteracje i zakończyć program, ponieważ nie ma potrzeby kontynuowania poszukiwań.
 
@@ -478,49 +314,13 @@ Ta strategia wyszukiwania do pierwszego wyniku SAT jest zastosowana ze względu 
 				break
 \end{lstlisting}
 
-Definiuje funkcję \textit{check\textunderscore coloring(graph, k)}, która sprawdza, czy można pokolorować dany graf graph za pomocą maksymalnie k kolorów. W tym celu tworzy wektor zmiennych całkowitoliczbowych \textit{vertex\textunderscore color}, reprezentujących kolor każdego wierzchołka grafu. Następnie tworzy instancję obiektu Solver z biblioteki Z3 i dodaje ograniczenia zapewniające, że każdy kolor ma wartość od 1 do k, oraz że żadne dwa sąsiednie wierzchołki nie mają tego samego koloru.
+Definiuje funkcję $\checkcoloring$, która sprawdza, czy można pokolorować dany graf graph za pomocą maksymalnie k kolorów. W tym celu tworzy wektor zmiennych całkowitoliczbowych \textit{vertex\textunderscore color}, reprezentujących kolor każdego wierzchołka grafu. Następnie tworzy instancję obiektu Solver z biblioteki Z3 i dodaje ograniczenia zapewniające, że każdy kolor ma wartość od 1 do k, oraz że żadne dwa sąsiednie wierzchołki nie mają tego samego koloru.
 
 Tworzy również plik .smt2 zawierający reprezentację problemu w formacie SMT-LIB 2.0, który może być używany przez inne narzędzia do rozwiązywania problemów ograniczeń logicznych.
 
 Następnie wywołuje metodę check() na obiekcie Solver, aby sprawdzić, czy istnieje rozwiązanie spełniające wszystkie ograniczenia. Jeśli tak, otrzymuje model kolorowania grafu i rysuje go przy użyciu biblioteki networkx, pokazując wierzchołki w różnych kolorach zgodnie z modelem. Jeśli nie, wyświetla komunikat informujący o tym, że nie znaleziono poprawnego pokolorowania grafu.
 
-\begin{lstlisting}
-	def check_coloring(graph, k):
-		vertices = list(graph.keys())
-		n = len(vertices)
-		
-		vertex_color = z3.IntVector('v', n)
-		
-		solver = z3.Solver()
-		
-		for i in range(n):
-			solver.add(vertex_color[i] >= 1)
-			solver.add(vertex_color[i] <= k)
-		
-		for i in range(n):
-			for neighbor in graph[vertices[i]]:
-				solver.add(vertex_color[i] != vertex_color[vertices[neighbor]])
-		
-		smt2_representation = solver.to_smt2()
-		file_name = f'graphcoloring_state.smt2'
-		with open(file_name, 'w') as file:
-			file.write("(set-logic ALL)\n")
-			file.write(smt2_representation)  
-		file.close()
-		
-		result = solver.check()
-		
-		if result == z3.sat:
-			print(result)
-			model = solver.model()
-			print(model)
-			draw_graph(graph, vertex_color, model)
-		else:
-			print(result)
-			model = None
-		
-		return result, model
-\end{lstlisting}
+\lstinputlisting{./codes/check_coloring.py}
 
 Funkcja \textit{draw\textunderscore graph} rysuje graf z pokolorowanymi wierzchołkami na podstawie modelu uzyskanego z rozwiązania problemu pokolorowania grafu. Najpierw tworzy obiekt grafu, dodając wierzchołki i krawędzie. Następnie przypisuje kolory wierzchołkom na podstawie modelu i rysuje graf z odpowiednimi kolorami. Ta funkcja pomaga w wizualizacji wyników pokolorowania grafu, ułatwiając ich zrozumienie.
 
@@ -567,70 +367,11 @@ Formuła logiczna:
 	&\left( \bigwedge_{\{s,t\} \in E} \sum c(s,t) <= k \right)
 \end{align*}
 
-Funkcja \textit{check\textunderscore tsp}(graph, k) sprawdza, czy istnieje trasa komiwojażera dla danego grafu i maksymalnego kosztu k. Tworzy ona zmienne reprezentujące wierzchołki i dodaje do solvera odpowiednie ograniczenia, takie jak poprawność numerów wierzchołków i ich różnorodność.
+Funkcja $\checktsp$ sprawdza, czy istnieje trasa komiwojażera dla danego grafu i maksymalnego kosztu k. Tworzy ona zmienne reprezentujące wierzchołki i dodaje do solvera odpowiednie ograniczenia, takie jak poprawność numerów wierzchołków i ich różnorodność.
 
 Następnie funkcja tworzy listę krawędzi (odpowiednio zakodowanych z pomocą funkcji wedge z pliku constraints.py) reprezentujących poszczególne odcinki trasy komiwojażera w grafie. Dodaje także ograniczenie, aby suma kosztów wszystkich krawędzi była mniejsza lub równa k. Po znalezieniu rozwiązania, funkcja wyświetla trasę komiwojażera oraz koszt całej trasy.
 
-\begin{lstlisting}
-	def check_tsp(graph: dict[int, list[int]], k):
-		n = len(graph)
-		vertices = [z3.Int(f'v_{i}') for i in range(n)]
-		
-		solver = z3.Solver()
-		
-		solver.add(proper_numbers(vertices))
-		solver.add(distinct_vs(vertices))
-		
-		edges = []
-		total_cost = z3.IntVal(0)
-		
-		# Ścieżka Hamiltona z dodawaniem kosztów tras (wag krawędzi)
-		for i in range(n - 1):
-			c = z3.Int(f"w_{vertices[i]}_{vertices[i + 1]}")
-			tour_i = wedge(graph, vertices[i], vertices[i + 1], c)
-			edges.append(tour_i)
-			total_cost += c
-		
-		# Dodawanie trasy do pierwszego miasta z powrotem oraz jej kosztu
-		c_back = z3.Int(f"w_{vertices[n - 1]}_{vertices[0]}")
-		tour_back = wedge(graph, vertices[n - 1], vertices[0], c_back)
-		edges.append(tour_back)
-		total_cost += c_back
-		
-		solver.add(z3.And(edges))
-		
-		solver.add(total_cost <= k)
-		
-		smt2_representation = solver.to_smt2()
-		file_name = f'tsp_state.smt2'
-		with open(file_name, 'w') as file:
-			file.write("(set-logic ALL)\n")
-			file.write(smt2_representation)  
-		file.close()
-		
-		result = solver.check()
-		if result == z3.sat:
-			model = solver.model()
-			vertex_values = [(idx, model[v].as_long()) for idx, v in enumerate(vertices)]
-			sorted_vertices = sorted(vertex_values)
-			print("Tour:")
-			for idx, value in sorted_vertices:
-				print(f"v__{value}", end=' -> ')
-			print(f"v__{sorted_vertices[0][1]}")
-			
-			# Koszt sumaryczny z modelu
-			cost = 0
-			for decl in model.decls():
-				if decl.name().startswith("w_"):
-					value = model[decl].as_long()
-					cost += value
-			print("Cost:", cost)
-		else:
-			print(result)
-			model = None
-			
-		return result, model
-\end{lstlisting}
+\lstinputlisting{./codes/check_tsp.py}
 
 \section{Problem pokrycia zbioru}
 Problem pokrycia zbioru jest zagadnieniem optymalizacyjnym, które służy do modelowania wielu sytuacji wymagających efektywnej alokacji zasobów. Odpowiednik tego problemu decyzyjnego generalizuje NP-zupełny problem pokrycia wierzchołków, co sprawia, że jest on również klasyfikowany jako problem NP-trudny.
@@ -647,7 +388,7 @@ W problemie pokrycia zbioru, rozważając zbiór \(U\) zawierający \(n\) elemen
 
 
 W ogólnym sformułowaniu, problem sumy podzbiorów przyjmuje jako dane wejściowe
-skończony multizbiór  liczb całkowitych $S$ i całkowitą wartość docelową $t$,
+skończony multizbiór liczb całkowitych $S$ i całkowitą wartość docelową $t$,
 a pytanie polega na rozstrzygnięciu, czy istnieje podzbiór $S' \subseteq S$,
 którego elementy sumują się dokładnie do $t$.
 
@@ -658,8 +399,8 @@ Weźmiemy pod uwagę wariant problemu, w którym dane wejściowe mogą być doda
 \az{2. Trzeba przed formułą napisać czym są $x$-y oraz, że $S = \{s_0,\ldots,s_{n-1}\}$. Ponadto w formule $*$ zamiast $\times$.}
 
 \begin{align*}
-	\SubsetSum(n) = \left( \bigwedge_{j=0}^{n-1} (x_j = 0 \lor x_j = 1) \right) \land 
-	\left( \sum_{i=0}^{n-1} (x_i \times s_i) = 0 \right) \land 
+	\SubsetSum(n, t, k) = \left( \bigwedge_{j=0}^{n-1} (x_j = 0 \lor x_j = 1) \right) \land 
+	\left( \sum_{i=0}^{n-1} (x_i * s_i) = t \right) \land 
 	\left( \sum_{i=0}^{n-1} x_i > 1 \right)
 \end{align*}
 
