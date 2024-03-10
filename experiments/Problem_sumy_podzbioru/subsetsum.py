@@ -1,3 +1,4 @@
+import os
 import sys
 import z3 
 from utils.read_input import read_set_from_file
@@ -9,28 +10,30 @@ def main():
 
     filename = sys.argv[1]
     input_set = read_set_from_file(filename)
-    n = len(input_set)
     
-    for k in range(1, n + 1):
-        result, model = check_subsetsum(input_set, k)
+    t_min = min(input_set)
+    t_max = sum(input_set)
+    
+    for t in range(t_min, t_max):
+        result, model = check_subsetsum(input_set, t)
         
-def check_subsetsum(input_set, k):
+def check_subsetsum(input_set, t):
     n = len(input_set)
     vars = z3.IntVector('x', n)
 
     solver = z3.Solver()
-    solver.add(set_vars(vars, input_set))
+    
+    for var in vars:
+        solver.add(z3.Or(var == 0, var == 1))
 
-    target_sum = z3.IntVal(0)
-    subset = []
-
-    for i in range(k):
-        subset.append(vars[i]) 
-
-    solver.add(z3.Sum(subset) == target_sum)
+    subset_sum = z3.Sum([vars[i] * input_set[i] for i in range(n)])
+    solver.add(subset_sum == t)
+    
+    folder_name = f'subsetsum_{n}'
+    os.makedirs(folder_name, exist_ok=True)
 
     smt2_representation = solver.to_smt2()
-    file_name = f'subsetsum_state.smt2'
+    file_name = f'{folder_name}/subsetsum_{n}_{t}.smt2'
     with open(file_name, 'w') as file:
         file.write("(set-logic ALL)\n")
         file.write(smt2_representation)  
@@ -39,22 +42,13 @@ def check_subsetsum(input_set, k):
     result = solver.check()
     if result == z3.sat:
         model = solver.model()
-        solution = [model[vars[i]].as_long() for i in range(k)]
-        print(solution)
-        # print(model)
+        subset = [input_set[i] for i in range(n) if model[vars[i]] == 1]
+        print(t, subset)
     else:
-        print(result)
+        print(t, result)
         model = None
 
     return result, model
-
-def set_vars(vars, input_set):
-    n = len(input_set)
-    atoms = []
-    for i in range(n):
-        atoms.append(vars[i] == input_set[i])
-    bf = z3.Or(atoms)
-    return bf
 
 if __name__ == "__main__": 
     main()
