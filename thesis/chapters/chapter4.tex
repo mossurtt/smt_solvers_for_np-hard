@@ -22,49 +22,49 @@ Pierwszy plik z katalogu 'utils' ma nazwę \textit{'read\textunderscore input.py
 
 Funkcja $\readgraph$(filename) odczytuje graf nieskierowany z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie liczby oddzielone spacją to numery wierzchołków połączonych krawędzią. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy sąsiedztwa.
 
-\lstinputlisting{./codes/read_graph_from_file.py}[caption={Czytanie grafu z pliku}]
+\lstinputlisting[caption={Czytanie grafu z pliku}]{./codes/read_graph_from_file.py}
 \vspace{0.5cm}
 
 Funkcja $\readdigraph$(filename) odczytuje graf skierowany z pliku o nazwie \textit{filename}. Działa analogicznie do poprzedniej funkcji, ale tworzy graf skierowany.
 
-\lstinputlisting{./codes/read_digraph_from_file.py}[caption={Czytanie skierowanego grafu z pliku}]
+\lstinputlisting[caption={Czytanie skierowanego grafu z pliku}]{./codes/read_digraph_from_file.py}
 \vspace{0.5cm}
 
 Funkcja $\readwgraph$(filename) odczytuje graf nieskierowany z wagami krawędzi z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie trzy liczby oddzielone spacją to numery wierzchołków połączonych krawędzią oraz waga tej krawędzi. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy krotek (target, weight) reprezentujących numery wierzchołków i ich wagi.
 
-\lstinputlisting{./codes/read_wgraph_from_file.py}[caption={Czytanie grafu z wagami}]
+\lstinputlisting[caption={Czytanie grafu z wagami}]{./codes/read_wgraph_from_file.py}
 \vspace{0.5cm}
 
 Funkcja $\readset$(filename) odczytuje zbiór liczb całkowitych z pliku o nazwie \textit{filename}. Każda liczba w pliku powinna być oddzielona spacją. Funkcja zwraca listę zawierającą te liczby jako elementy.
 
-\lstinputlisting{./codes/read_set_from_file.py}[caption={Czytanie zbioru z pliku}]
+\lstinputlisting[caption={Czytanie zbioru z pliku}]{./codes/read_set_from_file.py}
 \vspace{1cm}
 
 W kolejnym pliku \textit{'constraints.py'} umieszczono funkcje generujące ograniczenia logiczne, które są wielokrotnie stosowane w modelowaniu problemów.
 
 Pierwszą z nich jest funkcja $\propernumbers$, która ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' ($v_0, v_1, …, v_{n-1}$), reprezentujących wierzchołki grafu, mieszczą się w zakresie od $0$ do $n - 1$, gdzie $n$ oznacza liczbę wierzchołków w grafie. 
 
-\lstinputlisting{./codes/proper_numbers.py}
+\lstinputlisting[caption={Przypisanie właściwych wartości}]{./codes/proper_numbers.py}
 \vspace{0.5cm}
 
-Kolejną funkcją jest $\distinctvs$, która zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwa wierzchołki nie mają tej samej wartości:
+Kolejną funkcją jest $\distinctvs$, która zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwie zmienne \(v\) nie mają tej samej wartości:
 
-\lstinputlisting{./codes/distinct_vs.py}
+\lstinputlisting[caption={Unikalne wartości}]{./codes/distinct_vs.py}
 \vspace{0.5cm}
 
 Funkcja $\diredge$ generuje ograniczenia logiczne dla skierowanych krawędzi między wierzchołkami na podstawie podanego grafu. Niech $v_0, v_1, …, v_{n-1}$ będą zmiennymi reprezentującymi wierzchołki grafu, a \(E\) zbiorem wszystkich krawędzi, w przypadku grafu skierowanego zbiór uporządkowanych par $(s, t)$, gdzie \(s\) oznacza punkt źródłowy krawędzi, a \(t\) jest punktem końcowym:
 
-\lstinputlisting{./codes/dir_edge.py}
+\lstinputlisting[caption={Krawędź skierowana}]{./codes/dir_edge.py}
 \vspace{0.5cm}
 
 Natomiast funkcja $\edge$ generuje ograniczenia dla nieskierowanych krawędzi. Dla zmiennych $v_0, v_1, …, v_{n-1}$ reprezentujących wierzchołki grafu, i zbioru wszystkich krawędzi \(E\) (w przypadku grafu nieskierowanego jest to zbiór nieuporządkowanych par $\{s, t\}$) funkcja ta przedstawia się następująco:
 
-\lstinputlisting{./codes/edge.py}
+\lstinputlisting[caption={Krawędź nieskierowana}]{./codes/edge.py}
 \vspace{0.5cm}
 
 Funkcja $\weedge$ generuje ograniczenie dla etykietowanych nieskierowanych krawędzi pomiędzy dwoma wierzchołkami \(s\) i \(t\) w grafie, przy użyciu zmiennej \(w\) reprezentującej wagę krawędzi:
 
-\lstinputlisting{./codes/wedge.py}
+\lstinputlisting[caption={Krawędź etykietowana}]{./codes/wedge.py}
 
 \section{Problem ścieżki Hamiltona}
 
@@ -101,22 +101,22 @@ Przedstawione oznaczenia używane w formułach oznaczają:
 	\item \(s\) i \(t\) - końce krawędzi.
 \end{itemize}
 
-$\propernumbers(n)$ gwarantuje, że każda zmienna \(v_j\) znajduje się w zakresie od 0 do $n − 1$, gdzie \(n\) jest rozmiarem zbioru zmiennych.
+$\propernumbers$ gwarantuje, że każda zmienna \(v_j\) znajduje się w zakresie od \(0\) do $n − 1$, gdzie \(n\) jest rozmiarem zbioru zmiennych.
 
 \begin{align*}
-	\propernumbers(n) = \left( \bigwedge_{j=0}^{n-1} (v_j \geq 0 \land v_j < n) \right) 
+	\propernumbers = \left( \bigwedge_{j=0}^{n-1} (v_j \geq 0 \land v_j < n) \right) 
 \end{align*}
 
-$\distinctvs(n)$ zapewnia, że każda para zmiennych \(v_i\) i \(v_j\) jest różna od siebie, eliminując powtarzające się wartości między zmiennymi.
+$\distinctvs$ zapewnia, że każda para zmiennych \(v_i\) i \(v_j\) jest różna od siebie, eliminując powtarzające się wartości między zmiennymi.
 
 \begin{align*}
-	\distinctvs(n) = \left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (v_i \neq v_j) \right)
+	\distinctvs = \left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (v_i \neq v_j) \right)
 \end{align*}
 
-$\diredges(n,E)$ sprawdza, czy istnieją krawędzie w grafie o zadanych wierzchołkach \(s\) i \(t\), zapewniając, że dla każdej zmiennej \(v_i\) istnieje skierowana krawędź od niej do kolejnej zmiennej \(v_{i+1}\).​
+$\diredges$ sprawdza, czy istnieją krawędzie w grafie o zadanych wierzchołkach \(s\) i \(t\), zapewniając, że dla każdej zmiennej \(v_i\) istnieje skierowana krawędź od niej do kolejnej zmiennej \(v_{i+1}\).​
 
 \begin{align*}
-	\diredges(n, E) = \left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (v_i = s \land v_{i+1} = t) \right)
+	\diredges = \left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (v_i = s \land v_{i+1} = t) \right)
 \end{align*}
 
 \vspace{1cm}
@@ -137,7 +137,7 @@ W implementacji głównej funkcji $\checkhampath$ wykorzystuje się strukturę d
 
 \textbf{Prezentacja wyników: } jeśli solver znalazł rozwiązanie, funkcja wyświetla znalezioną ścieżkę Hamiltona, prezentując kolejność odwiedzania wierzchołków. W przeciwnym przypadku wyświetla wynik 'unsat'.
 
-\lstinputlisting{./codes/check_hampath.py}[caption={Funkcja $\checkhampath$}]
+\lstinputlisting[caption={Funkcja $\checkhampath$}]{./codes/check_hampath.py}
 
 
 \subsection{Ścieżka Hamiltona w grafie nieskierowanym}
@@ -160,7 +160,7 @@ Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i k
 W kontekście modelowania problemu ścieżki Hamiltona w grafie nieskierowanym należy zapewnić możliwość przechodzenia przez krawędź w obie strony, co można osiągnąć poprzez stworzenie formuły logicznej, która będzie uwzględniała możliwość istnienia krawędzi w \(E\) pomiędzy wierzchołkami \(v_i\) a \(v_{i+1}\) w obu kierunkach:
 
 \begin{align*}
-	\edges(n, E) = \left( \bigwedge_{i=0}^{n-1} \bigvee_{\{s,t\} \in E} (v_i = s \land v_{i+1} = t) \lor (v_i = t \land v_{i+1} = s) \right)
+	\edges = \left( \bigwedge_{i=0}^{n-1} \bigvee_{\{s,t\} \in E} (v_i = s \land v_{i+1} = t) \lor (v_i = t \land v_{i+1} = s) \right)
 \end{align*}
 
 
@@ -186,6 +186,8 @@ Maksymalną kliką w grafie \(G\) jest podzbiór $C \subseteq V$ taki, że:
  	\item \(C\) nie można rozszerzyć przez dodanie dowolnego wierzchołka $w\in V$ takiego, że $C \cup \{w\}$ tworzą klikę, tj. nie istnieje żaden wierzchołek \(w\) sąsiadujący z jakimkolwiek wierzchołkiem z \(C\), który nie występuje już w \(C\).
 \end{enumerate}
 
+Formuła logiczna kodująca problem poszukiwania maksymalnej kliki zapewnia, że każda zmienna \(v_j\) ma właściwą wartość i wszystkie zmienne \(v_j\) są różne od siebie (formuły $\propernumbers$ oraz $\distinctvs$ zostały już wcześniej omówione w opisie problemu ścieżki Hamiltona (Hamiltonian Path), dlatego też nie będę ich ponownie rozważać, zgodnie z zasadą unikania nadmiernego powtórzenia.) Druga część formuły zapewnia że dla każdej pary wierzchołków \(v_i\) i \(v_j\) w zbiorze kandydatów na klikę o rozmiarze \(k\) istnieje krawędź między nimi. Ten warunek jest sprawdzany poprzez iterację przez wszystkie pary $\{s,t\}$ w zbiorze krawędzi \(E\) i sprawdzenie, czy \(v_i\) i \(v_j\) są końcami tej krawędzi.
+
 \begin{align*}
 	&\MaxClique(n, E, k) = \propernumbers  \land \distinctvs  \land \\
 	&\left( \bigwedge_{i=0}^{k-1} \bigwedge_{j=i+1}^{k} \bigvee_{\{s,t\} \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
@@ -193,7 +195,7 @@ Maksymalną kliką w grafie \(G\) jest podzbiór $C \subseteq V$ taki, że:
 
 Funkcja $\checkclique$ przyjmuje graf graph reprezentowany jako słownik oraz liczbę całkowitą \textit{k} reprezentującą rozmiar kliki do sprawdzenia. Inicjalizuje solver Z3 i definiuje zmienne całkowite \textit{vertices} do reprezentowania wierzchołków grafu. Następnie dodaje ograniczenia, importowane z pliku \textit{constraints.py}, aby każda zmienna reprezentowała inny wierzchołek grafu: $\propernumbers$ i $\distinctvs$. Następnie generuje ograniczenia, aby zapewnić, że wybrane wierzchołki tworzą klikę o rozmiarze \textit{k}, dodając krawędzie między wszystkimi parami wierzchołków w klice. Sprawdza spełnialność ograniczeń za pomocą solvera Z3. Jeśli znaleziono przypisanie spełniające, co oznacza istnienie kliki o rozmiarze \textit{k}, wyświetla szczegóły kliki wraz z modelem uzyskanym od solvera. W przeciwnym razie informuje, że w grafie nie istnieje klika o rozmiarze k. Na koniec zapisuje stan solvera do pliku w formacie SMT-LIB dla dalszych eksperymentów.
 
-\lstinputlisting{./codes/check_clique.py}
+\lstinputlisting[caption={Funkcja $\checkclique$}]{./codes/check_clique.py}
 
 Funkcja $\main$ koordynuje proces znajdowania maksymalnej kliki w grafie odczytanym z pliku. Upewnia się, że podane są poprawne argumenty wiersza poleceń, a następnie przystępuje do odczytu grafu z określonego pliku. Iteruje po możliwych rozmiarach kliki od 2 do liczby wierzchołków w grafie. Dla każdego rozmiaru kliki \textit{k} wywołuje funkcję \textit{'check\textunderscore clique'}, aby sprawdzić, czy istnieje klika o rozmiarze \textit{k} w grafie. Jeśli taka klika \textit{k} zostanie znaleziona, funkcja wyświetla jej szczegóły wraz z modelem uzyskanym od solvera. 
 
@@ -228,18 +230,18 @@ Dla grafu $G = (V, E)$, niezależny zbiór \(S\) jest maksymalnym jeżeli dla $s
 	\item $N(s) \cap S \neq \emptyset$, gdzie \(N(s)\) oznacza sąsiadów \(s\).
 \end{itemize}
 
-Formuła logiczna:
+Formuła logiczna kodująca problem maksymalnego zbioru niezależnego składa się z trzech podformuł. Pierwsza i druga zapewniają, że każda zmienna ma właściwą wartość, a wszystkie zmienne są różne od siebie odpowiednio. Trzecia podformuła zapewnia, że dla każdej pary zmiennych \(v_i\) i \(v_j\) w zbiorze kandydatów na maksymalny zbiór niezależny o rozmiarze \(k\), nie istnieje krawędź między nimi w \(E\).
 
 \begin{align*}
-	&\MaxIndSet(n, E, k) = \propernumbers \land \distinctvs \land \\
-	&\left( \bigwedge_{i=0}^{k-1} \bigwedge_{j=i+1}^{k} \bigvee_{\{s,t\} \in E} \lnot((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
+	\MaxIndSet(n, E, k) = \propernumbers \land \distinctvs  \land \\
+	\left( \bigwedge_{i=0}^{k-1} \bigwedge_{j=i+1}^{k} \bigvee_{\{s,t\} \in E} \lnot((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
 \end{align*}
 
 Funkcja $\checkmaxindset$ przyjmuje graf oraz rozmiar potencjalnego maksymalnego zbioru niezależnego. Tworzy wektor zmiennych całkowitoliczbowych \textit{vertices}, dodaje odpowiednie ograniczenia (wszystkie wierzchołki muszą być w zakresie od 0 do n i nie mogą się powtarzać), a następnie definiuje warunki, które wykluczają istnienie krawędzi między wierzchołkami w potencjalnym zbiorze niezależnym. Po dodaniu ograniczeń solver próbuje znaleźć rozwiązanie. Po sprawdzeniu wyniku działania solvera, jeśli udało się znaleźć maksymalny zbiór niezależny, program wypisuje ten zbiór na ekranie. W przeciwnym przypadku kończy działanie, nie wypisując żadnego wyniku. Program zapisuje stan rozwiązania w pliku o formacie .smt2, co pozwala na późniejsze analizy i debugowanie.
 
-\lstinputlisting{./codes/check_maxindset.py}
+\lstinputlisting[caption={Funkcja $\checkmaxindset$}]{./codes/check_maxindset.py}
 
-W programie \textit{maxindset.py} funkcja $\main$ ma analogiczną rolę do funkcji \textit{\textbf{main}} z programu \textit{maxclique.py}. Obydwie funkcje mają taką samą strukturę kontrolną i wykonują te same czynności, ale w odniesieniu do różnych problemów. 
+W programie $\maxindset$ funkcja $\main$ ma analogiczną rolę do funkcji $\main$ z programu $\maxclique$. Obydwie funkcje mają taką samą strukturę kontrolną i wykonują te same czynności, ale w odniesieniu do różnych problemów. 
 
 \begin{lstlisting}
 	def main():
@@ -263,6 +265,8 @@ Pokrycie wierzchołkowe grafu nieskierowanego $G = (V, E)$ to podzbiór $V' \sub
 
 Problem pokrycia wierzchołkowego polega na znalezieniu minimalnego pokrycia w danym grafie. Dla tego problemu optymalizacyjnego, odpowiadający mu problem decyzyjny zadaje pytanie czy graf ma pokrycie o danym rozmiarze \(k\) \cite{CormenLRS0023376}.
 
+Formuła logiczna kodująca problem pokrycia wierzchołkowego zapewnia, że każda zmienna przyjmuje właściwą wartość oraz wszystkie zmienne są różne od siebie ($\propernumbers$ oraz $\distinctvs$). Druga część formuły gwarantuje, że dla każdego wierzchołka \(v_j\) ze zbioru kandydatów na pokrycie o rozmiarze \(k\), istnieje krawędź w \(E\), której jeden z końców to wierzchołek \(v_j\). 
+
 \begin{align*}
 	\VertexCover&(n, E, k) = \propernumbers \land \distinctvs \land \\
 	&\left( \bigwedge_{j=0}^{k-1} \bigwedge_{\{s,t\} \in E} (v_j = s \lor v_j = t) \right)	
@@ -283,14 +287,14 @@ oznaczają \(k\) kolorów, zaś sąsiednie wierzchołki muszą mieć różne prz
 numery. Problem kolorowania grafu polega na określeniu minimalnej liczby kolorów
 potrzebnej do pokolorowania danego grafu.
 
-Formuła logiczna:
+Formuła logiczna kodująca problem kolorowania grafu zapewnia, że każda zmienna \(c_j\) reprezentująca kolor wierzchołka \(j\) przyjmuje wartość z przedziału od \(1\) do \(k\), gdzie \(k\) to liczba kolorów. Ponadto, dla każdej krawędzi ${s, t}$ w \(E\), kolor wierzchołka \(s\) jest różny od koloru wierzchołka \(t\).
 
 \begin{align*}
 	\GraphColoring(n, E) = \left( \bigwedge_{j=1}^{n} (c_j \geq 1 \land c_j \leq k) \right) \land 
-	\left( \bigwedge_{\{u, v\} \in E} (c_u \neq c_v) \right)
+	\left( \bigwedge_{\{s,t\} \in E} (c_s \neq c_t) \right)
 \end{align*}
 
-Program \textit{graph\textunderscore coloring.py} służy do kolorowania grafu minimalną możliwą liczbą kolorów. Oto opis tego programu:
+Program $\graphcoloring$ służy do kolorowania grafu minimalną możliwą liczbą kolorów. Oto opis tego programu:
 
 Importuje niezbędne moduły i funkcje, w tym moduł \textit{read\textunderscore input} do wczytywania grafów z plików tekstowych, bibliotekę \textit{networkx} do manipulacji grafami oraz \textit{matplotlib.pyplot} do rysowania grafów.
 
@@ -320,7 +324,7 @@ Tworzy również plik .smt2 zawierający reprezentację problemu w formacie SMT-
 
 Następnie wywołuje metodę check() na obiekcie Solver, aby sprawdzić, czy istnieje rozwiązanie spełniające wszystkie ograniczenia. Jeśli tak, otrzymuje model kolorowania grafu i rysuje go przy użyciu biblioteki networkx, pokazując wierzchołki w różnych kolorach zgodnie z modelem. Jeśli nie, wyświetla komunikat informujący o tym, że nie znaleziono poprawnego pokolorowania grafu.
 
-\lstinputlisting{./codes/check_coloring.py}
+\lstinputlisting[caption={Funkcja $\checkcoloring$}]{./codes/check_coloring.py}
 
 Funkcja \textit{draw\textunderscore graph} rysuje graf z pokolorowanymi wierzchołkami na podstawie modelu uzyskanego z rozwiązania problemu pokolorowania grafu. Najpierw tworzy obiekt grafu, dodając wierzchołki i krawędzie. Następnie przypisuje kolory wierzchołkom na podstawie modelu i rysuje graf z odpowiednimi kolorami. Ta funkcja pomaga w wizualizacji wyników pokolorowania grafu, ułatwiając ich zrozumienie.
 
@@ -359,7 +363,7 @@ trasa o minimalnym koszcie jest sekwencją wierzchołków $s_1, s_2, …, s_n$ t
 	\item Suma wag wszystkich krawędzi jest co najwyżej \(k\).
 \end{enumerate}
 
-Formuła logiczna:
+Formuła logiczna kodująca problem komiwojażera zapewnia, że każda zmienna \(v_j\) reprezentująca wierzchołek w ścieżce ma właściwą wartość i wszystkie zmienne są różne od siebie (podformuły $\propernumbers$ oraz $\distinctvs$ zostały już wcześniej omówione). Podformuła $\edges$ gwarantuje, że istnieje krawędź między kolejnymi wierzchołkami w ścieżce. Dodatkowo, formuła uwzględnia warunek zamknięcia ścieżki, czyli istnienie krawędzi między ostatnim a pierwszym wierzchołkiem. Ostatnia część formuły ogranicza sumę wag krawędzi $c(s, t)$ na ścieżce do \(k\).
 
 \begin{align*}
 	&\TSP(n, c, E, k) = \propernumbers \land \distinctvs \land \edges \land \\
@@ -371,7 +375,7 @@ Funkcja $\checktsp$ sprawdza, czy istnieje trasa komiwojażera dla danego grafu 
 
 Następnie funkcja tworzy listę krawędzi (odpowiednio zakodowanych z pomocą funkcji wedge z pliku constraints.py) reprezentujących poszczególne odcinki trasy komiwojażera w grafie. Dodaje także ograniczenie, aby suma kosztów wszystkich krawędzi była mniejsza lub równa k. Po znalezieniu rozwiązania, funkcja wyświetla trasę komiwojażera oraz koszt całej trasy.
 
-\lstinputlisting{./codes/check_tsp.py}
+\lstinputlisting[caption={Funkcja $\checktsp$}]{./codes/check_tsp.py}
 
 \section{Problem pokrycia zbioru}
 Problem pokrycia zbioru jest zagadnieniem optymalizacyjnym, które służy do modelowania wielu sytuacji wymagających efektywnej alokacji zasobów. Odpowiednik tego problemu decyzyjnego generalizuje NP-zupełny problem pokrycia wierzchołków, co sprawia, że jest on również klasyfikowany jako problem NP-trudny.
@@ -385,28 +389,28 @@ W problemie pokrycia zbioru, rozważając zbiór \(U\) zawierający \(n\) elemen
 
 
 \section{Problem sumy podzbioru}
-
-
 W ogólnym sformułowaniu, problem sumy podzbiorów przyjmuje jako dane wejściowe
-skończony multizbiór liczb całkowitych $S$ i całkowitą wartość docelową $t$,
+skończony multizbiór dodatnich liczb całkowitych $S$ i całkowitą wartość docelową $t$,
 a pytanie polega na rozstrzygnięciu, czy istnieje podzbiór $S' \subseteq S$,
 którego elementy sumują się dokładnie do $t$.
 
-Weźmiemy pod uwagę wariant problemu, w którym dane wejściowe mogą być dodatnie lub ujemne, oraz \(t = 0\)
 
-\az{1. Może lepiej zostawić problem w wersji z $t$, żeby w eksperymentach skalować po $t = 1, 2, \ldots$ aż do sumy elementów zbioru $S$}
+%\az{1. Może lepiej zostawić problem w wersji z $t$, żeby w eksperymentach skalować po $t = 1, 2, \ldots$ aż do sumy elementów zbioru $S$}
 
-\az{2. Trzeba przed formułą napisać czym są $x$-y oraz, że $S = \{s_0,\ldots,s_{n-1}\}$. Ponadto w formule $*$ zamiast $\times$.}
+%\az{2. Trzeba przed formułą napisać czym są $x$-y oraz, że $S = \{s_0,\ldots,s_{n-1}\}$. Ponadto w formule $*$ zamiast $\times$.}
+
+Dany $S = {s_0, s_1, \ldots, s_{n-1}}$ to zbiór liczb całkowitych. Zmienna $x_j$ oznacza, czy $s_j$ zostanie wybrane do podzbioru (jeśli $x_j = 1$) lub nie (jeśli $x_j = 0$).
+
+Formuła logiczna problemu sumy podzbioru zapewnia, że każda zmienna $x_j$ przyjmuje wartość logiczną 0 lub 1, co reprezentuje decyzję dotyczącą wyboru liczby $s_j$ do podzbioru. Następnie formuła gwarantuje, że suma iloczynów $x_i$ i $s_i$ dla wszystkich \(k\) elementów ze zbioru $S$ jest równa wartości $t$, co odpowiada szukanemu podzbiorowi.
 
 \begin{align*}
 	\SubsetSum(n, t, k) = \left( \bigwedge_{j=0}^{n-1} (x_j = 0 \lor x_j = 1) \right) \land 
-	\left( \sum_{i=0}^{n-1} (x_i * s_i) = t \right) \land 
-	\left( \sum_{i=0}^{n-1} x_i > 1 \right)
+	\left( \sum_{i=0}^{k} (x_i * s_i) = t \right)
 \end{align*}
 
-\az{3. Należy wyjaśnić, co zapewniają powyższe podformuły, a przed formułami opisać oznaczenia występujące w formule}
+%\az{3. Należy wyjaśnić, co zapewniają powyższe podformuły, a przed formułami opisać oznaczenia występujące w formule}
 
-\az{4. Powyższa uwaga dotyczy też formuł dla innych problemów}
+%\az{4. Powyższa uwaga dotyczy też formuł dla innych problemów}
 
 
 \section{Problem plecakowy}

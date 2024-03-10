@@ -1,28 +1,35 @@
 \newcommand{\mli}[1]{\mathit{#1}}
-
-\newcommand{\propernumbers}{{\mli{proper\textunderscore numbers}}}
-\newcommand{\distinctvs}{{\mli{distinct\textunderscore vs}}}
-\newcommand{\diredges}{{\mli{dir\textunderscore edges}}}
-\newcommand{\edges}{{\mli{edges}}}
-
+%funkcje z utils
+\newcommand{\propernumbers}{{\mli{proper\textunderscore numbers(n)}}}
+\newcommand{\distinctvs}{{\mli{distinct\textunderscore vs(n)}}}
+\newcommand{\diredges}{{\mli{dir\textunderscore edges(n, E)}}}
+\newcommand{\edges}{{\mli{edges(n, E)}}}
 \newcommand{\readgraph}{{\mli{read\textunderscore graph\textunderscore from\textunderscore file}}}
 \newcommand{\readdigraph}{{\mli{read\textunderscore digraph\textunderscore from\textunderscore file}}}
 \newcommand{\readwgraph}{{\mli{read\textunderscore wgraph\textunderscore from\textunderscore file}}}
 \newcommand{\readset}{{\mli{read\textunderscore set\textunderscore from\textunderscore file}}}
-\newcommand{\diredge}{{\mli{dir\textunderscore edge}}}
-\newcommand{\edge}{{\mli{edge}}}
-\newcommand{\weedge}{{\mli{wedge}}}
-
-\newcommand{\main}{{\mli{main.py}}}
-\newcommand{\checkhampath}{{\mli{check\textunderscore hampath.py}}}
-\newcommand{\checkclique}{{\mli{check\textunderscore clique.py}}}
-\newcommand{\checkmaxindset}{{\mli{check\textunderscore maxindset.py}}}
-\newcommand{\checkvertexcover}{{\mli{check\textunderscore vertexcover.py}}}
-\newcommand{\checkcoloring}{{\mli{check\textunderscore coloring.py}}}
-\newcommand{\checktsp}{{\mli{check\textunderscore tsp.py}}}
-\newcommand{\checksubsetsum}{{\mli{check\textunderscore subsetsum.py}}}
-
-
+%formuły
+\newcommand{\diredge}{{\mli{dir\textunderscore edge(graph, s, t)}}}
+\newcommand{\edge}{{\mli{edge(graph, s, t)}}}
+\newcommand{\weedge}{{\mli{wedge(graph, s, t, w)}}}
+%główne funkcje
+\newcommand{\main}{{\mli{main()}}}
+\newcommand{\checkhampath}{{\mli{check\textunderscore hampath(graph)}}}
+\newcommand{\checkclique}{{\mli{check\textunderscore maxclique(graph, k)}}}
+\newcommand{\checkmaxindset}{{\mli{check\textunderscore maxindset(graph, k)}}}
+\newcommand{\checkvertexcover}{{\mli{check\textunderscore vertexcover(graph, k)}}}
+\newcommand{\checkcoloring}{{\mli{check\textunderscore coloring(graph, k)}}}
+\newcommand{\checktsp}{{\mli{check\textunderscore tsp(graph, k)}}}
+\newcommand{\checksubsetsum}{{\mli{check\textunderscore subsetsum(input_set, t, k)}}}
+%programy
+\newcommand{\hampath}{{\mli{hampath.py}}}
+\newcommand{\maxclique}{{\mli{maxclique.py}}}
+\newcommand{\maxindset}{{\mli{maxindset.py}}}
+\newcommand{\vertexcover}{{\mli{vertexcover.py}}}
+\newcommand{\graphcoloring}{{\mli{graph\textunderscore coloring.py}}}
+\newcommand{\tsp}{{\mli{tsp.py}}}
+\newcommand{\subsetsum}{{\mli{subsetsum.py}}}
+%nazwy problemów w formułach
 \newcommand{\HamPath}{{\mli{HamPath}}}
 \newcommand{\UHamPath}{{\mli{UHamPath}}}
 \newcommand{\MaxClique}{{\mli{MaxClique}}}
