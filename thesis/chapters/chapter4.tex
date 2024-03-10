@@ -662,14 +662,26 @@ W problemie pokrycia zbioru, rozważając zbiór \(U\) zawierający \(n\) elemen
 \section{Problem sumy podzbioru}
 
 
-W ogólnym sformułowaniu, problem sumy podzbiorów przyjmuje jako dane wejściowe skończony multizbiór \(S\) liczb całkowitych i całkowitą wartość docelową \(t\), a pytanie polega na rozstrzygnięciu, czy istnieje podzbiór $S' \subseteq S$, którego elementy sumują się dokładnie do t. 
+W ogólnym sformułowaniu, problem sumy podzbiorów przyjmuje jako dane wejściowe
+skończony multizbiór  liczb całkowitych $S$ i całkowitą wartość docelową $t$,
+a pytanie polega na rozstrzygnięciu, czy istnieje podzbiór $S' \subseteq S$,
+którego elementy sumują się dokładnie do $t$.
 
 Weźmiemy pod uwagę wariant problemu, w którym dane wejściowe mogą być dodatnie lub ujemne, oraz \(t = 0\)
+
+\az{1. Może lepiej zostawić problem w wersji z $t$, żeby w eksperymentach skalować po $t = 1, 2, \ldots$ aż do sumy elementów zbioru $S$}
+
+\az{2. Trzeba przed formułą napisać czym są $x$-y oraz, że $S = \{s_0,\ldots,s_{n-1}\}$. Ponadto w formule $*$ zamiast $\times$.}
+
 \begin{align*}
 	\SubsetSum(n) = \left( \bigwedge_{j=0}^{n-1} (x_j = 0 \lor x_j = 1) \right) \land 
 	\left( \sum_{i=0}^{n-1} (x_i \times s_i) = 0 \right) \land 
 	\left( \sum_{i=0}^{n-1} x_i > 1 \right)
 \end{align*}
+
+\az{3. Należy wyjaśnić, co zapewniają powyższe podformuły, a przed formułami opisać oznaczenia występujące w formule}
+
+\az{4. Powyższa uwaga dotyczy też formuł dla innych problemów}
 
 
 \section{Problem plecakowy}
