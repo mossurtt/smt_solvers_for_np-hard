@@ -22,7 +22,7 @@ Pierwszy plik z katalogu 'utils' ma nazwę \textit{'read\textunderscore input.py
 
 Funkcja $\readgraph$(filename) odczytuje graf nieskierowany z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie liczby oddzielone spacją to numery wierzchołków połączonych krawędzią. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy sąsiedztwa.
 
-\lstinputlisting{./codes/read_graph_from_file.py}[caption={Czytanie grafu z pliku}]
+\lstinputlisting[caption={Czytanie grafu z pliku}]{./codes/read_graph_from_file.py}
 \vspace{0.5cm}
 
 Funkcja $\readdigraph$(filename) odczytuje graf skierowany z pliku o nazwie \textit{filename}. Działa analogicznie do poprzedniej funkcji, ale tworzy graf skierowany.
@@ -32,7 +32,7 @@ Funkcja $\readdigraph$(filename) odczytuje graf skierowany z pliku o nazwie \tex
 
 Funkcja $\readwgraph$(filename) odczytuje graf nieskierowany z wagami krawędzi z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie trzy liczby oddzielone spacją to numery wierzchołków połączonych krawędzią oraz waga tej krawędzi. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy krotek (target, weight) reprezentujących numery wierzchołków i ich wagi.
 
-\lstinputlisting{./codes/read_wgraph_from_file.py}[caption={Czytanie grafu z wagami}]
+\lstinputlisting[caption={Czytanie grafu z wagami}]{./codes/read_wgraph_from_file.py}
 \vspace{0.5cm}
 
 Funkcja $\readset$(filename) odczytuje zbiór liczb całkowitych z pliku o nazwie \textit{filename}. Każda liczba w pliku powinna być oddzielona spacją. Funkcja zwraca listę zawierającą te liczby jako elementy.
