@@ -46,11 +46,8 @@ def check_tsp(graph: dict[int, list[int]], k):
 
     solver.add(total_cost <= k)
 
-    folder_name = f'tsp_{n}'
-    os.makedirs(folder_name, exist_ok=True)
-
     smt2_representation = solver.to_smt2()
-    file_name = f'{folder_name}/tsp_{n}_{k}.smt2'
+    file_name = f'tsp_{n}_{k}.smt2'
     with open(file_name, 'w') as file:
         file.write("(set-logic ALL)\n")
         file.write(smt2_representation)  
