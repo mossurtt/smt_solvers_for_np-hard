@@ -137,7 +137,7 @@ W implementacji głównej funkcji $\checkhampath$ wykorzystuje się strukturę d
 
 \textbf{Prezentacja wyników: } jeśli solver znalazł rozwiązanie, funkcja wyświetla znalezioną ścieżkę Hamiltona, prezentując kolejność odwiedzania wierzchołków. W przeciwnym przypadku wyświetla wynik 'unsat'.
 
-\lstinputlisting[caption={Program $\hampath$}]{../experiments/Sciezka_Hamiltona_w_grafie_skierowanym/hampath.py}
+\lstinputlisting[caption={Program $\hampath$}]{../experiments/1_Sciezka_Hamiltona_w_grafie_skierowanym/hampath.py}
 
 
 \subsection{Ścieżka Hamiltona w grafie nieskierowanym}
@@ -195,7 +195,7 @@ Formuła logiczna kodująca problem poszukiwania maksymalnej kliki zapewnia, że
 
 Funkcja $\checkclique$ przyjmuje graf graph reprezentowany jako słownik oraz liczbę całkowitą \textit{k} reprezentującą rozmiar kliki do sprawdzenia. Inicjalizuje solver Z3 i definiuje zmienne całkowite \textit{vertices} do reprezentowania wierzchołków grafu. Następnie dodaje ograniczenia, importowane z pliku \textit{constraints.py}, aby każda zmienna reprezentowała inny wierzchołek grafu: $\propernumbers$ i $\distinctvs$. Następnie generuje ograniczenia, aby zapewnić, że wybrane wierzchołki tworzą klikę o rozmiarze \textit{k}, dodając krawędzie między wszystkimi parami wierzchołków w klice. Sprawdza spełnialność ograniczeń za pomocą solvera Z3. Jeśli znaleziono przypisanie spełniające, co oznacza istnienie kliki o rozmiarze \textit{k}, wyświetla szczegóły kliki wraz z modelem uzyskanym od solvera. W przeciwnym razie informuje, że w grafie nie istnieje klika o rozmiarze k. Na koniec zapisuje stan solvera do pliku w formacie SMT-LIB dla dalszych eksperymentów.
 
-\lstinputlisting[caption={Program $\maxclique$}]{../experiments/Maksymalna_klika/maxclique.py}
+\lstinputlisting[caption={Program $\maxclique$}]{../experiments/3_Maksymalna_klika/maxclique.py}
 
 Funkcja $\main$ koordynuje proces znajdowania maksymalnej kliki w grafie odczytanym z pliku. Upewnia się, że podane są poprawne argumenty wiersza poleceń, a następnie przystępuje do odczytu grafu z określonego pliku. Iteruje po możliwych rozmiarach kliki od 2 do liczby wierzchołków w grafie. Dla każdego rozmiaru kliki \textit{k} wywołuje funkcję \textit{'check\textunderscore clique'}, aby sprawdzić, czy istnieje klika o rozmiarze \textit{k} w grafie. Jeśli taka klika \textit{k} zostanie znaleziona, funkcja wyświetla jej szczegóły wraz z modelem uzyskanym od solvera. 
 
@@ -223,7 +223,7 @@ Formuła logiczna kodująca problem maksymalnego zbioru niezależnego składa si
 
 Funkcja $\checkmaxindset$ przyjmuje graf oraz rozmiar potencjalnego maksymalnego zbioru niezależnego. Tworzy wektor zmiennych całkowitoliczbowych \textit{vertices}, dodaje odpowiednie ograniczenia (wszystkie wierzchołki muszą być w zakresie od 0 do n i nie mogą się powtarzać), a następnie definiuje warunki, które wykluczają istnienie krawędzi między wierzchołkami w potencjalnym zbiorze niezależnym. Po dodaniu ograniczeń solver próbuje znaleźć rozwiązanie. Po sprawdzeniu wyniku działania solvera, jeśli udało się znaleźć maksymalny zbiór niezależny, program wypisuje ten zbiór na ekranie. W przeciwnym przypadku kończy działanie, nie wypisując żadnego wyniku. Program zapisuje stan rozwiązania w pliku o formacie .smt2, co pozwala na późniejsze analizy i debugowanie.
 
-\lstinputlisting[caption={Program $\maxindset$}]{../experiments/Maksymalny_niezalezny_zbior/maxindset.py}
+\lstinputlisting[caption={Program $\maxindset$}]{../experiments/4_Maksymalny_niezalezny_zbior/maxindset.py}
 
 W programie $\maxindset$ funkcja $\main$ ma analogiczną rolę do funkcji $\main$ z programu $\maxclique$. Obydwie funkcje mają taką samą strukturę kontrolną i wykonują te same czynności, ale w odniesieniu do różnych problemów. 
 
@@ -276,7 +276,7 @@ Tworzy również plik .smt2 zawierający reprezentację problemu w formacie SMT-
 
 Następnie wywołuje metodę check() na obiekcie Solver, aby sprawdzić, czy istnieje rozwiązanie spełniające wszystkie ograniczenia. Jeśli tak, otrzymuje model kolorowania grafu i rysuje go przy użyciu biblioteki networkx, pokazując wierzchołki w różnych kolorach zgodnie z modelem. Jeśli nie, wyświetla komunikat informujący o tym, że nie znaleziono poprawnego pokolorowania grafu.
 
-\lstinputlisting[caption={Program $\graphcoloring$}]{../experiments/Kolorowanie_grafu/graph_coloring.py}
+\lstinputlisting[caption={Program $\graphcoloring$}]{../experiments/6_Kolorowanie_grafu/graph_coloring.py}
 
 Funkcja \textit{draw\textunderscore graph} rysuje graf z pokolorowanymi wierzchołkami na podstawie modelu uzyskanego z rozwiązania problemu pokolorowania grafu. Najpierw tworzy obiekt grafu, dodając wierzchołki i krawędzie. Następnie przypisuje kolory wierzchołkom na podstawie modelu i rysuje graf z odpowiednimi kolorami. Ta funkcja pomaga w wizualizacji wyników pokolorowania grafu, ułatwiając ich zrozumienie.
 
@@ -313,7 +313,7 @@ Funkcja $\checktsp$ sprawdza, czy istnieje trasa komiwojażera dla danego grafu 
 
 Następnie funkcja tworzy listę krawędzi (odpowiednio zakodowanych z pomocą funkcji wedge z pliku constraints.py) reprezentujących poszczególne odcinki trasy komiwojażera w grafie. Dodaje także ograniczenie, aby suma kosztów wszystkich krawędzi była mniejsza lub równa k. Po znalezieniu rozwiązania, funkcja wyświetla trasę komiwojażera oraz koszt całej trasy.
 
-\lstinputlisting[caption={Program $\tsp$}]{../experiments/Problem_Komiwojazera/tsp.py}
+\lstinputlisting[caption={Program $\tsp$}]{../experiments/7_Problem_Komiwojazera/tsp.py}
 
 \section{Problem pokrycia zbioru}
 Problem pokrycia zbioru jest zagadnieniem optymalizacyjnym, które służy do modelowania wielu sytuacji wymagających efektywnej alokacji zasobów. Odpowiednik tego problemu decyzyjnego generalizuje NP-zupełny problem pokrycia wierzchołków, co sprawia, że jest on również klasyfikowany jako problem NP-trudny.
@@ -349,7 +349,7 @@ Formuła logiczna problemu sumy podzbioru zapewnia, że każda zmienna $x_j$ prz
 
 %\az{4. Powyższa uwaga dotyczy też formuł dla innych problemów}
 
-\lstinputlisting[caption={Program $\subsetsum$}]{../experiments/Problem_sumy_podzbioru/subsetsum.py}
+\lstinputlisting[caption={Program $\subsetsum$}]{../experiments/8_Problem_sumy_podzbioru/subsetsum.py}
 
 
 \section{Problem plecakowy}
