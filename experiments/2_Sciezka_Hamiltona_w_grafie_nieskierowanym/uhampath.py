@@ -29,11 +29,8 @@ def hamiltonian_path(graph: dict[int, list[int]]):
         edges.append(edge(graph, vertices[i], vertices[i + 1]))
     solver.add(z3.And(edges))
 
-    folder_name = f'uhampath_{n}'
-    os.makedirs(folder_name, exist_ok=True)
-
     smt2_representation = solver.to_smt2()
-    file_name = f'{folder_name}/uhampath_{n}.smt2'
+    file_name = f'uhampath_{n}.smt2'
     with open(file_name, 'w') as file:
         file.write("(set-logic ALL)\n")
         file.write(smt2_representation)  

@@ -1,4 +1,3 @@
-import os
 import sys
 import z3 
 from utils.constraints import proper_numbers, distinct_vs, dir_edge
@@ -30,11 +29,8 @@ def check_hampath(graph: dict[int, list[int]]):
         edges.append(dir_edge(graph, vertices[i], vertices[i + 1]))
     solver.add(z3.And(edges))
 
-    folder_name = f'hampath_{n}'
-    os.makedirs(folder_name, exist_ok=True)
-
     smt2_representation = solver.to_smt2()
-    file_name = f'{folder_name}/hampath_{n}.smt2'
+    file_name = f'hampath_{n}.smt2'
     with open(file_name, 'w') as file:
         file.write("(set-logic ALL)\n")
         file.write(smt2_representation)  

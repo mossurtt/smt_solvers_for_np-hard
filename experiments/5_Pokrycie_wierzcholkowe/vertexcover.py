@@ -1,6 +1,6 @@
 import sys
 import z3 
-from utils.constraints import proper_numbers, distinct_vs
+from utils import proper_numbers, distinct_vs
 from utils.read_input import read_graph_from_file
 
 def main():
