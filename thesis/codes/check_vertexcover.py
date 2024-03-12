@@ -1,22 +1,3 @@
-import sys
-import z3 
-from utils.constraints import proper_numbers, distinct_vs
-from utils.read_input import read_graph_from_file
-
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: python3 vertexcover.py <filename>")
-        return
-
-    filename = sys.argv[1]
-    graph = read_graph_from_file(filename)
-    n = len(graph)
-
-    for k in range(n, 0, -1):
-        result, model = check_vertexcover(graph, k)
-        if result != z3.sat:
-            break
-
 def check_vertexcover(graph: dict[int, list[int]], k):
     n = len(graph)
     vertices = z3.IntVector('v', k)
@@ -49,9 +30,3 @@ def check_vertexcover(graph: dict[int, list[int]], k):
     else:
         print('Nie znaleziono pokrycia o rozmiarze', k)
         model = None
-
-    return result, model
-
-
-if __name__ == "__main__":
-    main()

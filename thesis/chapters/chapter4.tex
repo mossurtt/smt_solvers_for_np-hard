@@ -283,6 +283,16 @@ Druga część formuły gwarantuje, że dla każdej krawędzi w $E$ co najmniej 
 	&\left( \bigwedge_{\{s,t\} \in E} (\bigvee_{j=0}^{k-1} (v_j = s \lor v_j = t)) \right)	
 \end{align*}
 
+Funkcja $\checkvertexcover$ w programie $\vertexcover$ tworzy solver Z3 i dodaje ograniczenia dotyczące właściwych numerów i różności zmiennych. Następnie dla każdej krawędzi grafu, tworzy formułę logiczną, która wymusza, że co najmniej jeden wierzchołek z pokrycia musi pokrywać daną krawędź.
+
+Po znalezieniu pokrycia, program tworzy plik SMT2 z reprezentacją formuły i wynikami, a następnie wypisuje pokrycie wierzchołkowe, jeśli zostało znalezione. W przeciwnym razie wyświetla odpowiedni komunikat.
+
+\lstinputlisting[caption={Funkcja $\checkvertexcover$}]{./codes/check_vertexcover.py}
+
+Funkcja $\main$ programu $\vertexcover$ jest odpowiedzialna za przetwarzanie danych wejściowych oraz wywołanie funkcji, która sprawdza pokrycie wierzchołkowe dla różnych rozmiarów $k$. Po ustaleniu liczby wierzchołków $n$ w grafie, następuje pętla iterująca od największego możliwego rozmiaru pokrycia $k$ do $1$. W każdej iteracji pętli sprawdzane jest pokrycie wierzchołkowe dla danego rozmiaru $k$, wywołując funkcję $\checkvertexcover$. Jeśli wynik sprawdzenia nie jest SAT (czyli nie znaleziono pokrycia), pętla zostaje przerwana, ponieważ dalsze sprawdzanie dla mniejszych rozmiarów pokrycia nie ma sensu.
+
+\lstinputlisting[caption={Funkcja $\main$ programu $\vertexcover$}]{./codes/main_vertexcover.py}
+
 
 \section{Problem kolorowania grafu}
 Projektanci map dążą do używania jak najmniejszej liczby kolorów podczas
