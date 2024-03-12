@@ -1,9 +1,43 @@
 \chapter{Eksperymenty i analiza wyników}
 
-W procesie generowania danych wejściowych, takich jak grafy, przyjęto zastosowanie biblioteki igraph, która stanowi potężne narzędzie w dziedzinie analizy grafów. Biblioteka ta oferuje wszechstronne możliwości tworzenia, manipulowania oraz analizy grafów, co czyni ją popularnym wyborem wśród badaczy i praktyków zajmujących się analizą sieci oraz grafów. Zaawansowane funkcje igraph umożliwiają generowanie różnorodnych typów grafów, w tym grafów skierowanych i nieskierowanych, o różnych rozmiarach i strukturach. Dodatkowo, igraph dostarcza mechanizmy do manipulacji wierzchołkami oraz krawędziami grafu, co pozwala na elastyczne dostosowanie danych wejściowych do potrzeb konkretnego badania czy eksperymentu. 
-
 
 \section{Przeprowadzenie eksperymentów i zbieranie danych}
+
+Przeprowadzenie eksperymentów zostało wykonane na laptopie Dell z procesorem Intel Core i5 i 16 GB pamięci RAM. Wybór tego sprzętu został podyktowany jego dostępnością oraz wystarczającymi parametrami technicznymi do wykonania zaplanowanych testów.
+
+W procesie generowania danych wejściowych, takich jak grafy, przyjęto zastosowanie biblioteki igraph, która stanowi potężne narzędzie w dziedzinie analizy grafów. Biblioteka ta oferuje wszechstronne możliwości tworzenia, manipulowania oraz analizy grafów, co czyni ją popularnym wyborem wśród badaczy i praktyków zajmujących się analizą sieci oraz grafów. Zaawansowane funkcje igraph umożliwiają generowanie różnorodnych typów grafów, w tym grafów skierowanych i nieskierowanych, o różnych rozmiarach i strukturach. Dodatkowo, igraph dostarcza mechanizmy do manipulacji wierzchołkami oraz krawędziami grafu, co pozwala na elastyczne dostosowanie danych wejściowych do potrzeb konkretnego badania czy eksperymentu. 
+
+Zdecydowano się generować dwa rodzaje grafów - Barabasi-Alberta i Erdos-Rényi'ego - w celu przeprowadzenia eksperymentów nad zróżnicowanymi właściwościami strukturalnymi. Ta strategia pozwala na badanie efektywności SMT-solverów w różnych warunkach oraz umożliwia pełniejszą analizę. 
+
+Grafy Barabasi-Alberta są generowane na podstawie modelu preferencyjnego przyrostowego, zaproponowanego przez Alberta-László Barabási i Réka Albert w 1999 roku.
+
+W tym modelu nowe wierzchołki dołączają się do grafu, preferując dołączanie do wierzchołków, które już mają wiele krawędzi, co prowadzi do powstania "hubów" lub wierzchołków o wysokim stopniu.
+Parametr $m$ określa liczbę nowych krawędzi do dodania dla każdego nowego wierzchołka. W funkcji $\generategraph$ używamy losowej liczby z zakresu od $1$ do $10$ jako wartość $m$.
+
+Grafy Barabasi-Alberta są często stosowane do modelowania sieci skomplikowanych, takich jak sieci społecznościowe, internetowe, czy biologiczne.
+
+Grafy Erdos-Rényi'ego są generowane na podstawie modelu losowych grafów, zaproponowanego przez Paula Erdősa i Alfréda Rényiego w 1959 roku.
+W tym modelu każda możliwa krawędź między wierzchołkami grafu ma jednakowe prawdopodobieństwo istnienia.
+Parametry $n$ i $m$ określają odpowiednio liczbę wierzchołków i krawędzi grafu. W funkcji $\generategraph$ ustawiamy m na wartość równą $2 * n - \text{random.randint}(1, \frac{n}{2})$, co oznacza, że grafy typu Erdős-Rényi generowane są z różną gęstością krawędzi.
+Grafy Erdos-Rényi'ego są często używane w badaniach nad teorią grafów, a także w symulacjach losowych procesów, takich jak transmisja informacji w sieciach komputerowych czy analiza przypadkowych struktur.
+
+Funkcja $\generategraph$ służy do generowania dwóch typów nieskierowanych grafów, omówionych wyżej, o różnych rozmiarach z zakresu od 5 do 100 z krokiem co 5, oraz zapisywania ich w formacie listy krawędzi (edgelist) do odpowiednich plików tekstowych. 
+
+\lstinputlisting[caption={Funkcja $\generategraph$}]{./codes/generate_graph.py}
+
+Funkcja $\generatedigraph$ służy do generowania skierowanych grafów. Jest podobna do funkcji $\generategraph$, z wyjątkiem tego, że generuje ona skierowane krawędzie. 
+
+\lstinputlisting[caption={Funkcja $\generatedigraph$}]{./codes/generate_digraph.py}
+
+Funkcja $\appendweights$ została stworzona w celu przygotowania danych testowych do analizy efektywności solverów w rozwiązywaniu problemu Komiwojażera. Odczytuje ona zawartość każdego pliku linia po linii, przypisując wierzchołki źródłowe i docelowe każdej krawędzi do zmiennych s i t. Następnie generuje losową wagę dla każdej krawędzi w zakresie od 1 do 100. Ostatecznie funkcja zapisuje każdą krawędź wraz z jej wagą do pliku, nadpisując pierwotną zawartość pliku.
+
+\lstinputlisting[caption={Funkcja $\appendweights$}]{./codes/append_weights.py}
+
+Do generowania zestawów liczb całkowitych o różnych rozmiarach, przeznaczonych do eksperymentów nad problemem $\SubsetSum$ służy funkcja $\generatesets$. Zestawy te są tworzone w sposób losowy w zakresie od 10 do 100 liczb całkowitych, z krokiem co 10, korzystając z funkcji random.sample(range(1, n * 10), n). Funkcja random.sample() zwraca losowy podzbiór n elementów z zakresu od 1 do n * 10. Każdy zestaw liczb jest reprezentowany jako zbiór w języku Python. Następnie funkcja zapisuje każdy wygenerowany zestaw liczb do pliku tekstowego o nazwie odpowiadającej rozmiarowi zestawu, gdzie każda liczba jest oddzielana spacją.
+
+\lstinputlisting[caption={Funkcja $\generatesets$}]{./codes/generate_sets.py}
+
+
 
 \section{Analiza zebranych danych i porównanie efektywności solverów}
 
