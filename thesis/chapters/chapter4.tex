@@ -280,7 +280,7 @@ Druga część formuły gwarantuje, że dla każdej krawędzi w $E$ co najmniej 
 
 \begin{align*}
 	\VertexCover&(n, E, k) = \propernumbers(k) \land \distinctvs(k) \land \\
-	&\left( \bigwedge_{\{s,t\} \in E} (\bigwedge_{j=0}^{k-1} (v_j = s \lor v_j = t)) \right)	
+	&\left( \bigwedge_{\{s,t\} \in E} (\bigvee_{j=0}^{k-1} (v_j = s \lor v_j = t)) \right)	
 \end{align*}
 
 
