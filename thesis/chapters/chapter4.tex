@@ -265,7 +265,17 @@ Pokrycie wierzchołkowe grafu nieskierowanego $G = (V, E)$ to podzbiór $V' \sub
 
 Problem pokrycia wierzchołkowego polega na znalezieniu minimalnego pokrycia w danym grafie. Dla tego problemu optymalizacyjnego, odpowiadający mu problem decyzyjny zadaje pytanie czy graf ma pokrycie o danym rozmiarze \(k\) \cite{CormenLRS0023376}.
 
-Formuła logiczna kodująca problem pokrycia wierzchołkowego zapewnia, że każda zmienna przyjmuje właściwą wartość oraz wszystkie zmienne są różne od siebie ($\propernumbers$ oraz $\distinctvs$). Druga część formuły gwarantuje, że dla każdego wierzchołka \(v_j\) ze zbioru kandydatów na pokrycie o rozmiarze \(k\), istnieje krawędź w \(E\), której jeden z końców to wierzchołek \(v_j\). 
+Formuła logiczna kodująca problem pokrycia wierzchołkowego zapewnia, że każda zmienna przyjmuje właściwą wartość oraz wszystkie zmienne są różne od siebie ($\propernumbers$ oraz $\distinctvs$).
+
+\az{Poniższe zdanie nie jest prawdą}
+
+Druga część formuły gwarantuje, że dla każdego wierzchołka \(v_j\) ze zbioru kandydatów na pokrycie o rozmiarze \(k\), istnieje krawędź w \(E\), której jeden z końców to wierzchołek \(v_j\). 
+
+\az{Powinno być:}
+
+\az{Druga część formuły gwarantuje, że dla każdej krawędzi w $E$ co najmniej jeden z jej końców należy do $V'$.}
+
+\az{Należy zmienić drugą część formuły zgodnie z powyższym zdaniem.}
 
 \begin{align*}
 	\VertexCover&(n, E, k) = \propernumbers \land \distinctvs \land \\
