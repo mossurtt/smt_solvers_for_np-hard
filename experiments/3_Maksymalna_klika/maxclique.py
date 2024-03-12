@@ -21,7 +21,7 @@ def main():
 def check_clique(graph: dict[int, list[int]], k):
     n = len(graph)
 
-    vertices = z3.IntVector("v", n)
+    vertices = z3.IntVector("v", k)
     solver = z3.Solver()
 
     solver.add(proper_numbers(vertices))

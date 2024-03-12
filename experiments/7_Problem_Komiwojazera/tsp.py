@@ -10,16 +10,19 @@ def main():
 
     filename = sys.argv[1]
     graph = read_wgraph_from_file(filename)
+    
+    min_w = min(min(w for _, w in edges) for edges in graph.values()) 
+    total_w = sum(sum(w for _, w in edges) for edges in graph.values()) // 2
 
-    for k in range(5, 140, 5):
-        result, model = check_tsp(graph, k)
+    for t in range(min_w, total_w, min_w):
+        result, model = check_tsp(graph, t)
         # Przy znalezieniu minimalnej trasy przerwij
         if result != z3.unsat:
             break
 
 def check_tsp(graph: dict[int, list[int]], k):
     n = len(graph)
-    vertices = [z3.Int(f'v_{i}') for i in range(n)]
+    vertices = z3.IntVector('v', n)
 
     solver = z3.Solver()
 
