@@ -91,6 +91,8 @@ Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i k
 
 Kodowanie problemu ścieżki Hamiltona opiera się na formułowaniu ograniczeń logicznych, które muszą zostać spełnione, aby znaleźć poszukiwaną ścieżkę Hamiltona. W tym celu stosują się trzy funkcje z katalogu 'utils': $\propernumbers$, $\distinctvs$ oraz $\diredge$, które służą do generowania ograniczeń. Funkcja $\checkhampath$ odpowiada za główny algorytm rozwiązujący problem.
 
+Aby zakodować problem decyzyjny istnienia ścieżki Hamiltona w grafie skierowanym użyjemy $n$ zmiennych $v_0,\ldots,v_{n-1}$, gdzie $n$ to liczba wierzchołków w grafie.
+
 Poniższe podformuły służą do zapewnienia odpowiednich warunków dla zmiennych używanych w rozwiązaniu problemu.
 
 Przedstawione oznaczenia używane w formułach oznaczają:
@@ -186,6 +188,8 @@ Maksymalną kliką w grafie \(G\) jest podzbiór $C \subseteq V$ taki, że:
  	\item \(C\) nie można rozszerzyć przez dodanie dowolnego wierzchołka $w\in V$ takiego, że $C \cup \{w\}$ tworzą klikę, tj. nie istnieje żaden wierzchołek \(w\) sąsiadujący z jakimkolwiek wierzchołkiem z \(C\), który nie występuje już w \(C\).
 \end{enumerate}
 
+Aby zakodować problem decyzyjny istnienia kliki o rozmiarze $k$ użyjemy $n$ zmiennych $v_0,\ldots,v_{n-1}$, gdzie $n$ to liczba wierzchołków w grafie.
+
 Formuła logiczna kodująca problem poszukiwania maksymalnej kliki zapewnia, że każda zmienna \(v_j\) ma właściwą wartość i wszystkie zmienne \(v_j\) są różne od siebie (formuły $\propernumbers$ oraz $\distinctvs$ zostały już wcześniej omówione w opisie problemu ścieżki Hamiltona (Hamiltonian Path), dlatego też nie będę ich ponownie rozważać, zgodnie z zasadą unikania nadmiernego powtórzenia.) Druga część formuły zapewnia że dla każdej pary wierzchołków \(v_i\) i \(v_j\) w zbiorze kandydatów na klikę o rozmiarze \(k\) istnieje krawędź między nimi. Ten warunek jest sprawdzany poprzez iterację przez wszystkie pary $\{s,t\}$ w zbiorze krawędzi \(E\) i sprawdzenie, czy \(v_i\) i \(v_j\) są końcami tej krawędzi.
 
 \begin{align*}
@@ -230,6 +234,8 @@ Dla grafu $G = (V, E)$, niezależny zbiór \(S\) jest maksymalnym jeżeli dla $s
 	\item $N(s) \cap S \neq \emptyset$, gdzie \(N(s)\) oznacza sąsiadów \(s\).
 \end{itemize}
 
+Aby zakodować problem decyzyjny maksymalnego niezależnego zbioru o rozmiarze $k$ użyjemy $n$ zmiennych $v_0,\ldots,v_{n-1}$, gdzie $n$ to liczba wierzchołków w grafie.
+
 Formuła logiczna kodująca problem maksymalnego zbioru niezależnego składa się z trzech podformuł. Pierwsza i druga zapewniają, że każda zmienna ma właściwą wartość, a wszystkie zmienne są różne od siebie odpowiednio. Trzecia podformuła zapewnia, że dla każdej pary zmiennych \(v_i\) i \(v_j\) w zbiorze kandydatów na maksymalny zbiór niezależny o rozmiarze \(k\), nie istnieje krawędź między nimi w \(E\).
 
 \begin{align*}
@@ -265,24 +271,16 @@ Pokrycie wierzchołkowe grafu nieskierowanego $G = (V, E)$ to podzbiór $V' \sub
 
 Problem pokrycia wierzchołkowego polega na znalezieniu minimalnego pokrycia w danym grafie. Dla tego problemu optymalizacyjnego, odpowiadający mu problem decyzyjny zadaje pytanie czy graf ma pokrycie o danym rozmiarze \(k\) \cite{CormenLRS0023376}.
 
-\az{Aby zakodować problem decyzyjny czy graf ma pokrycie o rozmiarze $k$ użyjemy $k$ zmiennych $v_0,\ldots,v_{k-1}$,
-gdzie $0 < k \leq n$.}
+Aby zakodować problem decyzyjny czy graf ma pokrycie o rozmiarze $k$ użyjemy $k$ zmiennych $v_0,\ldots,v_{k-1}$,
+gdzie $0 < k \leq n$.
 
 Formuła logiczna kodująca problem pokrycia wierzchołkowego zapewnia, że każda zmienna przyjmuje właściwą wartość oraz wszystkie zmienne są różne od siebie ($\propernumbers$ oraz $\distinctvs$).
 
-\az{Poniższe zdanie nie jest prawdą}
-
-Druga część formuły gwarantuje, że dla każdego wierzchołka \(v_j\) ze zbioru kandydatów na pokrycie o rozmiarze \(k\), istnieje krawędź w \(E\), której jeden z końców to wierzchołek \(v_j\). 
-
-\az{Powinno być:}
-
-\az{Druga część formuły gwarantuje, że dla każdej krawędzi w $E$ co najmniej jeden z jej końców należy do $V'$.}
-
-\az{Należy zmienić drugą część formuły zgodnie z powyższym zdaniem.}
+Druga część formuły gwarantuje, że dla każdej krawędzi w $E$ co najmniej jeden z jej końców należy do $V'$. 
 
 \begin{align*}
-	\VertexCover&(n, E, k) = \propernumbers \land \distinctvs \land \\
-	&\left( \bigwedge_{j=0}^{k-1} \bigwedge_{\{s,t\} \in E} (v_j = s \lor v_j = t) \right)	
+	\VertexCover&(n, E, k) = \propernumbers(k) \land \distinctvs(k) \land \\
+	&\left( \bigwedge_{\{s,t\} \in E} (\bigwedge_{j=0}^{k-1} (v_j = s \lor v_j = t)) \right)	
 \end{align*}
 
 
@@ -299,6 +297,8 @@ Innymi słowy, liczby $1, 2, …, k$
 oznaczają \(k\) kolorów, zaś sąsiednie wierzchołki muszą mieć różne przypisane
 numery. Problem kolorowania grafu polega na określeniu minimalnej liczby kolorów
 potrzebnej do pokolorowania danego grafu.
+
+Aby zakodować problem decyzyjny kolorowania grafu używając liczby kolorów $k$ użyjemy $n$ zmiennych $c_0,\ldots,c_{n-1}$, gdzie $n$ to liczba wierzchołków w grafie.
 
 Formuła logiczna kodująca problem kolorowania grafu zapewnia, że każda zmienna \(c_j\) reprezentująca kolor wierzchołka \(j\) przyjmuje wartość z przedziału od \(1\) do \(k\), gdzie \(k\) to liczba kolorów. Ponadto, dla każdej krawędzi ${s, t}$ w \(E\), kolor wierzchołka \(s\) jest różny od koloru wierzchołka \(t\).
 
@@ -363,6 +363,8 @@ trasa o minimalnym koszcie jest sekwencją wierzchołków $s_1, s_2, …, s_n$ t
 	\item Suma wag wszystkich krawędzi jest co najwyżej \(k\).
 \end{enumerate}
 
+Aby zakodować problem decyzyjny istnienia trasy komiwojażera o koszcie co najwyżej $k$ użyjemy $n$ zmiennych $v_0,\ldots,v_{n-1}$, gdzie $n$ to liczba wierzchołków w grafie.
+
 Formuła logiczna kodująca problem komiwojażera zapewnia, że każda zmienna \(v_j\) reprezentująca wierzchołek w ścieżce ma właściwą wartość i wszystkie zmienne są różne od siebie (podformuły $\propernumbers$ oraz $\distinctvs$ zostały już wcześniej omówione). Podformuła $\edges$ gwarantuje, że istnieje krawędź między kolejnymi wierzchołkami w ścieżce. Dodatkowo, formuła uwzględnia warunek zamknięcia ścieżki, czyli istnienie krawędzi między ostatnim a pierwszym wierzchołkiem. Ostatnia część formuły ogranicza sumę wag krawędzi $c(s, t)$ na ścieżce do \(k\).
 
 \begin{align*}
@@ -399,6 +401,8 @@ którego elementy sumują się dokładnie do $t$.
 %\az{2. Trzeba przed formułą napisać czym są $x$-y oraz, że $S = \{s_0,\ldots,s_{n-1}\}$. Ponadto w formule $*$ zamiast $\times$.}
 
 Dany $S = {s_0, s_1, \ldots, s_{n-1}}$ to zbiór liczb całkowitych. Zmienna $x_j$ oznacza, czy $s_j$ zostanie wybrane do podzbioru (jeśli $x_j = 1$) lub nie (jeśli $x_j = 0$).
+
+Aby zakodować problem decyzyjny instnienia podzbioru o sumie $t$ użyjemy $n$ zmiennych $x_0,\ldots,x_{n-1}$, gdzie $n$ to liczba elementów w danym zbiorze.
 
 Formuła logiczna problemu sumy podzbioru zapewnia, że każda zmienna $x_j$ przyjmuje wartość logiczną 0 lub 1, co reprezentuje decyzję dotyczącą wyboru liczby $s_j$ do podzbioru. Następnie formuła gwarantuje, że suma iloczynów $x_i$ i $s_i$ dla wszystkich \(k\) elementów ze zbioru $S$ jest równa wartości $t$, co odpowiada szukanemu podzbiorowi.
 

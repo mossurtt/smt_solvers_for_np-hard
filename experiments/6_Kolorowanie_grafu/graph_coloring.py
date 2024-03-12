@@ -23,7 +23,7 @@ def check_coloring(graph, k):
     vertices = list(graph.keys())
     n = len(vertices)
 
-    vertex_color = z3.IntVector('v', n)
+    vertex_color = z3.IntVector('c', n)
 
     solver = z3.Solver()
 
