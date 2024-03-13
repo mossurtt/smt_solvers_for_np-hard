@@ -5,7 +5,7 @@ def main():
     generate_digraph()
 
 def generate_digraph():
-    for i in range(5, 105, 5):
+    for i in range(5, 36):
             g1 = ig.Graph.Barabasi(i, random.randint(1, 10), directed=True)
             g1.write_edgelist(f'barabasi/barabasi_{i}.txt')
 
