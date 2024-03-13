@@ -1,5 +1,5 @@
 def generate_sets():
-    for n in range(10, 101, 10):
+    for n in range(5, 56, 5):
         int_set = set(random.sample(range(1, n * 10), n))
 
         filename = f'{n}.txt'

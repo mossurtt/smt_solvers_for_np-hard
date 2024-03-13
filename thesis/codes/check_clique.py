@@ -24,7 +24,7 @@ def check_clique(graph: dict[int, list[int]], k):
         model = None
 
     smt2_representation = solver.to_smt2()
-    file_name = f'maxclique_{n}_{k}.smt2'
+    file_name = f'maxclique-{n}-{k}.smt2'
     with open(file_name, 'w') as file:
         file.write("(set-logic ALL)\n")
         file.write(smt2_representation)  
