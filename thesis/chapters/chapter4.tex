@@ -67,15 +67,13 @@ Funkcja $\weedge$ generuje ograniczenie dla etykietowanych nieskierowanych kraw�
 
 \lstinputlisting[caption={Krawędź etykietowana}]{./codes/wedge.py}
 
-\section{Problem ścieżki Hamiltona}
+\section{Problem ścieżki Hamiltona  w grafie skierowanym}
 
 Problem ścieżki Hamiltona jest zagadnieniem z zakresu teorii złożoności i teorii grafów. Rozstrzyga on, czy graf zawiera ścieżkę Hamiltona, czyli ścieżkę, która odwiedza każdy wierzchołek grafu dokładnie raz.
 
 Nazwa pochodzi od nazwiska W. R. Hamiltona, który opisał grę matematyczną na dwunastościanie, w której jeden z graczy wbija pięć szpilek w dowolnych pięciu kolejnych wierzchołkach, a drugi gracz musi ukończyć ścieżkę, aby utworzyć cykl zawierający wszystkie wierzchołki.
 
 Problem ścieżki Hamiltona ma zastosowanie w wielu dziedzinach, takich jak informatyka, telekomunikacja czy bioinformatyka. Rozwiązanie tego problemu jest często kluczowe w analizie sieci i trasowania w systemach komunikacyjnych \cite{enwiki:1190136070}.
-
-\subsection{Ścieżka Hamiltona w grafie skierowanym}
 
 Dla grafu skierowanego $G = (V, E)$, gdzie:
 \begin{itemize}
@@ -146,7 +144,7 @@ W implementacji funkcji $\checkhampath$ wykorzystuje się strukturę danych repr
 \lstinputlisting[caption={Funkcja $\checkhampath$}]{./codes/check_hampath.py}
 
 
-\subsection{Ścieżka Hamiltona w grafie nieskierowanym}
+\section{Problem ścieżki Hamiltona w grafie nieskierowanym}
 
 W przypadku grafów nieskierowanych krawędzie nie mają określonego kierunku, dlatego ścieżka Hamiltona może przechodzić przez krawędź w obie strony. 
 

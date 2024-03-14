@@ -38,8 +38,56 @@ Do generowania zestawów liczb całkowitych o różnych rozmiarach, przeznaczony
 \lstinputlisting[caption={Funkcja $\generatesets$}]{./codes/generate_sets.py}
 
 
-
 \section{Analiza zebranych danych i porównanie efektywności solverów}
+
+\subsection{Wyniki dla Problemu ścieżki Hamiltona w grafie skierowanym}
+
+\subsection{Wyniki dla Problemu ścieżki Hamiltona w grafie nieskierowanym}
+
+\subsection{Wyniki dla Problemu maksymalnej kliki}
+
+W badaniach nad problemem maksymalnej kliki dla grafów typu Barabási-Alberta, eksperymenty wykazały, że solver Z3 okazał się najszybszym spośród analizowanych. Obserwowano wyraźną tendencję wzrostową czasu wykonania wraz z rosnącą liczbą zmiennych, co potwierdzało złożoność obliczeniową problemu.
+
+Obserwowano, że rozmiar maksymalnej kliki zwiększał się w sposób regularny, zazwyczaj o jeden wierzchołek, w miarę rosnącej liczby wierzchołków w grafie. Ta regularność wzrostu rozmiaru kliki jest charakterystyczna dla tego typu sieci, gdzie nowe wierzchołki preferują łączenie się z istniejącymi wierzchołkami o większym stopniu.
+
+Na rysunku \ref{fig:barabasi-plot} przedstawiono wyniki eksperymentów dla danych grafów.
+
+W przypadku ustawienia limitu czasu na 600 sekund, solver Yices nie był w stanie wykonać obliczeń dla grafów zawierających 16 wierzchołków, podczas gdy solver CVC5 osiągnął swoje ograniczenie na 18 wierzchołkach. Oznacza to, że Yices nie był w stanie znaleźć rozwiązania w przewidzianym czasie nawet dla grafów o stosunkowo niewielkim rozmiarze, podczas gdy CVC5 wykazał lepszą skalowalność, ale również osiągnął swoje ograniczenie dla większych grafów.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/3-barabasi-plot.png}
+		\caption{Wyniki eksperymentów dla grafów typu Barabási-Alberta.}
+		\label{fig:barabasi-plot}
+	\end{minipage}
+\end{figure}
+
+Eksperymenty dla grafów typu Erdős-Rényi'ego wykazały interesującą zależność czasu działania solverów od rozmiaru poszukiwanej kliki, szczególnie w przypadku braku istnienia kliki o zadanej wielkości. Im większy był rozmiar poszukiwanej kliki, tym dłużej zajmowało czasu na stwierdzenie, że problem jest niespełnialny. W takich sytuacjach, gdzie solver musiał sprawdzić większą liczbę możliwych kombinacji w poszukiwaniu niespełnialnego warunku, czas wykonania wzrastał wykładniczo wraz ze wzrostem rozmiaru poszukiwanej kliki.
+
+Widoczne na rysunku \ref{fig:erdos-renyi-plot}, że rozmiar maksymalnej kliki nie podlegał takiej regularności, jak w grafach Barabási-Alberta, ponieważ struktura tych grafów opiera się na losowych połączeniach między wierzchołkami. W związku z tym, rozmiar maksymalnej kliki mógł się zmieniać losowo dla każdego kolejnego grafu. Dla pewnych konfiguracji, gdzie istniały większe kliki, czas potrzebny na znalezienie maksymalnej kliki był dłuższy, co można zaobserwować na wykresie, ponieważ w procesie rozwiązywania problemu, solver musiał uwzględniać większą liczbę wierzchołków i krawędzi, co prowadziło do wydłużenia czasu wykonania. Z3 nadal był najszybszym spośród badanych.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/3-erdos-renyi-plot.png}
+		\caption{Wyniki eksperymentów dla grafów typu Erdős-Rényi'ego.}
+		\label{fig:erdos-renyi-plot}
+	\end{minipage}
+\end{figure}
+
+Wnioskiem z tych eksperymentów jest, że czas działania solverów Z3, Yices i CVC5 zależy nie tyle od liczby wierzchołków, co od rozmiaru poszukiwanej kliki, zwłaszcza w przypadku braku istnienia kliki o zadanej wielkości. Dla przypadków, gdzie poszukiwana klika istniała, czasy działania były bardziej stabilne i niezależne od rozmiaru poszukiwanej kliki.
+
+
+\subsection{Wyniki dla Problemu maksymalnego niezależnego zbioru}
+
+\subsection{Wyniki dla Problemu pokrycia wierzchołkowego}
+
+\subsection{Wyniki dla Problemu kolorowania grafu}
+
+\subsection{Wyniki dla Problemu Komiwojażera}
+
+\subsection{Wyniki dla Problemu sumy podzbioru}
 
 \section{Identyfikacja czynników wpływających na efektywność}
 
