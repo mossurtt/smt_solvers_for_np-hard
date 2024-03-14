@@ -142,6 +142,10 @@ Takie wnioski sugerują, że Yices może być szczególnie przydatny w przypadku
 
 \subsection{Wyniki dla Problemu kolorowania grafu}
 
+Wyniki eksperymentów nad problemem kolorowania grafów wykazały znaczące różnice w wykorzystaniu zasobów pamięci przez różne solvery. Natomiast, zgodnie z wykresami \ref{fig:6-barabasi-plot} i \ref{fig:6-erdos-renyi-plot}, czas potrzebny na uzyskanie odpowiedzi był prawie taki sam dla wszystkich solverów. 
+
+W przypadku, gdy nie było możliwości pokolorowania wszystkich wierzchołków (unsat), solvery szybko udzielały odpowiedzi, co sugeruje ich zdolność do efektywnego wykrywania niespełnionych ograniczeń.
+
 \begin{figure}[htbp]
 	\centering
 	\begin{minipage}{\textwidth}
@@ -151,15 +155,18 @@ Takie wnioski sugerują, że Yices może być szczególnie przydatny w przypadku
 	\end{minipage}
 \end{figure}
 
+Jednakże, w sytuacjach, gdzie istniała możliwość pokolorowania grafu (sat), zaobserwowano wydłużenie czasu potrzebnego na uzyskanie odpowiedzi od solverów, zwłaszcza w przypadku, gdy liczba dostępnych kolorów była ograniczona. Im mniejsza liczba kolorów była potrzebna do pokolorowania grafu, tym dłużej solvery szukały odpowiedzi.
 
 \begin{figure}[htbp]
 	\centering
 	\begin{minipage}{\textwidth}
-%		\includegraphics[width=\textwidth]{./figures/6-erdos-renyi-plot.png}
+		\includegraphics[width=\textwidth]{./figures/6-erdos-renyi-plot.png}
 		\caption{Wyniki eksperymentów dla grafów typu Erdős-Rényi'ego.}
 		\label{fig:6-erdos-renyi-plot}
 	\end{minipage}
 \end{figure}
+
+Na podstawie danych z wykresu \ref{fig:6-erdos-renyi-plot} można stwierdzić, że CVC5 wyróżniał się potrzebą znacznie większej ilości pamięci w porównaniu do innych solverów, co wskazuje na jego ograniczenia w efektywnym zarządzaniu zasobami w przypadku tego konkretnego problemu kolorowania grafów.
 
 \subsection{Wyniki dla Problemu Komiwojażera}
 
