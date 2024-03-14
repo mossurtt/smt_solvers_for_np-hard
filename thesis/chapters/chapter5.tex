@@ -50,7 +50,7 @@ W badaniach nad problemem maksymalnej kliki dla grafów typu Barabási-Alberta, 
 
 Obserwowano, że rozmiar maksymalnej kliki zwiększał się w sposób regularny, zazwyczaj o jeden wierzchołek, w miarę rosnącej liczby wierzchołków w grafie. Ta regularność wzrostu rozmiaru kliki jest charakterystyczna dla tego typu sieci, gdzie nowe wierzchołki preferują łączenie się z istniejącymi wierzchołkami o większym stopniu.
 
-Na rysunku \ref{fig:barabasi-plot} przedstawiono wyniki eksperymentów dla danych grafów.
+Na rysunku \ref{fig:3-barabasi-plot} przedstawiono wyniki eksperymentów dla danych grafów.
 
 W przypadku ustawienia limitu czasu na 600 sekund, solver Yices nie był w stanie wykonać obliczeń dla grafów zawierających 16 wierzchołków, podczas gdy solver CVC5 osiągnął swoje ograniczenie na 18 wierzchołkach. Oznacza to, że Yices nie był w stanie znaleźć rozwiązania w przewidzianym czasie nawet dla grafów o stosunkowo niewielkim rozmiarze, podczas gdy CVC5 wykazał lepszą skalowalność, ale również osiągnął swoje ograniczenie dla większych grafów.
 
@@ -59,20 +59,20 @@ W przypadku ustawienia limitu czasu na 600 sekund, solver Yices nie był w stani
 	\begin{minipage}{\textwidth}
 		\includegraphics[width=\textwidth]{./figures/3-barabasi-plot.png}
 		\caption{Wyniki eksperymentów dla grafów typu Barabási-Alberta.}
-		\label{fig:barabasi-plot}
+		\label{fig:3-barabasi-plot}
 	\end{minipage}
 \end{figure}
 
 Eksperymenty dla grafów typu Erdős-Rényi'ego wykazały interesującą zależność czasu działania solverów od rozmiaru poszukiwanej kliki, szczególnie w przypadku braku istnienia kliki o zadanej wielkości. Im większy był rozmiar poszukiwanej kliki, tym dłużej zajmowało czasu na stwierdzenie, że problem jest niespełnialny. W takich sytuacjach, gdzie solver musiał sprawdzić większą liczbę możliwych kombinacji w poszukiwaniu niespełnialnego warunku, czas wykonania wzrastał wykładniczo wraz ze wzrostem rozmiaru poszukiwanej kliki.
 
-Widoczne na rysunku \ref{fig:erdos-renyi-plot}, że rozmiar maksymalnej kliki nie podlegał takiej regularności, jak w grafach Barabási-Alberta, ponieważ struktura tych grafów opiera się na losowych połączeniach między wierzchołkami. W związku z tym, rozmiar maksymalnej kliki mógł się zmieniać losowo dla każdego kolejnego grafu. Dla pewnych konfiguracji, gdzie istniały większe kliki, czas potrzebny na znalezienie maksymalnej kliki był dłuższy, co można zaobserwować na wykresie, ponieważ w procesie rozwiązywania problemu, solver musiał uwzględniać większą liczbę wierzchołków i krawędzi, co prowadziło do wydłużenia czasu wykonania. Z3 nadal był najszybszym spośród badanych.
+Widoczne na rysunku \ref{fig:3-erdos-renyi-plot}, że rozmiar maksymalnej kliki nie podlegał takiej regularności, jak w grafach Barabási-Alberta, ponieważ struktura tych grafów opiera się na losowych połączeniach między wierzchołkami. W związku z tym, rozmiar maksymalnej kliki mógł się zmieniać losowo dla każdego kolejnego grafu. Dla pewnych konfiguracji, gdzie istniały większe kliki, czas potrzebny na znalezienie maksymalnej kliki był dłuższy, co można zaobserwować na wykresie, ponieważ w procesie rozwiązywania problemu, solver musiał uwzględniać większą liczbę wierzchołków i krawędzi, co prowadziło do wydłużenia czasu wykonania. Z3 nadal był najszybszym spośród badanych.
 
 \begin{figure}[htbp]
 	\centering
 	\begin{minipage}{\textwidth}
 		\includegraphics[width=\textwidth]{./figures/3-erdos-renyi-plot.png}
 		\caption{Wyniki eksperymentów dla grafów typu Erdős-Rényi'ego.}
-		\label{fig:erdos-renyi-plot}
+		\label{fig:3-erdos-renyi-plot}
 	\end{minipage}
 \end{figure}
 
@@ -81,7 +81,60 @@ Wnioskiem z tych eksperymentów jest, że czas działania solverów Z3, Yices i 
 
 \subsection{Wyniki dla Problemu maksymalnego niezależnego zbioru}
 
+W wynikach eksperymentów dla problemu maksymalnego niezależnego dla grafów Barabási-Alberta, obserwowano interesujące różnice w ich wydajności.
+
+Na podstawie danych z wykresu \ref{fig:4-barabasi-plot} można stwierdzić, że zarówno Z3, jak i Yices wykazały podobnie szybkie reakcje, udzielając odpowiedzi w ciągu zaledwie 0.3 sekundy. Jednak warto zwrócić uwagę na ten fakt, że analizowane grafy miały małe rozmiary niezależnych zbiorów, z reguły zawierające 2-4 wierzchołki.
+
+Natomiast CVC5, mimo że jest potężnym solverem SMT, napotkał znaczne trudności w rozwiązywaniu problemu dla większych instancji grafów. Już na 12 wierzchołkach CVC5 nie był w stanie udzielić odpowiedzi w określonym limicie czasu 600 sekund, szczególnie dla mniejszych wartości parametru $k$ (rozmiar zbioru). To znaczące opóźnienie w stosunku do Z3 i Yices jest interesującym spostrzeżeniem, co może sugerować, że CVC5 ma trudności w radzeniu sobie z tym konkretnym problemem w przypadku bardziej złożonych instancji.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/4-barabasi-plot.png}
+		\caption{Wyniki eksperymentów dla grafów typu Barabási-Alberta.}
+		\label{fig:4-barabasi-plot}
+	\end{minipage}
+\end{figure}
+
+W przypadku grafów Erdős-Rényi, obserwowana sytuacja jest podobna do wyników uzyskanych dla grafów Barabási-Alberta. Niezależne zbiory w tych grafach były jeszcze mniejsze, co miało wpływ na szybkość działania solverów.
+
+Z wykresu \ref{fig:4-erdos-renyi-plot} wynika, że zarówno Z3, jak i Yices, wykazywały błyskawiczną reakcję, udzielając odpowiedzi praktycznie natychmiastowo.
+
+Natomiast CVC5 wykazał zmienność w swojej wydajności. Mimo że niektóre odpowiedzi udzielał szybko, od grafu z 10 wierzchołkami nagle zaczęły pojawiać się dłuższe czasy oczekiwania, a w przypadku niektórych instancji problemu czas działania przekroczył 10 minut.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/4-erdos-renyi-plot.png}
+		\caption{Wyniki eksperymentów dla grafów typu Erdős-Rényi'ego.}
+		\label{fig:4-erdos-renyi-plot}
+	\end{minipage}
+\end{figure}
+
+Z tej analizy można wnioskować, że szybkość działania solverów Z3 i Yices jest prawdopodobnie związana z małymi rozmiarami niezależnych zbiorów zawartych w danych grafach. Na podstawie tych obserwacji można przypuszczać, że taka cecha znacząco ułatwia rozwiązanie problemu maksymalnego niezależnego zbioru. W kontekście naukowym taka hipoteza wskazuje na istotność rozmiaru zbioru w kwestii efektywnego przetwarzania problemów optymalizacyjnych.
+
+
 \subsection{Wyniki dla Problemu pokrycia wierzchołkowego}
+
+
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/5-barabasi-plot.png}
+		\caption{Wyniki eksperymentów dla grafów typu Barabási-Alberta.}
+		\label{fig:5-barabasi-plot}
+	\end{minipage}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/5-erdos-renyi-plot.png}
+		\caption{Wyniki eksperymentów dla grafów typu Erdős-Rényi'ego.}
+		\label{fig:5-erdos-renyi-plot}
+	\end{minipage}
+\end{figure}
 
 \subsection{Wyniki dla Problemu kolorowania grafu}
 
