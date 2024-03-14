@@ -116,7 +116,7 @@ Z tej analizy można wnioskować, że szybkość działania solverów Z3 i Yices
 
 \subsection{Wyniki dla Problemu pokrycia wierzchołkowego}
 
-
+W wynikach eksperymentów dotyczących problemu pokrycia wierzchołkowego, wszystkie testowane solvery wykazywały zdolność do udzielania natychmiastowych odpowiedzi. Jednakże, interesujące różnice w wydajności można było zaobserwować w kontekście wykorzystania zasobów pamięci.
 
 \begin{figure}[htbp]
 	\centering
@@ -127,6 +127,8 @@ Z tej analizy można wnioskować, że szybkość działania solverów Z3 i Yices
 	\end{minipage}
 \end{figure}
 
+Analiza szczegółowych danych wykazała istotne różnice w szybkości działania oraz wykorzystaniu zasobów pamięci między solverami. Jak przedstawiono na wykresach \ref{fig:5-barabasi-plot} oraz \ref{fig:4-erdos-renyi-plot}, Yices wyróżniał się jako najszybszy spośród testowanych narzędzi dla obu typów grafów, udzielając odpowiedzi w bardzo krótkim czasie i wykorzystując dziesięciokrotnie mniej pamięci w porównaniu do pozostałych solwerów.
+
 \begin{figure}[htbp]
 	\centering
 	\begin{minipage}{\textwidth}
@@ -135,6 +137,8 @@ Z tej analizy można wnioskować, że szybkość działania solverów Z3 i Yices
 		\label{fig:5-erdos-renyi-plot}
 	\end{minipage}
 \end{figure}
+
+Takie wnioski sugerują, że Yices może być szczególnie przydatny w przypadku problemów związanych z pokryciem wierzchołkowym, ze względu na swoją wydajność i oszczędne zarządzanie zasobami. 
 
 \subsection{Wyniki dla Problemu kolorowania grafu}
 
