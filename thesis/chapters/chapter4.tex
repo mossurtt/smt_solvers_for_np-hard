@@ -2,70 +2,70 @@
 
 Niniejszy rozdział wprowadza czytelnika do ośmiu wybranych problemów w teorii grafów i optymalizacji kombinatorycznej, takich jak:
 \begin{enumerate}
-	\item Ścieżka Hamiltona w grafie skierowanym,
-	\item Ścieżka Hamiltona w grafie nieskierowanym,
-	\item Maksymalna klika (ang. \textit{Maximum Clique Size Problem}), 
-	\item Maksymalny zbiór niezależny (ang. \textit{Maximum Independent Set}),
-	\item Minimalne pokrycie wierzchołkowe (ang. \textit{Minimal Vertex Cover}),
-	\item Kolorowanie grafu (ang. \textit{Graph Coloring}),
-	\item Problem Komiwojażera (ang. \textit{Traveling Salesperson Problem}),  
+	\item Ścieżka Hamiltona w grafie skierowanym (ang. \texttt{Hamiltonian Path}),
+	\item Ścieżka Hamiltona w grafie nieskierowanym (ang. \texttt{Undirected Hamiltonian Path}),
+	\item Maksymalna klika (ang. \texttt{Maximum Clique Size Problem}), 
+	\item Maksymalny zbiór niezależny (ang. \texttt{Maximum Independent Set}),
+	\item Minimalne pokrycie wierzchołkowe (ang. \texttt{Minimal Vertex Cover}),
+	\item Kolorowanie grafu (ang. \texttt{Graph Coloring}),
+	\item Problem Komiwojażera (ang. \texttt{Traveling Salesperson Problem}),  
 	oraz 
-	\item Problem sumy podzbioru (ang. Subset Sum).    
+	\item Problem sumy podzbioru (ang. \texttt{Subset Sum}).    
 \end{enumerate}
 
 Każdy problem, który analizuję w mojej pracy, jest kodowany jako zestaw ograniczeń logicznych, które definiują jego specyfikację i warunki jego rozwiązania. Wykorzystanie tego podejścia pozwala mi na elastyczne definiowanie problemów, wyrażanie ich w sposób zrozumiały dla maszyny, a także szybkie eksperymentowanie z różnymi zestawami ograniczeń oraz łatwe wprowadzanie zmian w modelach problemów.
 
 Każda sekcja zawiera opis algorytmu oraz kod demonstracyjny w języku Python z wykorzystaniem biblioteki Z3 do rozwiązania tych problemów.
 
-W celu optymalizacji procesu programowania oraz podniesienia czytelności kodu, przyjęto praktykę tworzenia katalogu 'utils', który pełni rolę biblioteki narzędziowej. Katalog ten zawiera pliki z zestawami użytecznych funkcji (ang. \textit{utility functions}), które powtarzają się w kodowaniu różnych problemów, umożliwiając ich wielokrotne wykorzystanie i uniknięcie redundancji. Centralizacja tych funkcji w jednym miejscu również ułatwia zrozumienie działania programów dla osób przeglądających kod. 
+W celu optymalizacji procesu programowania oraz podniesienia czytelności kodu, przyjęto praktykę tworzenia katalogu 'utils', który pełni rolę biblioteki narzędziowej. Katalog ten zawiera pliki z zestawami użytecznych funkcji (ang. \texttt{utility functions}), które powtarzają się w kodowaniu różnych problemów, umożliwiając ich wielokrotne wykorzystanie i uniknięcie redundancji. Centralizacja tych funkcji w jednym miejscu również ułatwia zrozumienie działania programów dla osób przeglądających kod. 
 
-Pierwszy plik z katalogu 'utils' ma nazwę \textit{'read\textunderscore input.py'}, i zawiera funkcje służące do odczytu danych z plików tekstowych i tworzenia odpowiednich struktur danych na ich podstawie:
+Pierwszy plik z katalogu 'utils' ma nazwę \texttt{'read\textunderscore input.py'}, i zawiera funkcje służące do odczytu danych z plików tekstowych i tworzenia odpowiednich struktur danych na ich podstawie:
 
-Funkcja $\readgraph$(filename) odczytuje graf nieskierowany z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie liczby oddzielone spacją to numery wierzchołków połączonych krawędzią. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy sąsiedztwa.
+Funkcja $\readgraph$(filename) odczytuje graf nieskierowany z pliku o nazwie \texttt{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie liczby oddzielone spacją to numery wierzchołków połączonych krawędzią. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy sąsiedztwa.
 
-\lstinputlisting[caption={Czytanie grafu z pliku}]{./codes/read_graph_from_file.py}
+\lstinputlisting[caption={Czytanie grafu z pliku}, captionpos=t]{./codes/read_graph_from_file.py}
 \vspace{0.5cm}
 
-Funkcja $\readdigraph$(filename) odczytuje graf skierowany z pliku o nazwie \textit{filename}. Działa analogicznie do poprzedniej funkcji, ale tworzy graf skierowany.
+Funkcja $\readdigraph$(filename) odczytuje graf skierowany z pliku o nazwie \texttt{filename}. Działa analogicznie do poprzedniej funkcji, ale tworzy graf skierowany.
 
-\lstinputlisting[caption={Czytanie skierowanego grafu z pliku}]{./codes/read_digraph_from_file.py}
+\lstinputlisting[caption={Czytanie skierowanego grafu z pliku}, captionpos=t]{./codes/read_digraph_from_file.py}
 \vspace{0.5cm}
 
-Funkcja $\readwgraph$(filename) odczytuje graf nieskierowany z wagami krawędzi z pliku o nazwie \textit{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie trzy liczby oddzielone spacją to numery wierzchołków połączonych krawędzią oraz waga tej krawędzi. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy krotek (target, weight) reprezentujących numery wierzchołków i ich wagi.
+Funkcja $\readwgraph$(filename) odczytuje graf nieskierowany z wagami krawędzi z pliku o nazwie \texttt{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie trzy liczby oddzielone spacją to numery wierzchołków połączonych krawędzią oraz waga tej krawędzi. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy krotek (target, weight) reprezentujących numery wierzchołków i ich wagi.
 
-\lstinputlisting[caption={Czytanie grafu z wagami}]{./codes/read_wgraph_from_file.py}
+\lstinputlisting[caption={Czytanie grafu z wagami}, captionpos=t]{./codes/read_wgraph_from_file.py}
 \vspace{0.5cm}
 
-Funkcja $\readset$(filename) odczytuje zbiór liczb całkowitych z pliku o nazwie \textit{filename}. Każda liczba w pliku powinna być oddzielona spacją. Funkcja zwraca listę zawierającą te liczby jako elementy.
+Funkcja $\readset$(filename) odczytuje zbiór liczb całkowitych z pliku o nazwie \texttt{filename}. Każda liczba w pliku powinna być oddzielona spacją. Funkcja zwraca listę zawierającą te liczby jako elementy.
 
-\lstinputlisting[caption={Czytanie zbioru z pliku}]{./codes/read_set_from_file.py}
+\lstinputlisting[caption={Czytanie zbioru z pliku}, captionpos=t]{./codes/read_set_from_file.py}
 \vspace{1cm}
 
-W kolejnym pliku \textit{'constraints.py'} umieszczono funkcje generujące ograniczenia logiczne, które są wielokrotnie stosowane w modelowaniu problemów.
+W kolejnym pliku \texttt{'constraints.py'} umieszczono funkcje generujące ograniczenia logiczne, które są wielokrotnie stosowane w modelowaniu problemów.
 
 Pierwszą z nich jest funkcja $\propernumbers \mli{(vertices)}$, która ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' ($v_0, v_1, …, v_{n-1}$), reprezentujących wierzchołki grafu, mieszczą się w zakresie od $0$ do $n - 1$, gdzie $n$ oznacza rozmiar zbioru zmiennych.
 
-\lstinputlisting[caption={Przypisanie właściwych wartości}]{./codes/proper_numbers.py}
+\lstinputlisting[caption={Przypisanie właściwych wartości}, captionpos=t]{./codes/proper_numbers.py}
 \vspace{0.5cm}
 
 Kolejną funkcją jest $\distinctvs \mli{(vertices)}$, która zapewnia, że każdy wierzchołek grafu jest odwiedziany dokładnie raz, czyli żadne dwie zmienne $v$ nie mają tej samej wartości:
 
-\lstinputlisting[caption={Unikalne wartości}]{./codes/distinct_vs.py}
+\lstinputlisting[caption={Unikalne wartości}, captionpos=t]{./codes/distinct_vs.py}
 \vspace{0.5cm}
 
 Funkcja $\diredge$ generuje ograniczenia logiczne dla skierowanych krawędzi między wierzchołkami na podstawie podanego grafu. Niech $v_0, v_1, …, v_{n-1}$ będą zmiennymi reprezentującymi wierzchołki grafu, a \(E\) zbiorem wszystkich krawędzi, w przypadku grafu skierowanego zbiór uporządkowanych par $(s, t)$, gdzie \(s\) oznacza punkt źródłowy krawędzi, a \(t\) jest punktem końcowym:
 
-\lstinputlisting[caption={Krawędź skierowana}]{./codes/dir_edge.py}
+\lstinputlisting[caption={Krawędź skierowana}, captionpos=t]{./codes/dir_edge.py}
 \vspace{0.5cm}
 
 Natomiast funkcja $\edge$ generuje ograniczenia dla nieskierowanych krawędzi. Dla zmiennych $v_0, v_1, …, v_{n-1}$ reprezentujących wierzchołki grafu, i zbioru wszystkich krawędzi \(E\) (w przypadku grafu nieskierowanego jest to zbiór nieuporządkowanych par $\{s, t\}$) funkcja ta przedstawia się następująco:
 
-\lstinputlisting[caption={Krawędź nieskierowana}]{./codes/edge.py}
+\lstinputlisting[caption={Krawędź nieskierowana}, captionpos=t]{./codes/edge.py}
 \vspace{0.5cm}
 
 Funkcja $\weedge$ generuje ograniczenie dla etykietowanych nieskierowanych krawędzi pomiędzy dwoma wierzchołkami \(s\) i \(t\) w grafie, przy użyciu zmiennej \(w\) reprezentującej wagę krawędzi:
 
-\lstinputlisting[caption={Krawędź etykietowana}]{./codes/wedge.py}
+\lstinputlisting[caption={Krawędź etykietowana}, captionpos=t]{./codes/wedge.py}
 
 \section{Problem ścieżki Hamiltona  w grafie skierowanym}
 
@@ -141,7 +141,7 @@ W implementacji funkcji $\checkhampath$ wykorzystuje się strukturę danych repr
 
 \textbf{Prezentacja wyników: } jeśli solver znalazł rozwiązanie, funkcja wyświetla znalezioną ścieżkę Hamiltona, prezentując kolejność odwiedzania wierzchołków. W przeciwnym przypadku wyświetla wynik $'unsat'$.
 
-\lstinputlisting[caption={Funkcja $\checkhampath$}]{./codes/check_hampath.py}
+\lstinputlisting[caption={Funkcja $\checkhampath$}, captionpos=t]{./codes/check_hampath.py}
 
 
 \section{Problem ścieżki Hamiltona w grafie nieskierowanym}
@@ -199,15 +199,15 @@ Formuła logiczna kodująca problem poszukiwania maksymalnej kliki zapewnia, że
 	&\left( \bigwedge_{i=0}^{k-1} \bigwedge_{j=i+1}^{k} \bigvee_{\{s,t\} \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
 \end{align*}
 
-Funkcja $\checkclique$  w programie $\maxclique$ przyjmuje graf reprezentowany jako słownik oraz liczbę całkowitą $k$ reprezentującą rozmiar kliki do sprawdzenia. Inicjalizuje solver Z3 i definiuje zmienne całkowite $vertices$ do reprezentowania wierzchołków grafu. Następnie dodaje ograniczenia, importowane z pliku \textit{constraints.py}, aby każda zmienna reprezentowała inny wierzchołek grafu: $\propernumbers$ i $\distinctvs$. Następnie generuje ograniczenia, aby zapewnić, że wybrane wierzchołki tworzą klikę o rozmiarze $k$, dodając krawędzie między wszystkimi parami wierzchołków w klice. Sprawdza spełnialność ograniczeń za pomocą solvera Z3. Jeśli znaleziono przypisanie spełniające, co oznacza istnienie kliki o rozmiarze $k$, wyświetla szczegóły kliki wraz z modelem uzyskanym od solvera. W przeciwnym razie informuje, że w grafie nie istnieje klika o danym rozmiarze. Na koniec zapisuje stan solvera do pliku w formacie SMT-LIB dla dalszych eksperymentów.
+Funkcja $\checkclique$  w programie $\maxclique$ przyjmuje graf reprezentowany jako słownik oraz liczbę całkowitą $k$ reprezentującą rozmiar kliki do sprawdzenia. Inicjalizuje solver Z3 i definiuje zmienne całkowite $vertices$ do reprezentowania wierzchołków grafu. Następnie dodaje ograniczenia, importowane z pliku \texttt{constraints.py}, aby każda zmienna reprezentowała inny wierzchołek grafu: $\propernumbers$ i $\distinctvs$. Następnie generuje ograniczenia, aby zapewnić, że wybrane wierzchołki tworzą klikę o rozmiarze $k$, dodając krawędzie między wszystkimi parami wierzchołków w klice. Sprawdza spełnialność ograniczeń za pomocą solvera Z3. Jeśli znaleziono przypisanie spełniające, co oznacza istnienie kliki o rozmiarze $k$, wyświetla szczegóły kliki wraz z modelem uzyskanym od solvera. W przeciwnym razie informuje, że w grafie nie istnieje klika o danym rozmiarze. Na koniec zapisuje stan solvera do pliku w formacie SMT-LIB dla dalszych eksperymentów.
 
-\lstinputlisting[caption={Funkcja $\checkclique$}]{./codes/check_clique.py}
+\lstinputlisting[caption={Funkcja $\checkclique$}, captionpos=t]{./codes/check_clique.py}
 
 Funkcja $\main$ koordynuje proces znajdowania maksymalnej kliki w grafie odczytanym z pliku. Upewnia się, że podane są poprawne argumenty wiersza poleceń, a następnie przystępuje do odczytu grafu z określonego pliku. Iteruje po możliwych rozmiarach kliki od 2 do liczby wierzchołków w grafie. Dla każdego rozmiaru kliki $k$ wywołuje funkcję $\checkclique$, aby sprawdzić, czy istnieje klika o rozmiarze $k$ w grafie. Jeśli taka klika zostanie znaleziona, funkcja wyświetla jej szczegóły wraz z modelem uzyskanym od solvera. 
 
 Ważnym aspektem funkcji $\main$ jest cykl $for$, który iteruje po możliwych rozmiarach kliki. Wewnątrz tego cyklu, po sprawdzeniu, czy istnieje klika o aktualnym rozmiarze $k$, następuje sprawdzenie wyniku $result$. Jeśli wynik jest inny niż 'sat' (co oznacza, że nie znaleziono spełnienia ograniczeń), funkcja przerywa dalsze iteracje, ponieważ nie ma potrzeby kontynuowania poszukiwań. W momencie, gdy nie można znaleźć kliki o określonym rozmiarze, dalsze poszukiwania dla większych rozmiarów kliki są bezcelowe, ponieważ każda klika musiałaby zawierać wierzchołki kliki mniejszych. Dlatego przerwanie cyklu w momencie, gdy wynik jest inny niż 'sat', optymalizuje działanie funkcji $\main$ i przyspiesza proces znajdowania maksymalnej kliki w grafie.
 
-\lstinputlisting[caption={Funkcja $\main$ w $\maxclique$}]{./codes/main_maxclique.py}
+\lstinputlisting[caption={Funkcja $\main$ w $\maxclique$}, captionpos=t]{./codes/main_maxclique.py}
 
 
 \section{Problem maksymalnego zbioru niezależnego w grafie nieskierowanym}
@@ -233,11 +233,11 @@ Formuła logiczna kodująca problem maksymalnego zbioru niezależnego składa si
 
 Funkcja $\checkmaxindset$  w programie $\maxindset$ przyjmuje graf oraz rozmiar potencjalnego maksymalnego zbioru niezależnego. Tworzy wektor zmiennych całkowitoliczbowych $vertices$, dodaje odpowiednie ograniczenia (wszystkie wierzchołki muszą być w zakresie od $0$ do $n$ i nie mogą się powtarzać), a następnie definiuje warunki, które wykluczają istnienie krawędzi między wierzchołkami w potencjalnym zbiorze niezależnym. Po dodaniu ograniczeń solver próbuje znaleźć rozwiązanie. Po sprawdzeniu wyniku działania solvera, jeśli udało się znaleźć maksymalny zbiór niezależny, program wypisuje ten zbiór na ekranie. W przeciwnym przypadku kończy działanie, nie wypisując żadnego wyniku. Program zapisuje stan rozwiązania w pliku o formacie .smt2.
 
-\lstinputlisting[caption={Funkcja $\checkmaxindset$}]{./codes/check_maxindset.py}
+\lstinputlisting[caption={Funkcja $\checkmaxindset$}, captionpos=t]{./codes/check_maxindset.py}
 
 W programie $\maxindset$ funkcja $\main$ ma analogiczną rolę do funkcji $\main$ z programu $\maxclique$. Obydwie funkcje mają taką samą strukturę kontrolną i wykonują te same czynności, ale w odniesieniu do różnych problemów. 
 
-\lstinputlisting[caption={Funkcja $\main$ w $\maxindset$}]{./codes/main_maxindset.py}
+\lstinputlisting[caption={Funkcja $\main$ w $\maxindset$}, captionpos=t]{./codes/main_maxindset.py}
 
 \section{Problem pokrycia wierzchołkowego}
 Pokrycie wierzchołkowe grafu nieskierowanego $G = (V, E)$ to podzbiór $V' \subseteq V$ taki, że jeżeli $\{s, t\} \in E$, to $s \in V'$ lub $t \in V'$ (lub oba). To znaczy, że każdy wierzchołek "pokrywa" przylegające krawędzie, a pokrycie wierzchołkowe dla \(G\) jest zbiorem wierzchołków, który pokrywa wszystkie krawędzie z \(E\). Rozmiar pokrycia to liczba wierzchołków w nim zawartych.
@@ -260,11 +260,11 @@ Funkcja $\checkvertexcover$ w programie $\vertexcover$ tworzy solver Z3 i dodaje
 
 Po znalezieniu pokrycia, program tworzy plik .smt2 z reprezentacją formuły i wynikami, a następnie wypisuje pokrycie wierzchołkowe, jeśli zostało znalezione. W przeciwnym razie wyświetla odpowiedni komunikat.
 
-\lstinputlisting[caption={Funkcja $\checkvertexcover$}]{./codes/check_vertexcover.py}
+\lstinputlisting[caption={Funkcja $\checkvertexcover$}, captionpos=t]{./codes/check_vertexcover.py}
 
 Funkcja $\main$ programu $\vertexcover$ jest odpowiedzialna za przetwarzanie danych wejściowych oraz wywołanie funkcji, która sprawdza pokrycie wierzchołkowe dla różnych rozmiarów $k$. Po ustaleniu liczby wierzchołków $n$ w grafie, następuje pętla iterująca od największego możliwego rozmiaru pokrycia $k$ do $1$. W każdej iteracji pętli sprawdzane jest pokrycie wierzchołkowe dla danego rozmiaru $k$, wywołując funkcję $\checkvertexcover$. Jeśli wynik sprawdzenia nie jest $sat$ (czyli nie znaleziono pokrycia), pętla zostaje przerwana, ponieważ dalsze sprawdzanie dla mniejszych rozmiarów pokrycia nie ma sensu.
 
-\lstinputlisting[caption={Funkcja $\main$ programu $\vertexcover$}]{./codes/main_vertexcover.py}
+\lstinputlisting[caption={Funkcja $\main$ programu $\vertexcover$}, captionpos=t]{./codes/main_vertexcover.py}
 
 
 \section{Problem kolorowania grafu}
@@ -291,13 +291,13 @@ Formuła logiczna kodująca problem kolorowania grafu zapewnia, że każda zmien
 
 Program $\graphcoloring$ służy do kolorowania grafu minimalną możliwą liczbą kolorów. Oto opis tego programu:
 
-Importuje niezbędne moduły i funkcje, w tym bibliotekę \textit{networkx} do manipulacji grafami oraz \textit{matplotlib.pyplot} do rysowania grafów.
+Importuje niezbędne moduły i funkcje, w tym bibliotekę \texttt{networkx} do manipulacji grafami oraz \texttt{matplotlib.pyplot} do rysowania grafów.
 
 Definiuje funkcję $\main$, która jest punktem wejścia do programu. Sprawdza ona, czy została podana prawidłowa liczba argumentów wiersza poleceń i wczytuje nazwę pliku zawierającego graf. Następnie iteruje po różnych możliwych liczbach kolorów (od $1$ do liczby wierzchołków w grafie), aby znaleźć poprawne pokolorowanie grafu. Jeśli tak, program kończy działanie i wyświetla znalezione pokolorowanie. Jeśli nie, iteruje dalej.
 
 Ta strategia wyszukiwania do pierwszego wyniku $sat$ jest zastosowana ze względu na fakt, że poszukujemy minimalnej liczby kolorów potrzebnych do pokolorowania grafu. Jeśli znajdziemy rozwiązanie $sat$, oznacza to, że znaleźliśmy minimalną liczbę kolorów. Wtedy możemy przerwać dalsze iteracje i zakończyć program, ponieważ nie ma potrzeby kontynuowania poszukiwań.
 
-\lstinputlisting[caption={Funkcja $\main$ w $\graphcoloring$}]{./codes/main_graphcoloring.py}
+\lstinputlisting[caption={Funkcja $\main$ w $\graphcoloring$}, captionpos=t]{./codes/main_graphcoloring.py}
 
 Definiuje funkcję $\checkcoloring$, która sprawdza, czy można pokolorować dany graf graph za pomocą maksymalnie k kolorów. W tym celu tworzy wektor zmiennych całkowitoliczbowych $vertex\textunderscore color$, reprezentujących kolor każdego wierzchołka grafu. Następnie tworzy instancję obiektu $Solver()$ z biblioteki Z3 i dodaje ograniczenia zapewniające, że każdy kolor ma wartość od $1$ do $k$, oraz że żadne dwa sąsiednie wierzchołki nie mają tego samego koloru.
 
@@ -305,11 +305,11 @@ Tworzy również plik .smt2 zawierający reprezentację problemu w formacie SMT-
 
 Następnie sprawdza, czy istnieje rozwiązanie spełniające wszystkie ograniczenia. Jeśli tak, otrzymuje model kolorowania grafu i rysuje go przy użyciu biblioteki $matplotlib$, pokazując wierzchołki w różnych kolorach zgodnie z modelem. Jeśli nie, wyświetla komunikat informujący o tym, że nie znaleziono poprawnego pokolorowania grafu.
 
-\lstinputlisting[caption={Funkcja $\checkcoloring$}]{./codes/check_coloring.py}
+\lstinputlisting[caption={Funkcja $\checkcoloring$}, captionpos=t]{./codes/check_coloring.py}
 
-Funkcja \textit{draw\textunderscore graph} rysuje graf z pokolorowanymi wierzchołkami na podstawie modelu uzyskanego z rozwiązania problemu pokolorowania grafu. Najpierw tworzy obiekt grafu, dodając wierzchołki i krawędzie. Następnie przypisuje kolory wierzchołkom na podstawie modelu i rysuje graf z odpowiednimi kolorami. Ta funkcja pomaga w wizualizacji wyników pokolorowania grafu, ułatwiając ich zrozumienie.
+Funkcja \texttt{draw\textunderscore graph} rysuje graf z pokolorowanymi wierzchołkami na podstawie modelu uzyskanego z rozwiązania problemu pokolorowania grafu. Najpierw tworzy obiekt grafu, dodając wierzchołki i krawędzie. Następnie przypisuje kolory wierzchołkom na podstawie modelu i rysuje graf z odpowiednimi kolorami. Ta funkcja pomaga w wizualizacji wyników pokolorowania grafu, ułatwiając ich zrozumienie.
 
-\lstinputlisting[caption={Funkcja $\drawgraph$}]{./codes/draw_graph.py}
+\lstinputlisting[caption={Funkcja $\drawgraph$}, captionpos=t]{./codes/draw_graph.py}
 
 \section{Problem Komiwojażera}
 Rozwiązanie Problemu Komiwojażera jest kluczowym zagadnieniem optymalizacyjnym, które ma szerokie zastosowanie w różnych dziedzinach, od logistyki po planowanie tras w sieciach komunikacyjnych. Jest to szczególny przypadek problemu cyklu Hamiltona, gdzie cykl ten musi minimalizować sumaryczny koszt podróży. 
@@ -343,19 +343,9 @@ Formuła logiczna kodująca problem komiwojażera zapewnia, że każda zmienna \
 
 Funkcja $\checktsp$ w programie $\tsp$ sprawdza, czy istnieje trasa komiwojażera dla danego grafu i maksymalnego kosztu $k$. Tworzy ona zmienne reprezentujące wierzchołki i dodaje do solvera odpowiednie ograniczenia, takie jak poprawność numerów wierzchołków i ich różnorodność.
 
-Następnie funkcja tworzy listę krawędzi (odpowiednio zakodowanych z pomocą funkcji $\weedge$ z pliku \textit{constraints.py}) reprezentujących poszczególne odcinki trasy komiwojażera w grafie. Dodaje także ograniczenie, aby suma kosztów wszystkich krawędzi była mniejsza lub równa $k$. Po znalezieniu rozwiązania, funkcja wyświetla trasę komiwojażera oraz koszt całej trasy.
+Następnie funkcja tworzy listę krawędzi (odpowiednio zakodowanych z pomocą funkcji $\weedge$ z pliku \texttt{constraints.py}) reprezentujących poszczególne odcinki trasy komiwojażera w grafie. Dodaje także ograniczenie, aby suma kosztów wszystkich krawędzi była mniejsza lub równa $k$. Po znalezieniu rozwiązania, funkcja wyświetla trasę komiwojażera oraz koszt całej trasy.
 
-\lstinputlisting[caption={Funkcja $\checktsp$}]{./codes/check_tsp.py}
-
-%\section{Problem pokrycia zbioru}
-%Problem pokrycia zbioru jest zagadnieniem optymalizacyjnym, które służy do modelowania wielu sytuacji wymagających efektywnej alokacji zasobów. Odpowiednik tego problemu decyzyjnego generalizuje NP-zupełny problem pokrycia wierzchołków, co sprawia, że jest on również klasyfikowany jako problem NP-trudny.
-
-%W problemie pokrycia zbioru, rozważając zbiór \(U\) zawierający \(n\) elementów (tzw. uniwersum) oraz \(m\) podzbiorów $S_1, S_2, …, S_m$ tych elementów, celem jest znalezienie najmniejszej liczby podzbiorów koniecznych do pokrycia wszystkich elementów. Problem decyzyjny podaje także liczbę \(k\) i pytanie jest, czy istnieje pokrycie wszystkich punktów \(C\) przy użyciu \(k\) lub mniejszej liczby zbiorów.
-
-%\begin{align*}
-%	\SetCover(n, m) = &\left( \bigvee_{i=1}^{m} \left( \bigwedge_{x\in U} (x \in S_i) \right) \right) \land 
-%	\left( \bigwedge_{S_j\in C} \bigwedge_{x\in U} (x \in S_j) \right)
-%\end{align*}
+\lstinputlisting[caption={Funkcja $\checktsp$}, captionpos=t]{./codes/check_tsp.py}
 
 
 \section{Problem sumy podzbioru}
@@ -363,10 +353,6 @@ W ogólnym sformułowaniu, problem sumy podzbiorów przyjmuje jako dane wejścio
 skończony multizbiór liczb całkowitych $S$ i całkowitą wartość docelową $t$,
 a pytanie polega na rozstrzygnięciu, czy istnieje podzbiór $S' \subseteq S$,
 którego elementy sumują się dokładnie do $t$.
-
-%\az{1. Może lepiej zostawić problem w wersji z $t$, żeby w eksperymentach skalować po $t = 1, 2, \ldots$ aż do sumy elementów zbioru $S$}
-
-%\az{2. Trzeba przed formułą napisać czym są $x$-y oraz, że $S = \{s_0,\ldots,s_{n-1}\}$. Ponadto w formule $*$ zamiast $\times$.}
 
 Dany $S = {s_0, s_1, \ldots, s_{n-1}}$ to zbiór liczb całkowitych. Zmienna $x_j$ oznacza, czy $s_j$ zostanie wybrane do podzbioru (jeśli $x_j = 1$) lub nie (jeśli $x_j = 0$).
 
@@ -381,15 +367,6 @@ Formuła logiczna problemu sumy podzbioru zapewnia, że każda zmienna $x_j$ prz
 
 Funkcja $\checksubsetsum$ w programie $\subsetsum$ jest przeznaczona do sprawdzenia, czy istnieje podzbiór zbioru wejściowego, którego suma równa się określonej wartości $t$. Tworzy formułę logiczną, która zakłada, że każdy element podzbioru może być $0$ lub $1$, a następnie dodaje ograniczenie, że suma iloczynów elementów zbioru i ich odpowiadających zmiennych musi być równa $t$. Po rozwiązaniu problemu generuje plik .smt2 z reprezentacją problemu oraz zwraca wynik i ewentualny model, jeśli problem jest rozwiązalny. Na koniec drukuje wynik w postaci sumy oraz podzbioru, który spełnia warunki, lub informację o nierozwiązywalności problemu.
 
-\lstinputlisting[caption={Funkcja $\checksubsetsum$}]{./codes/check_subsetsum.py}
-
-
-%\section{Problem plecakowy}
-%Problem plecakowy jest zagadnieniem z zakresu optymalizacji kombinatorycznej - uogólnieniem $\SubsetSum$, w którym każdy element wejściowy ma zarówno wartość, jak i wagę. Celem jest maksymalizacja wartości z zastrzeżeniem ograniczenia na całkowitą wagę.
-
-%\begin{align*}
-%	\Knapsack(n, k) = \left( \sum_{i=0}^{n-1} (weights[i]) \leq capacity \right) \land 
-%	\left( \sum_{i=0}^{n-1} (values[i]) <= k \right)
-%\end{align*}
+\lstinputlisting[caption={Funkcja $\checksubsetsum$}, captionpos=t]{./codes/check_subsetsum.py}
 
 
