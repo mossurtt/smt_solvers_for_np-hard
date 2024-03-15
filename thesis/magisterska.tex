@@ -35,7 +35,6 @@ defernumbers=true,
 \setmainfont{Carlito}
 \usepackage{subcaption}
 \usepackage{macros}
-\usepackage{multilang}
 
 \defbibfilter{articles_and_proceedings}{
 	type=article or
@@ -77,11 +76,9 @@ Effectiveness of SMT solvers for classical NP-hard problems}
 
 \frenchspacing
 \begin{document}
-\begin{abstract}
-Celem niniejszej pracy jest analiza i ocena efektywności SMT solverów w rozwiązywaniu klasycznych problemów zaliczanych do klasy NP-trudnych. Przełom w informatyce teoretycznej sprawił, że tego rodzaju zagadnienia stały się przedmiotem intensywnych badań. Niniejsza praca skupia się na zrozumieniu, jak SMT (Satisfiability Modulo Theories) solvery, będące potężnym narzędziem w dziedzinie rozstrzygania logicznego, radzą sobie z tymi wyjątkowo wymagającymi problemami.
+\input{chapters/specialthanks.tex}
 
-Przedmiotem badań w pracy są klasyczne problemy NP-trudne, a celem jest zbadanie i porównanie wydajności trzech SMT solverów - Z3, Yices i cvc5 - w kontekście rozwiązywania konkretnych problemów. Wybór tych narzędzi wynika z ich popularności, wszechstronności i aktywnego udziału w społeczności badawczej.
-\end{abstract}
+\input{chapters/abstract.tex}
 
 \keywords{Złożoność obliczeniowa, problemy NP-trudne, SMT, SMT-solvery, Z3, Yices, cvc5, Python}
 
@@ -89,27 +86,7 @@ Przedmiotem badań w pracy są klasyczne problemy NP-trudne, a celem jest zbadan
 \onehalfspacing
 %\setlength{\footskip}{20pt}
 
-\introduction
-W niektórych dziedzinach informatyki, takich jak formalna weryfikacja sprzętu i oprogramowania, wiele istotnych problemów można zredukować do sprawdzenia spełnialności formuły w pewnej logice. Kilka z tych problemów można naturalnie sformułować jako problemy spełnialności w logice propozycjonalnej i rozwiązać bardzo efektywnie przy użyciu nowoczesnych solverów SAT. Inne problemy są bardziej zwięźle sformułowane w logikach klasycznych, takich jak logika pierwszego lub wyższego rzędu, o bardziej złożonym języku, który obejmuje zmienne niebędące wartościami logicznymi, funkcje i symbole predykatów oraz kwantyfikatory. Oczywiście istnieje kompromis między złożonością logiki a zdolnością do automatycznego sprawdzania spełnialności jej formuł.
-
-Praktyczny kompromis można osiągnąć za pomocą fragmentów logiki pierwszego rzędu, które są ograniczone syntaktycznie, na przykład przez zezwolenie tylko na pewne klasy formuł, lub semantycznie, poprzez ograniczenie interpretacji niektórych funkcji i symboli predykatów, lub obie te opcje jednocześnie. Takie ograniczenia mogą uczynić problem spełnialności rozstrzygalnym i, co ważniejsze, umożliwić rozwijanie specjalistycznych procedur spełnialności, które wykorzystują właściwości fragmentu logiki z dużą korzyścią dla wydajności praktycznej, nawet w przypadku wysokiej złożoności obliczeniowej dla najgorszych scenariuszy (worst-case computational complexity). Kiedy są zaangażowane ograniczenia semantyczne, mogą one być pojęte jako ograniczenie interpretacji do modeli z dokładnością do ustalonej teorii (background theory) (np. teorii równości, liczb całkowitych, liczb rzeczywistych, tablic, list itp.). W takich przypadkach mówimy o Spełnialności Moduło Teorii (SMT).
-
-W oparciu o klasyczne rozwiązania dotyczące procedur decyzyjnych dla rozumowania pierwszego rzędu, a także ogromny rozwój technologii rozwiązywania SAT w ciągu minionych dwóch dekad,
-SMT rozwinęło się przez ostatnie lata w bardzo aktywny obszar badawczy, którego cechą charakterystyczną jest wykorzystywanie metod wnioskowania, właściwych logicznym teoriom o dużym znaczeniu dla problemów stosowanych.
-Dzięki postępowi w badaniach i technologii SMT, istnieje obecnie kilka potężnych i zaawansowanych solverów SMT (np. Alt-Ergo, Beaver, Boolector, cvc5, MathSAT5, openSMT, SMTInterpol, SONOLAR, STP, veriT, Yices i Z3), które są wykorzystywane w szybko rosnącym szeregu aplikacji. Wśród nich znajdują się obecnie m.in. weryfikacja procesorów, badanie równoważności, ograniczone i nieograniczone sprawdzanie modeli, abstrakcja predykatów, analiza statyczna, automatyczne generowanie przypadków testowych, sprawdzanie typów, harmonogramowanie i optymalizacja.
-Ostatnie osiągnięcia w dziedzinie SMT były spowodowane kilkoma czynnikami, w tym skupieniem się na podstawowych teoriach i klasach problemów występujących w praktyce, dostosowanie technologii SAT do potrzeb SMT oraz innowacje w zakresie algorytmów i struktur danych \cite{Clarke18}.
-
-Celem niniejszej pracy jest zbadanie skuteczności SMT solverów w rozwiązywaniu ośmiu klasycznych problemów NP-trudnych, a mianowicie: Ścieżka Hamiltona w grafie skierowanym, Ścieżka Hamiltona w grafie nieskierowanym, Pokrycie wierzchołkowe, Problem maksymalnej kliki, Problem maksymalnego zbioru niezależnego, Problem Komiwojażera, Kolorowanie grafu, oraz Problem sumy podzbioru.
-
-W pierwszym rozdziale zawarłam teoretyczne fundamenty Satisfiability Modulo Theories (SMT), wprowadzając czytelnika w główne aspekty tej dziedziny. Omówiłam kluczowe pojęcia, biorąc pod uwagę rozwój SMT-solverów i ich praktyczne zastosowania w realnych sytuacjach, takich jak te związane z klasą problemów NP-trudnych. 
-
-Drugi rozdział przedstawia podstawowe pojęcia złożoności obliczeniowej oraz koncepcji spełnialności, dwóch kluczowych aspektów niezbędnych do zrozumienia, czym są problemy obliczeniowe w kontekście SMT. Następnie dokonywane jest ogólne wprowadzenie do klasy problemów NP-trudnych, które stanowią centralny temat niniejszej pracy magisterskiej.
-
-W rozdziale trzecim zawarłam szczegółowy przegląd trzech popularnych SMT-solverów: Z3, Yices i cvc5, podkreślając ich cechy, mocne strony i potencjalne ograniczenia. Czytelnik zdobywa wgląd w różnice między tymi narzędziami, co stanowi podstawę dla późniejszych badań.
-
-Rozdział czwarty skupia się na przedstawieniu 8 klasycznych problemów NP-trudnych, a~następnie opisuje sposób ich kodowania w języku Python.
-
-Rozdział piąty poświęcony jest praktycznym eksperymentom, wykorzystując wyżej przedstawione solvery do rozwiązania wybranych problemów obliczeniowych. Analiza wyników pozwoli określić efektywność każdego z nich i wyciągnąć wnioski co do ich zastosowania.
+\input{chapters/introduction.tex}
 
 \input{chapters/chapter1}
 \input{chapters/chapter2}
@@ -118,12 +95,7 @@ Rozdział piąty poświęcony jest praktycznym eksperymentom, wykorzystując wy�
 \input{chapters/chapter5}
 
 
-\summary
-Celem mojej pracy było zbadanie efektywności SMT solverów w rozwiązywaniu klasycznych problemów NP-trudnych. W tym celu zakodowałam osiem wybranych zagadnień z tej kategorii, w tym siedem z teorii grafów i jeden z optymalizacji kombinatorycznej, i przeprowadziłam serię eksperymentów mających na celu zrozumienie, jak solvery Z3, Yices i cvc5 radzą sobie z tymi problemami obliczeniowymi.
-
-Uważam, że udało mi się zrealizować ten cel, gdyż analiza wyników eksperymentów pozwoliła mi na dokładne zrozumienie wydajności poszczególnych solverów w różnych scenariuszach. Dzięki temu mam lepsze rozeznanie w tym, jakie rodzaje problemów mogą być rozwiązywane efektywnie przez poszczególne narzędzia, co może być przydatne w praktycznych zastosowaniach oraz w dalszych badaniach naukowych.
-
-Wyzwaniem naukowym jest rozwój kodowania większej liczby problemów NP-trudnych z różnych dziedzin oraz przeprowadzenie eksperymentów na rozleglejszych zestawach danych wejściowych. Rozszerzenie zbioru problemów pozwoliłoby na bardziej wszechstronne zbadanie możliwości i ograniczeń poszczególnych solverów SMT w kontekście problemów NP-trudnych. Dodatkowo, większa różnorodność problemów pozwoliłaby na lepsze zrozumienie zachowania solverów w różnych scenariuszach, co może prowadzić do lepszych praktycznych zastosowań tych narzędzi w rozwiązywaniu rzeczywistych problemów.
+\input{chapters/summary.tex}
 
 %% załączniki (opcjonalnie):
 %\appendix
@@ -142,6 +114,7 @@ Wyzwaniem naukowym jest rozwój kodowania większej liczby problemów NP-trudnyc
 
 % spis rysunków (jeżeli jest potrzebny):
 \listoffigures
+
 
 % spis listingów (jeżeli jest potrzebny):
 \lstlistoflistings
