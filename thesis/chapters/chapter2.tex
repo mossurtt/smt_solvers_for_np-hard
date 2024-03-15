@@ -76,10 +76,19 @@ W 1967 roku Manuel Blum sformułował zestaw aksjomatów (obecnie znanych jako a
 
 \section{Definicja klasy problemów NP-trudnych}
 
-\subsection{Klasy złożoności}
-Klasa złożoności to zbiór problemów o zbliżonej złożoności obliczeniowej. 
+Klasy złożoności stanowią zbiory problemów decyzyjnych, które są uznawane za rozwiązywalne przez algorytmy z określoną ilością zasobów. Wśród kluczowych zasobów wymieniane są przede wszystkim czas i przestrzeń, gdzie czas odnosi się do liczby kroków algorytmu niezbędnych do rozwiązania problemu, a przestrzeń dotyczy ilości pamięci potrzebnej do wykonania algorytmu.
 
-\subsection{Redukcja}
+W ramach klasyfikacji klas złożoności, każda z nich jest oparta na zbiorze problemów decyzyjnych, które mogą być rozwiązane w określonym czasie lub zużywają określoną przestrzeń. Na przykład, klasa P obejmuje problemy decyzyjne, które mogą być rozwiązane przez algorytm deterministyczny w czasie wielomianowym, podczas gdy klasa NP zawiera problemy decyzyjne, które mogą być zweryfikowane w czasie wielomianowym przez algorytm niedeterministyczny.
 
-\subsection{Klasa NP-hard}
+Klasa P charakteryzuje się czasem wielomianowym, co oznacza, że czas działania algorytmu jest ograniczony funkcją wielomianową rozmiaru danych wejściowych. Przykłady problemów z klasy P obejmują sortowanie listy liczb, znajdowanie najkrótszej ścieżki w grafie i określanie, czy liczba jest liczbą pierwszą. Z kolei klasa NP zawiera problemy decyzyjne, które mogą być zweryfikowane w czasie wielomianowym przez algorytm niedeterministyczny.
+
+W ramach klasyfikacji NP, problemy NP-zupełne są uznawane za szczególnie trudne, ponieważ nie tylko znajdują się w klasie NP, ale także każdy inny problem w NP może być w czasie wielomianowym do nich zredukowany. Przykładem problemu NP-zupełnego jest Problem Komiwojażera (TSP), który polega na znalezieniu najkrótszej możliwej trasy, która odwiedza każde miasto z podanej listy. Podczas gdy TSP może być rozwiązany w czasie wykładniczym, nie jest znany algorytm czasu wielomianowego, który rozwiązuje wszystkie przypadki tego problemu \cite{medium:complexity-classes}.
+
+Z kolei, klasa problemów NP-trudnych zawiera problemy decyzyjne, które są co najmniej tak trudne jak najtrudniejsze problemy, należące do klasy NP. Jest to zbiór problemów, które wymagają znacznie więcej czasu na rozwiązanie niż problemy w klasie NP, nawet przy wykorzystaniu zaawansowanych algorytmów obliczeniowych. 
+
+Kluczową cechą problemów NP-trudnych jest możliwość zredukowania każdego problemu w klasie NP do problemu NP-trudnego w czasie wielomianowym. Innymi słowy, problem jest uznawany za NP-trudny, jeśli istnieje możliwość przekształcenia każdego problemu w klasie NP do tego problemu w sposób, który nie wprowadza znaczącego wzrostu złożoności czasowej. Jednakże, rozwiązanie i weryfikacja problemów NP-trudnych zazwyczaj wymagają dużego nakładu obliczeniowego, nawet dla relatywnie niewielkich instancji problemów.
+
+
+
+
 
