@@ -272,6 +272,13 @@
   \section*{Streszczenie}  }
  {\egroup}
 %
+\newbox \thkspagebox %% *tp **
+\def\InsertThanksHere{\unvbox \thkspagebox}
+%
+\newenvironment{specialthanks}{\global 
+  \setbox \thkspagebox \vbox \bgroup }
+ {\egroup}
+%
 \renewcommand*\@seccntformat[1]{\csname the#1\endcsname.\enspace}
 \def\numberline#1{\hb@xt@\@tempdima{#1.\hfil}}
 \renewcommand*\l@chapter[2]{%
