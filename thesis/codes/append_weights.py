@@ -7,6 +7,6 @@ def append_weights(folder_path):
             with open(filepath, 'w') as f:
                 for line in lines:
                     s, t = map(int, line.strip().split())
-                    w = random.randint(1, 100)
+                    w = random.randint(10, 20)
                     f.write(f'{s} {t} {w}\n')
 

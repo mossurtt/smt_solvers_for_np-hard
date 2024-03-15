@@ -5,18 +5,18 @@ Przeprowadzenie eksperymentów zostało wykonane na laptopie Dell z procesorem I
 
 W procesie generowania danych wejściowych, takich jak grafy, przyjęto zastosowanie biblioteki igraph, która stanowi potężne narzędzie w dziedzinie analizy grafów. Biblioteka ta oferuje wszechstronne możliwości tworzenia, manipulowania oraz analizy grafów, co czyni ją popularnym wyborem wśród badaczy i praktyków zajmujących się analizą sieci oraz grafów. Zaawansowane funkcje igraph umożliwiają generowanie różnorodnych typów grafów, w tym grafów skierowanych i nieskierowanych, o różnych rozmiarach i strukturach. Dodatkowo, igraph dostarcza mechanizmy do manipulacji wierzchołkami oraz krawędziami grafu, co pozwala na elastyczne dostosowanie danych wejściowych do potrzeb konkretnego badania czy eksperymentu. 
 
-Zdecydowano się generować dwa rodzaje grafów - Barabasi-Alberta i Erdos-Rényi'ego - w celu przeprowadzenia eksperymentów nad zróżnicowanymi właściwościami strukturalnymi. Ta strategia pozwala na badanie efektywności SMT-solverów w różnych warunkach oraz umożliwia pełniejszą analizę. 
+Zdecydowano się generować dwa rodzaje grafów - Barabasi-Alberta i Erdos-Rényi'ego - w~celu przeprowadzenia eksperymentów nad zróżnicowanymi właściwościami strukturalnymi. Ta strategia pozwala na badanie efektywności SMT-solverów w różnych warunkach oraz umożliwia pełniejszą analizę. 
 
 Grafy Barabasi-Alberta są generowane na podstawie modelu preferencyjnego przyrostowego, zaproponowanego przez Alberta-László Barabási i Réka Albert w 1999 roku.
 
 W tym modelu nowe wierzchołki dołączają się do grafu, preferując dołączanie do wierzchołków, które już mają wiele krawędzi, co prowadzi do powstania "hubów" lub wierzchołków o wysokim stopniu.
-Parametr $m$ określa liczbę nowych krawędzi do dodania dla każdego nowego wierzchołka. W funkcji $\generategraph$ używamy losowej liczby z zakresu od $1$ do $10$ jako wartość $m$.
+Parametr $m$ określa liczbę nowych krawędzi do dodania dla każdego nowego wierzchołka. W funkcji $\generategraph$ używamy $i \div 2$ jako wartość $m$.
 
 Grafy Barabasi-Alberta są często stosowane do modelowania sieci skomplikowanych, takich jak sieci społecznościowe, internetowe, czy biologiczne.
 
 Grafy Erdos-Rényi'ego są generowane na podstawie modelu losowych grafów, zaproponowanego przez Paula Erdősa i Alfréda Rényiego w 1959 roku.
 W tym modelu każda możliwa krawędź między wierzchołkami grafu ma jednakowe prawdopodobieństwo istnienia.
-Parametry $n$ i $m$ określają odpowiednio liczbę wierzchołków i krawędzi grafu. W funkcji $\generategraph$ ustawiamy m na wartość równą $2 * n - \text{random.randint}(1, \frac{n}{2})$, co oznacza, że grafy typu Erdős-Rényi generowane są z różną gęstością krawędzi.
+Parametry $n$ i $m$ określają odpowiednio liczbę wierzchołków i krawędzi grafu. W funkcji $\generategraph$ ustawiamy $p$ na wartość równą $0.98$, co oznacza, że prawdopodobieństwo istnienia krawędzi między dowolnymi dwoma wierzchołkami jest bardzo wysokie, co~skutkuje gęstym grafem.
 Grafy Erdos-Rényi'ego są często używane w badaniach nad teorią grafów, a także w symulacjach losowych procesów, takich jak transmisja informacji w sieciach komputerowych czy analiza przypadkowych struktur.
 
 Funkcja $\generategraph$ służy do generowania dwóch typów nieskierowanych grafów, omówionych wyżej, o różnych rozmiarach z zakresu od 4 do 24 z krokiem co 2, oraz zapisywania ich w formacie listy krawędzi (edgelist) do odpowiednich plików tekstowych. 
@@ -27,11 +27,11 @@ Funkcja $\generatedigraph$ służy do generowania skierowanych grafów. Jest pod
 
 \lstinputlisting[caption={Funkcja $\generatedigraph$}]{./codes/generate_digraph.py}
 
-Funkcja $\appendweights$ została stworzona w celu przygotowania danych testowych do analizy efektywności solverów w rozwiązywaniu problemu Komiwojażera. Odczytuje ona zawartość każdego pliku linia po linii, przypisując wierzchołki źródłowe i docelowe każdej krawędzi do zmiennych s i t. Następnie generuje losową wagę dla każdej krawędzi w zakresie od 1 do 100. Ostatecznie funkcja zapisuje każdą krawędź wraz z jej wagą do pliku, nadpisując pierwotną zawartość pliku.
+Funkcja $\appendweights$ została stworzona w celu przygotowania danych testowych do analizy efektywności solverów w rozwiązywaniu problemu Komiwojażera. Odczytuje ona zawartość każdego pliku linia po linii, przypisując wierzchołki źródłowe i docelowe każdej krawędzi do zmiennych s i t. Następnie generuje losową wagę dla każdej krawędzi w zakresie od 10 do 20. Ostatecznie funkcja zapisuje każdą krawędź wraz z jej wagą do pliku, nadpisując pierwotną zawartość pliku.
 
 \lstinputlisting[caption={Funkcja $\appendweights$}]{./codes/append_weights.py}
 
-Do generowania zestawów liczb całkowitych o różnych rozmiarach, przeznaczonych do eksperymentów nad problemem $\SubsetSum$ służy funkcja $\generatesets$. Zestawy te są tworzone w sposób losowy w zakresie od 5 do 55 liczb całkowitych, z krokiem co 5, korzystając z funkcji random.sample(range(1, n * 10), n). Funkcja random.sample() zwraca losowy podzbiór n elementów z zakresu od 1 do n * 10. Każdy zestaw liczb jest reprezentowany jako zbiór. Następnie funkcja zapisuje każdy wygenerowany zestaw liczb do pliku tekstowego o nazwie odpowiadającej rozmiarowi zestawu, gdzie każda liczba jest oddzielana spacją.
+Do generowania zestawów liczb całkowitych o różnych rozmiarach, przeznaczonych do eksperymentów nad problemem $\SubsetSum$ służy funkcja $\generatesets$. Zestawy te są~tworzone w sposób losowy w zakresie od 5 do 55 liczb całkowitych, z krokiem co 5, korzystając z funkcji random.sample(range(1, n * 10), n). Funkcja random.sample() zwraca losowy podzbiór n elementów z zakresu od 1 do n * 10. Każdy zestaw liczb jest reprezentowany jako zbiór. Następnie funkcja zapisuje każdy wygenerowany zestaw liczb do pliku tekstowego o~nazwie odpowiadającej rozmiarowi zestawu, gdzie każda liczba jest oddzielana spacją.
 
 \lstinputlisting[caption={Funkcja $\generatesets$}]{./codes/generate_sets.py}
 
@@ -53,7 +53,7 @@ Eksperymenty nad problemem ścieżki Hamiltona w grafach skierowanych, generowan
 
 Solvery Z3 i CVC5 wykazywały podobne czasy działania, osiągając odpowiedzi niemal równie szybko, typowo w granicach 0.1 sekundy (rysunek \ref{fig:1-barabasi-plot}). 
 
-Niemniej jednak, warto zauważyć, że Yices zużywał najmniej pamięci w porównaniu do innych solwerów, co może stanowić jego zaletę w przypadku problemów z ograniczeniami zasobowymi.
+Niemniej jednak, warto zauważyć, że Yices zużywał najmniej pamięci w porównaniu do~innych solwerów, co może stanowić jego zaletę w przypadku problemów z ograniczeniami zasobowymi.
 
 \begin{figure}[htbp]
 	\centering
@@ -106,11 +106,11 @@ Mimo że wszystkie solvery udzieliły odpowiedzi w czasie rzędu 0.3 sekundy, na
 %	\label{fig:2}
 %\end{figure}
 
-Najbardziej znaczącą różnicę zaobserwowano w zużyciu pamięci przez poszczególne solvery, co jest widoczne na rysunku \ref{fig:2-erdos-renyi-plot}. Yices po raz kolejny okazał się być najwydajniejszy, zużywając najmniej zasobów pamięciowych, zwłaszcza w przypadku mniejszych danych. Z tego możemy wywnioskować, że Yices wykazuje się wysoką wydajnością przy rozwiązywaniu problemów o niewielkim rozmiarze. Natomiast Z3 wykazał się największym zużyciem pamięci.
+Najbardziej znaczącą różnicę zaobserwowano w zużyciu pamięci przez poszczególne solvery, co jest widoczne na rysunku \ref{fig:2-erdos-renyi-plot}. Yices po raz kolejny okazał się być najwydajniejszy, zużywając najmniej zasobów pamięciowych, zwłaszcza w przypadku mniejszych danych. Z~tego możemy wywnioskować, że Yices wykazuje się wysoką wydajnością przy rozwiązywaniu problemów o niewielkim rozmiarze. Natomiast Z3 wykazał się największym zużyciem pamięci.
 
 \subsection{Wyniki dla Problemu maksymalnej kliki}
 
-W badaniach nad problemem maksymalnej kliki dla grafów typu Barabási-Alberta, eksperymenty wykazały, że solver Z3 okazał się najszybszym spośród analizowanych. Obserwowano wyraźną tendencję wzrostową czasu wykonania wraz z rosnącą liczbą zmiennych, co potwierdzało złożoność obliczeniową problemu.
+W badaniach nad problemem maksymalnej kliki dla grafów typu Barabási-Alberta, eksperymenty wykazały, że solver Z3 okazał się najszybszym spośród analizowanych. Obserwowano wyraźną tendencję wzrostową czasu wykonania wraz z rosnącą liczbą zmiennych, co~potwierdzało złożoność obliczeniową problemu.
 
 Obserwowano, że rozmiar maksymalnej kliki zwiększał się w sposób regularny, zazwyczaj o jeden wierzchołek, w miarę rosnącej liczby wierzchołków w grafie. Ta regularność wzrostu rozmiaru kliki jest charakterystyczna dla tego typu sieci, gdzie nowe wierzchołki preferują łączenie się z istniejącymi wierzchołkami o większym stopniu.
 
@@ -149,7 +149,7 @@ W wynikach eksperymentów dla problemu maksymalnego niezależnego dla grafów Ba
 
 Na podstawie danych z wykresu \ref{fig:4-barabasi-plot} można stwierdzić, że zarówno Z3, jak i Yices wykazały podobnie szybkie reakcje, udzielając odpowiedzi w ciągu zaledwie 0.3 sekundy. Jednak warto zwrócić uwagę na ten fakt, że analizowane grafy miały małe rozmiary niezależnych zbiorów, z reguły zawierające 2-4 wierzchołki.
 
-Natomiast CVC5, mimo że jest potężnym solverem SMT, napotkał znaczne trudności w rozwiązywaniu problemu dla większych instancji grafów. Już na 12 wierzchołkach CVC5 nie był w stanie udzielić odpowiedzi w określonym limicie czasu 600 sekund, szczególnie dla mniejszych wartości parametru $k$ (rozmiar zbioru). To znaczące opóźnienie w stosunku do Z3 i Yices jest interesującym spostrzeżeniem, co może sugerować, że CVC5 ma trudności w radzeniu sobie z tym konkretnym problemem w przypadku bardziej złożonych instancji.
+Natomiast CVC5, mimo że jest potężnym solverem SMT, napotkał znaczne trudności w~rozwiązywaniu problemu dla większych instancji grafów. Już na 12 wierzchołkach CVC5 nie~był w stanie udzielić odpowiedzi w określonym limicie czasu 600 sekund, szczególnie dla mniejszych wartości parametru $k$ (rozmiar zbioru). To znaczące opóźnienie w stosunku do Z3 i Yices jest interesującym spostrzeżeniem, co może sugerować, że CVC5 ma trudności w~radzeniu sobie z tym konkretnym problemem w przypadku bardziej złożonych instancji.
 
 \begin{figure}[htbp]
 	\centering
@@ -219,7 +219,7 @@ W przypadku, gdy nie było możliwości pokolorowania wszystkich wierzchołków 
 	\end{minipage}
 \end{figure}
 
-Jednakże, w sytuacjach, gdzie istniała możliwość pokolorowania grafu (sat), zaobserwowano wydłużenie czasu potrzebnego na uzyskanie odpowiedzi od solverów, zwłaszcza w przypadku, gdy liczba dostępnych kolorów była ograniczona. Im mniejsza liczba kolorów była potrzebna do pokolorowania grafu, tym dłużej solvery szukały odpowiedzi.
+Jednakże, w sytuacjach, gdzie istniała możliwość pokolorowania grafu (sat), zaobserwowano wydłużenie czasu potrzebnego na uzyskanie odpowiedzi od solverów, zwłaszcza w~przypadku, gdy liczba dostępnych kolorów była ograniczona. Im mniejsza liczba kolorów była potrzebna do pokolorowania grafu, tym dłużej solvery szukały odpowiedzi.
 
 \begin{figure}[htbp]
 	\centering
@@ -254,7 +254,7 @@ Wyniki eksperymentów dotyczących problemu komiwojażera (TSP) wykazały znaczn
 
 \subsection{Wyniki dla Problemu sumy podzbioru}
 
-W badaniach dotyczących problemu Subset Sum zaobserwowano, że solver Z3 wykazywał się najwyższą wydajnością zarówno pod względem czasu, jak i zużycia pamięci. Yices również osiągnął zadowalające wyniki, jednakże na zbiorach danych o rozmiarach 30 i 35 nie był w stanie wykonać zadania. Natomiast solver CVC5 nie radził sobie już przy zbiorze o rozmiarze 20, zużywając przy tym znacznie większą ilość pamięci w porównaniu do innych solverów. 
+W badaniach dotyczących problemu Subset Sum zaobserwowano, że solver Z3 wykazywał się najwyższą wydajnością zarówno pod względem czasu, jak i zużycia pamięci. Yices również osiągnął zadowalające wyniki, jednakże na zbiorach danych o rozmiarach 30 i 35 nie był w stanie wykonać zadania. Natomiast solver CVC5 nie radził sobie już przy zbiorze o~rozmiarze 20, zużywając przy tym znacznie większą ilość pamięci w porównaniu do innych solverów. 
 
 \begin{figure}[htbp]
 	\centering
@@ -275,7 +275,7 @@ Z przeprowadzonych eksperymentów można wywnioskować kilka istotnych kwestii w
 	\item \textbf{Rozmiar instancji problemu.} 
 	Analiza eksperymentów wskazuje, że wraz z rosnącym rozmiarem problemu, tj. liczbą wierzchołków w grafie lub liczbą elementów w zbiorze, czas rozwiązania przez solvery znacząco się wydłuża. Dla bardziej złożonych problemów czas działania solwerów może być znacznie dłuższy.
 	\item \textbf{Wpływ struktury grafu.}
-	Struktura grafu, na przykład sposób jego generowania lub złożoność, może mieć znaczący wpływ na wydajność obliczeniową. Pewne solvery osiągają lepsze wyniki podczas pracy z określonymi typami grafów, co sugeruje, że istnieje zależność między strukturą grafu a wydajnością solwera.
+	Struktura grafu, na przykład sposób jego generowania lub złożoność, może mieć znaczący wpływ na wydajność obliczeniową. Pewne solvery osiągają lepsze wyniki podczas pracy z określonymi typami grafów, co sugeruje, że~istnieje zależność między strukturą grafu a wydajnością solwera.
 	\item \textbf{Rodzaj problemu.} 
 	Różnice w wydajności solverów w zależności od rodzaju problemu mogą być zauważalne w kontekście różnorodnych klas problemów NP-trudnych. Przykładowo, eksperymenty wykazały, że solvery znacznie szybciej radziły sobie z rozwiązaniem problemu $\SubsetSum$, niż z problemami grafowymi, nawet przy dużych zestawach danych wejściowych. Te różnice mogą być istotne podczas analizy wydajności solverów w zróżnicowanych scenariuszach problemowych.
 	\item \textbf{Zużycie zasobów.} 

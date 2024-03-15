@@ -21,7 +21,7 @@ W celu optymalizacji procesu programowania oraz podniesienia czytelności kodu, 
 
 Pierwszy plik z katalogu 'utils' ma nazwę \texttt{'read\textunderscore input.py'}, i zawiera funkcje służące do odczytu danych z plików tekstowych i tworzenia odpowiednich struktur danych na ich podstawie:
 
-Funkcja $\readgraph$(filename) odczytuje graf nieskierowany z pliku o nazwie \texttt{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie liczby oddzielone spacją to numery wierzchołków połączonych krawędzią. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy sąsiedztwa.
+Funkcja $\readgraph$(filename) odczytuje graf nieskierowany z pliku o nazwie \texttt{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie liczby oddzielone spacją to~numery wierzchołków połączonych krawędzią. Funkcja tworzy i zwraca słownik, gdzie klucze to~numery wierzchołków, a wartości to listy sąsiedztwa.
 
 \lstinputlisting[caption={Czytanie grafu z pliku}, captionpos=t]{./codes/read_graph_from_file.py}
 \vspace{0.5cm}
@@ -31,7 +31,7 @@ Funkcja $\readdigraph$(filename) odczytuje graf skierowany z pliku o nazwie \tex
 \lstinputlisting[caption={Czytanie skierowanego grafu z pliku}, captionpos=t]{./codes/read_digraph_from_file.py}
 \vspace{0.5cm}
 
-Funkcja $\readwgraph$(filename) odczytuje graf nieskierowany z wagami krawędzi z pliku o nazwie \texttt{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie trzy liczby oddzielone spacją to numery wierzchołków połączonych krawędzią oraz waga tej krawędzi. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to listy krotek (target, weight) reprezentujących numery wierzchołków i ich wagi.
+Funkcja $\readwgraph$(filename) odczytuje graf nieskierowany z wagami krawędzi z pliku o nazwie \texttt{filename}. Każda linia pliku reprezentuje krawędź grafu, gdzie trzy liczby oddzielone spacją to numery wierzchołków połączonych krawędzią oraz waga tej krawędzi. Funkcja tworzy i zwraca słownik, gdzie klucze to numery wierzchołków, a wartości to~listy krotek (target, weight) reprezentujących numery wierzchołków i ich wagi.
 
 \lstinputlisting[caption={Czytanie grafu z wagami}, captionpos=t]{./codes/read_wgraph_from_file.py}
 \vspace{0.5cm}
@@ -43,7 +43,7 @@ Funkcja $\readset$(filename) odczytuje zbiór liczb całkowitych z pliku o nazwi
 
 W kolejnym pliku \texttt{'constraints.py'} umieszczono funkcje generujące ograniczenia logiczne, które są wielokrotnie stosowane w modelowaniu problemów.
 
-Pierwszą z nich jest funkcja $\propernumbers \mli{(vertices)}$, która ma na celu zapewnienie, że wartości przypisane do zmiennych 'vertices' ($v_0, v_1, …, v_{n-1}$), reprezentujących wierzchołki grafu, mieszczą się w zakresie od $0$ do $n - 1$, gdzie $n$ oznacza rozmiar zbioru zmiennych.
+Pierwszą z nich jest funkcja $\propernumbers \mli{(vertices)}$, która ma na celu zapewnienie, że~wartości przypisane do zmiennych 'vertices' ($v_0, v_1, …, v_{n-1}$), reprezentujących wierzchołki grafu, mieszczą się w zakresie od $0$ do $n - 1$, gdzie $n$ oznacza rozmiar zbioru zmiennych.
 
 \lstinputlisting[caption={Przypisanie właściwych wartości}, captionpos=t]{./codes/proper_numbers.py}
 \vspace{0.5cm}
@@ -73,7 +73,7 @@ Problem ścieżki Hamiltona jest zagadnieniem z zakresu teorii złożoności i t
 
 Nazwa pochodzi od nazwiska W. R. Hamiltona, który opisał grę matematyczną na dwunastościanie, w której jeden z graczy wbija pięć szpilek w dowolnych pięciu kolejnych wierzchołkach, a drugi gracz musi ukończyć ścieżkę, aby utworzyć cykl zawierający wszystkie wierzchołki.
 
-Problem ścieżki Hamiltona ma zastosowanie w wielu dziedzinach, takich jak informatyka, telekomunikacja czy bioinformatyka. Rozwiązanie tego problemu jest często kluczowe w analizie sieci i trasowania w systemach komunikacyjnych \cite{enwiki:1190136070}.
+Problem ścieżki Hamiltona ma zastosowanie w~wielu dziedzinach, takich jak informatyka, telekomunikacja czy bioinformatyka. Rozwiązanie tego problemu jest często kluczowe w~analizie sieci i~trasowania w~systemach komunikacyjnych \cite{enwiki:1190136070}.
 
 Dla grafu skierowanego $G = (V, E)$, gdzie:
 \begin{itemize}
@@ -86,7 +86,7 @@ Dla grafu skierowanego $G = (V, E)$, gdzie:
 	\item Dla każdej pary kolejnych wierzchołków \(s_i\) i \(s_{i+1}\) w sekwencji istnieje skierowana krawędź od \(s_i\) do \(s_{i+1}\) w \(E\). 
 \end{enumerate}
 
-Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i kończyć w dowolnym innym wierzchołku.
+Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i kończyć w~dowolnym innym wierzchołku.
 
 Aby zakodować problem decyzyjny istnienia ścieżki Hamiltona w grafie skierowanym użyjemy $n$ zmiennych $v_0,\ldots,v_{n-1}$, gdzie $n$ to liczba wierzchołków w grafie.
 Poniższe podformuły służą do zapewnienia odpowiednich warunków dla zmiennych używanych w rozwiązaniu problemu.
@@ -119,7 +119,7 @@ $\diredges$ sprawdza, czy istnieją krawędzie w grafie o zadanych wierzchołkac
 
 \vspace{1cm}
 
-Zatem cała formuła kodująca ścieżkę Hamiltona dla grafu skierowanego zawierającego \(n\) wierzchołków i zbiór krawędzi \(E\) jest następująca:
+Zatem cała formuła kodująca ścieżkę Hamiltona dla grafu skierowanego zawierającego \(n\)~wierzchołków i zbiór krawędzi \(E\) jest następująca:
 
 \begin{align*}
 	\HamPath(n, E) = \propernumbers(n) \land \distinctvs(n) \land \diredges(n, E)
@@ -159,7 +159,7 @@ Dla grafu nieskierowanego $G = (V, E)$, gdzie:
 	\item Dla każdej pary kolejnych wierzchołków \(s_i\) i \(s_{i+1}\) w sekwencji istnieje krawędź między \(s_i\) a \(s_{i+1}\) w \(E\). 
 \end{enumerate}
 
-Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i kończyć w dowolnym innym wierzchołku.
+Dodatkowo, ścieżka Hamiltona może zaczynać się z dowolnego wierzchołka i kończyć w~dowolnym innym wierzchołku.
 
 W kontekście modelowania problemu ścieżki Hamiltona w grafie nieskierowanym należy zapewnić możliwość przechodzenia przez krawędź w obie strony, co można osiągnąć poprzez stworzenie formuły logicznej, która będzie uwzględniała możliwość istnienia krawędzi w \(E\) pomiędzy wierzchołkami \(v_i\) a \(v_{i+1}\) w obu kierunkach:
 
@@ -177,7 +177,7 @@ Zatem cała formuła kodująca ścieżkę Hamiltona dla grafu nieskierowanego za
 
 \section{Problem maksymalnej kliki w grafie nieskierowanym}
 
-Klika w grafie nieskierowanym \(G\) to pełny podgraf, czyli taki, w którym każde dwa wierzchołki są połączone krawędzią. Problem kliki polega na sprawdzeniu, czy graf zwiera klikę o określonym rozmiarze. Maksymalna klika to taka, która zawiera największą możliwą liczbę wierzchołków \cite{Sipser0086373}. 
+Klika w grafie nieskierowanym \(G\) to pełny podgraf, czyli taki, w którym każde dwa wierzchołki są połączone krawędzią. Problem kliki polega na sprawdzeniu, czy graf zwiera klikę o~określonym rozmiarze. Maksymalna klika to taka, która zawiera największą możliwą liczbę wierzchołków \cite{Sipser0086373}. 
 
 Dla grafu nieskierowanego $G = (V, E)$, gdzie:
 \begin{itemize}
@@ -192,7 +192,7 @@ Maksymalną kliką w grafie \(G\) jest podzbiór $C \subseteq V$ taki, że:
 
 Aby zakodować problem decyzyjny istnienia kliki o rozmiarze $k$ użyjemy $k$ zmiennych $v_0,\ldots,v_{k-1}$, gdzie $v_0,\ldots,v_{k-1}$, gdzie $0 < k \leq n$.
 
-Formuła logiczna kodująca problem poszukiwania maksymalnej kliki zapewnia, że każda zmienna \(v_j\) ma właściwą wartość i wszystkie zmienne \(v_j\) są różne od siebie (formuły $\propernumbers$ oraz $\distinctvs$ zostały już wcześniej omówione w opisie problemu ścieżki Hamiltona (Hamiltonian Path), dlatego też nie będę ich ponownie rozważać, zgodnie z zasadą unikania nadmiernego powtórzenia.) Druga część formuły zapewnia, że dla każdej pary wierzchołków \(v_i\) i \(v_j\) w zbiorze kandydatów na klikę o rozmiarze \(k\) istnieje krawędź między nimi. Ten warunek jest sprawdzany poprzez iterację przez wszystkie pary $\{s,t\}$ w zbiorze krawędzi \(E\) i sprawdzenie, czy \(v_i\) i \(v_j\) są końcami tej krawędzi.
+Formuła logiczna kodująca problem poszukiwania maksymalnej kliki zapewnia, że każda zmienna \(v_j\) ma właściwą wartość i wszystkie zmienne \(v_j\) są różne od siebie (formuły $\propernumbers$ oraz $\distinctvs$ zostały już wcześniej omówione w opisie problemu ścieżki Hamiltona (Hamiltonian Path), dlatego też nie będę ich ponownie rozważać, zgodnie z zasadą unikania nadmiernego powtórzenia.) Druga część formuły zapewnia, że dla każdej pary wierzchołków \(v_i\) i \(v_j\) w zbiorze kandydatów na klikę o rozmiarze \(k\) istnieje krawędź między nimi. Ten warunek jest sprawdzany poprzez iterację przez wszystkie pary $\{s,t\}$ w zbiorze krawędzi \(E\) i~sprawdzenie, czy \(v_i\) i \(v_j\) są końcami tej krawędzi.
 
 \begin{align*}
 	&\MaxClique(n, E, k) = \propernumbers(k)  \land \distinctvs(k)  \land \\
@@ -215,7 +215,7 @@ Niezależny zbiór w grafie nieskierowanym jest podzbiorem wierzchołków grafu 
 
 Problem maksymalnego niezależnego zbioru i jego dopełnienie, problem minimalnego pokrycia wierzchołkowego, są zaangażowane w dowodzenie złożoności obliczeniowej wielu problemów teoretycznych \cite{Skiena20}.
 
-Dla grafu $G = (V, E)$, niezależny zbiór \(S\) jest maksymalnym jeżeli dla $s \in V$ jedno z poniższych twierdzeń jest prawdziwe \cite{maxIndSetDef}:
+Dla grafu $G = (V, E)$, niezależny zbiór \(S\) jest maksymalnym jeżeli dla $s \in V$ jedno z~poniższych twierdzeń jest prawdziwe \cite{maxIndSetDef}:
 
 \begin{itemize}
 	\item $s \in S$;
@@ -224,14 +224,14 @@ Dla grafu $G = (V, E)$, niezależny zbiór \(S\) jest maksymalnym jeżeli dla $s
 
 Aby zakodować problem decyzyjny maksymalnego niezależnego zbioru o rozmiarze $k$ użyjemy $n$ zmiennych $v_0,\ldots,v_{n-1}$, gdzie $n$ to liczba wierzchołków w grafie.
 
-Formuła logiczna kodująca problem maksymalnego zbioru niezależnego składa się z trzech podformuł. Pierwsza i druga zapewniają, że każda zmienna ma właściwą wartość, a wszystkie zmienne są różne od siebie odpowiednio. Trzecia podformuła zapewnia, że dla każdej pary zmiennych \(v_i\) i \(v_j\) w zbiorze kandydatów na maksymalny zbiór niezależny o rozmiarze \(k\), nie istnieje krawędź między nimi w \(E\).
+Formuła logiczna kodująca problem maksymalnego zbioru niezależnego składa się z~trzech podformuł. Pierwsza i druga zapewniają, że każda zmienna ma właściwą wartość, a~wszystkie zmienne są różne od siebie odpowiednio. Trzecia podformuła zapewnia, że dla każdej pary zmiennych \(v_i\) i \(v_j\) w zbiorze kandydatów na maksymalny zbiór niezależny o rozmiarze \(k\), nie istnieje krawędź między nimi w \(E\).
 
 \begin{align*}
 	\MaxIndSet(n, E, k) = \propernumbers(n) \land \distinctvs(n)  \land \\
 	\left( \bigwedge_{i=0}^{k-1} \bigwedge_{j=i+1}^{k} \bigvee_{\{s,t\} \in E} \lnot((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
 \end{align*}
 
-Funkcja $\checkmaxindset$  w programie $\maxindset$ przyjmuje graf oraz rozmiar potencjalnego maksymalnego zbioru niezależnego. Tworzy wektor zmiennych całkowitoliczbowych $vertices$, dodaje odpowiednie ograniczenia (wszystkie wierzchołki muszą być w zakresie od $0$ do $n$ i nie mogą się powtarzać), a następnie definiuje warunki, które wykluczają istnienie krawędzi między wierzchołkami w potencjalnym zbiorze niezależnym. Po dodaniu ograniczeń solver próbuje znaleźć rozwiązanie. Po sprawdzeniu wyniku działania solvera, jeśli udało się znaleźć maksymalny zbiór niezależny, program wypisuje ten zbiór na ekranie. W przeciwnym przypadku kończy działanie, nie wypisując żadnego wyniku. Program zapisuje stan rozwiązania w pliku o formacie .smt2.
+Funkcja $\checkmaxindset$  w programie $\maxindset$ przyjmuje graf oraz rozmiar potencjalnego maksymalnego zbioru niezależnego. Tworzy wektor zmiennych całkowitoliczbowych $vertices$, dodaje odpowiednie ograniczenia (wszystkie wierzchołki muszą być w zakresie od $0$ do $n$ i nie mogą się powtarzać), a następnie definiuje warunki, które wykluczają istnienie krawędzi między wierzchołkami w potencjalnym zbiorze niezależnym. Po~dodaniu ograniczeń solver próbuje znaleźć rozwiązanie. Po sprawdzeniu wyniku działania solvera, jeśli udało się znaleźć maksymalny zbiór niezależny, program wypisuje ten zbiór na~ekranie. W przeciwnym przypadku kończy działanie, nie wypisując żadnego wyniku. Program zapisuje stan rozwiązania w pliku o formacie .smt2.
 
 \lstinputlisting[caption={Funkcja $\checkmaxindset$}, captionpos=t]{./codes/check_maxindset.py}
 
@@ -312,7 +312,7 @@ Funkcja \texttt{draw\textunderscore graph} rysuje graf z pokolorowanymi wierzcho
 \lstinputlisting[caption={Funkcja $\drawgraph$}, captionpos=t]{./codes/draw_graph.py}
 
 \section{Problem Komiwojażera}
-Rozwiązanie Problemu Komiwojażera jest kluczowym zagadnieniem optymalizacyjnym, które ma szerokie zastosowanie w różnych dziedzinach, od logistyki po planowanie tras w sieciach komunikacyjnych. Jest to szczególny przypadek problemu cyklu Hamiltona, gdzie cykl ten musi minimalizować sumaryczny koszt podróży. 
+Rozwiązanie Problemu Komiwojażera jest kluczowym zagadnieniem optymalizacyjnym, które ma szerokie zastosowanie w różnych dziedzinach, od logistyki po planowanie tras w~sieciach komunikacyjnych. Jest to szczególny przypadek problemu cyklu Hamiltona, gdzie cykl ten musi minimalizować sumaryczny koszt podróży. 
 
 Formalnie, cykl hamiltonowski grafu nieskierowanego $G = (V, E)$ jest prostym cyklem, który zawiera każdy wierzchołek w \(V\). Mówi się, że graf, zawierający cykl Hamiltona, jest hamiltonowskim, a w przeciwnym razie jest niehamiltonowskim. 
 
