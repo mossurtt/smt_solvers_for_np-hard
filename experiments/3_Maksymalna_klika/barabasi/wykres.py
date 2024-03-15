@@ -1,12 +1,14 @@
 import os
 import re 
+import numpy as np
 import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
 
 def parse_log_file(log_file):
     with open(log_file, 'r') as file:
         lines = file.readlines()
     
-    n = int(log_file.split("-")[1])
+    n = int(log_file.split("/")[-1].split("-")[0])
     
     data = []
     for line in lines:
@@ -22,8 +24,8 @@ def plot_log_files(log_dir):
     plt.figure(figsize=(12, 8))
 
     solvers = {}
-    
-    markers = [ 'D', 's', 'o'] 
+
+    solver_colors = {'z3': 'green', 'yices': 'blue', 'cvc5': 'orange'}
 
     for filename in os.listdir(log_dir):
         if filename.endswith(".log"):
@@ -41,27 +43,37 @@ def plot_log_files(log_dir):
 
     ax1 = plt.gca()
     ax2 = ax1.twinx()
+
+    max_memory = max([entry[2] for data in solvers.values() for entry in data])
+    min_memory = min([entry[2] for data in solvers.values() for entry in data])
+
+    memory_range = max_memory - min_memory
     
-    for i, (solver, data) in enumerate(sorted_data.items()):
+    for solver, data in sorted_data.items():
         ns = [entry[0] for entry in data]
         times = [entry[1] for entry in data]
         memories = [entry[2] for entry in data]
 
-        marker = markers[i % len(markers)]
+        color = solver_colors.get(solver, 'black')
+        
+        ax1.plot(ns, times, linestyle='-', label=solver, linewidth=3, color=color)
 
-        ax1.plot(ns, times, linestyle='-', label=solver, linewidth=4)
-        ax1.scatter(ns, times, marker=marker, s=40)
-        # ax2.scatter(ns, memories, linestyle='dashed', s=30)
+        ax2.fill_between(ns, memories, alpha=0.2, color=color)
 
     ax1.set_xticks(range(4, 25, 2))
-    
+
+    memory_ticks = np.linspace(min_memory, max_memory, 10)
+    memory_ticks_labels = [str(int(round(x, -3))) for x in memory_ticks]
+    ax2.set_yticks(memory_ticks)
+    ax2.set_yticklabels(memory_ticks_labels)
+
     ax1.set_xlabel('Rozmiar grafu (n)')
     ax1.set_ylabel('Czas (s)')
-    # ax2.set_ylabel('Memory (kB)')
+    ax2.set_ylabel('Pamięć (kB)')
     ax1.set_title('Wyniki dla MaxClique (Barabasi)')
     ax1.legend()
-    plt.savefig('barabasi-plot.png') 
+    plt.savefig('3-barabasi-plot.png') 
     plt.show()
 
-log_dir = 'log'
+log_dir = 'logs'
 plot_log_files(log_dir)

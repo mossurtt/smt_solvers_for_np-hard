@@ -36,7 +36,7 @@ def check_coloring(graph, k):
             solver.add(vertex_color[i] != vertex_color[vertices[neighbor]])
 
     smt2_representation = solver.to_smt2()
-    file_name = f'graphcoloring_{n}_{k}.smt2'
+    file_name = f'graphcoloring-{n}-{k}.smt2'
     with open(file_name, 'w') as file:
         file.write("(set-logic ALL)\n")
         file.write(smt2_representation)  

@@ -6,10 +6,15 @@ if [ "$#" -ne "1" ]; then
 fi
 
 name=$1
-for k in `seq 2 9` ; do
-    ulimit -t 600 -v 8388608 # połowa RAM-u w kB
+LOG_DIR="./logs"
+OUTPUT_LOG="./logs/14-yices.log"
+
+for k in `seq 1 14` ; do
+    ulimit -t 600
+    ulimit -v 8388608 # połowa RAM-u w kB
     echo "k = $k"
-    LOG="./logs/${name}-14-${k}-yices.log"
-    /usr/bin/time -o ${LOG} -f "%e %M" yices-smt2 ${name}-14-${k}.smt2 >| ./outs/${name}-14-${k}-yices.out
+    LOG="./${LOG_DIR}/${name}-14-${k}-yices.log"
+    /usr/bin/time -o ${LOG} -f "%e %M" yices-smt2 ${name}-14-${k}.smt2 
 done
 
+cat ${LOG_DIR}/${name}-14*yices.log | awk '{time+=$1; memory+=$2} END {printf "%.2f %d\n", time, memory}' > $OUTPUT_LOG

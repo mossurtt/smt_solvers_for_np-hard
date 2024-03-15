@@ -14,7 +14,7 @@ def main():
     min_w = min(min(w for _, w in edges) for edges in graph.values()) 
     total_w = sum(sum(w for _, w in edges) for edges in graph.values()) // 2
 
-    for t in range(min_w, total_w, min_w):
+    for t in range(min_w, total_w, total_w//6):
         result, model = check_tsp(graph, t)
         # Przy znalezieniu minimalnej trasy przerwij
         if result != z3.unsat:

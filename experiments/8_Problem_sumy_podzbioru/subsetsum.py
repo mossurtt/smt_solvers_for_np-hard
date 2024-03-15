@@ -14,9 +14,9 @@ def main():
     t_min = min(input_set)
     t_max = sum(input_set)
     
-    for t in range(t_min, t_max):
+    for t in range(t_min, t_max, t_max//6):
         result, model = check_subsetsum(input_set, t)
-        
+               
 def check_subsetsum(input_set, t):
     n = len(input_set)
     vars = z3.IntVector('x', n)
@@ -30,7 +30,7 @@ def check_subsetsum(input_set, t):
     solver.add(subset_sum == t)
 
     smt2_representation = solver.to_smt2()
-    file_name = f'subsetsum_{n}_{t}.smt2'
+    file_name = f'subsetsum-{n}-{t}.smt2'
     with open(file_name, 'w') as file:
         file.write("(set-logic ALL)\n")
         file.write(smt2_representation)  

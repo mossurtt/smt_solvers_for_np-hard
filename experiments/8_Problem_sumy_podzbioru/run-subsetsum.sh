@@ -1,10 +1,9 @@
 #!/bin/bash
 
-if [ $# -lt 2 ]; then
-    echo "Usage: ./run-subsetsum.sh graph-name n"
+if [ $# -lt 1 ]; then
+    echo "Usage: ./run-subsetsum.sh n"
     exit 1
 fi
 n=$1
-LOG="${n}.log"
-/usr/bin/time -o ${LOG} -f "%e %M" python3 subsetsum.py \
-    "../zbiory_liczb/$n.txt" >| ${n}.out
+/usr/bin/time -f "%e %M" python3 subsetsum.py \
+    "../zbiory_liczb/$n.txt" >| ./outs/${n}.out
