@@ -53,7 +53,7 @@ Eksperymenty nad problemem ścieżki Hamiltona w grafach skierowanych, generowan
 
 Solvery Z3 i cvc5 wykazywały podobne czasy działania, osiągając odpowiedzi niemal równie szybko, typowo w granicach 0.1 sekundy (rysunek \ref{fig:1-barabasi-plot}). 
 
-Niemniej jednak, warto zauważyć, że Yices zużywał najmniej pamięci w porównaniu do~innych solwerów, co może stanowić jego zaletę w przypadku problemów z ograniczeniami zasobowymi.
+Niemniej jednak, warto zauważyć, że Yices zużywał najmniej pamięci w porównaniu do~innych solverów, co może stanowić jego zaletę w przypadku problemów z ograniczeniami zasobowymi.
 
 \begin{figure}[htbp]
 	\centering
@@ -191,7 +191,7 @@ W wynikach eksperymentów dotyczących problemu pokrycia wierzchołkowego, wszys
 	\end{minipage}
 \end{figure}
 
-Analiza szczegółowych danych wykazała istotne różnice w szybkości działania oraz wykorzystaniu zasobów pamięci między solverami. Jak przedstawiono na wykresach \ref{fig:5-barabasi-plot} oraz \ref{fig:4-erdos-renyi-plot}, Yices wyróżniał się jako najszybszy spośród testowanych narzędzi dla obu typów grafów, udzielając odpowiedzi w bardzo krótkim czasie i wykorzystując dziesięciokrotnie mniej pamięci w porównaniu do pozostałych solwerów.
+Analiza szczegółowych danych wykazała istotne różnice w szybkości działania oraz wykorzystaniu zasobów pamięci między solverami. Jak przedstawiono na wykresach \ref{fig:5-barabasi-plot} oraz \ref{fig:4-erdos-renyi-plot}, Yices wyróżniał się jako najszybszy spośród testowanych narzędzi dla obu typów grafów, udzielając odpowiedzi w bardzo krótkim czasie i wykorzystując dziesięciokrotnie mniej pamięci w porównaniu do pozostałych solverów.
 
 \begin{figure}[htbp]
 	\centering
@@ -273,9 +273,9 @@ Z przeprowadzonych eksperymentów można wywnioskować kilka istotnych kwestii w
 
 \begin{enumerate}
 	\item \textbf{Rozmiar instancji problemu.} 
-	Analiza eksperymentów wskazuje, że wraz z rosnącym rozmiarem problemu, tj. liczbą wierzchołków w grafie lub liczbą elementów w zbiorze, czas rozwiązania przez solvery znacząco się wydłuża. Dla bardziej złożonych problemów czas działania solwerów może być znacznie dłuższy.
+	Analiza eksperymentów wskazuje, że wraz z rosnącym rozmiarem problemu, tj. liczbą wierzchołków w grafie lub liczbą elementów w zbiorze, czas rozwiązania przez solvery znacząco się wydłuża. Dla bardziej złożonych problemów czas działania solverów może być znacznie dłuższy.
 	\item \textbf{Wpływ struktury grafu.}
-	Struktura grafu, na przykład sposób jego generowania lub złożoność, może mieć znaczący wpływ na wydajność obliczeniową. Pewne solvery osiągają lepsze wyniki podczas pracy z określonymi typami grafów, co sugeruje, że~istnieje zależność między strukturą grafu a wydajnością solwera.
+	Struktura grafu, na przykład sposób jego generowania lub złożoność, może mieć znaczący wpływ na wydajność obliczeniową. Pewne solvery osiągają lepsze wyniki podczas pracy z określonymi typami grafów, co sugeruje, że~istnieje zależność między strukturą grafu a wydajnością solvera.
 	\item \textbf{Rodzaj problemu.} 
 	Różnice w wydajności solverów w zależności od rodzaju problemu mogą być zauważalne w kontekście różnorodnych klas problemów NP-trudnych. Przykładowo, eksperymenty wykazały, że solvery znacznie szybciej radziły sobie z rozwiązaniem problemu $\SubsetSum$, niż z problemami grafowymi, nawet przy dużych zestawach danych wejściowych. Te różnice mogą być istotne podczas analizy wydajności solverów w zróżnicowanych scenariuszach problemowych.
 	\item \textbf{Zużycie zasobów.} 
