@@ -40,7 +40,57 @@ Do generowania zestawów liczb całkowitych o różnych rozmiarach, przeznaczony
 
 \subsection{Wyniki dla Problemu ścieżki Hamiltona w grafie skierowanym}
 
+Eksperymenty nad problemem ścieżki Hamiltona w grafach skierowanych, generowanych metodą Barabási-Alberta, wykazały interesujące zależności. W przypadku grafów tego typu, solver Yices zaczął wykazywać wydłużony czas działania od 20 wierzchołków. To sugeruje, że rozwiązanie problemu ścieżki Hamiltona w grafach skierowanych, zwłaszcza o większym rozmiarze, może być wymagające dla tego solvera, prowadząc do wydłużonego czasu działania.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/1-barabasi-plot.png}
+		\caption{Wyniki eksperymentów dla grafów typu Barabási-Alberta.}
+		\label{fig:1-barabasi-plot}
+	\end{minipage}
+\end{figure}
+
+Solvery Z3 i CVC5 wykazywały podobne czasy działania, osiągając odpowiedzi niemal równie szybko, typowo w granicach 0.1 sekundy (rysunek \ref{fig:1-barabasi-plot}). 
+
+Niemniej jednak, warto zauważyć, że Yices zużywał najmniej pamięci w porównaniu do innych solwerów, co może stanowić jego zaletę w przypadku problemów z ograniczeniami zasobowymi.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/1-erdos-renyi-plot.png}
+		\caption{Wyniki eksperymentów dla grafów typu  Erdős-Rényi'ego.}
+		\label{fig:1-erdos-renyi-plot}
+	\end{minipage}
+\end{figure}
+
+W przypadku grafów Erdős-Rényi, wyniki eksperymentów demonstrują, że Yices wykazywał się najwyższą wydajnością w rozwiązywaniu problemów ścieżki Hamiltona dla grafów tego typu, podczas gdy Z3 i CVC5 były od niego nieco wolniejsze. Ponadto, CVC5 zużywał więcej pamięci niż Yices, a Z3 jeszcze więcej, co można zaobserwować na rysunku \ref{fig:1-erdos-renyi-plot}. Można więc założyć, że pod względem zużycia zasobów pamięciowych Yices jest lepszy niż pozostałe solvery.
+
 \subsection{Wyniki dla Problemu ścieżki Hamiltona w grafie nieskierowanym}
+
+Wyniki eksperymentów nad problemem ścieżki Hamiltona w grafach nieskierowanych, uzyskane dla obu typów grafów, są bardzo podobne. W obu przypadkach solvery wykazały się zbliżoną szybkością działania, co sugeruje, że skomplikowanie grafu nie miało znaczącego wpływu na czas rozwiązania problemu.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/2-barabasi-plot.png}
+		\caption{Wyniki eksperymentów dla grafów typu Barabási-Alberta.}
+		\label{fig:2-barabasi-plot}
+	\end{minipage}
+\end{figure}
+
+Mimo że wszystkie solvery udzieliły odpowiedzi w czasie rzędu 0.3 sekundy, na wykresie \ref{fig:2-barabasi-plot} można zauważyć różnice w ich efektywności. Szczególnie wyraźna jest szybkość działania solvera Yices, który uzyskał najlepsze rezultaty w porównaniu z pozostałymi.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/2-erdos-renyi-plot.png}
+		\caption{Wyniki eksperymentów dla grafów typu Erdős-Rényi'ego.}
+		\label{fig:2-erdos-renyi-plot}
+	\end{minipage}
+\end{figure}
+
+Najbardziej znaczącą różnicę zaobserwowano w zużyciu pamięci przez poszczególne solvery, co jest widoczne na rysunku \ref{fig:2-erdos-renyi-plot}. Yices po raz kolejny okazał się być najwydajniejszy, zużywając najmniej zasobów pamięciowych, zwłaszcza w przypadku mniejszych danych. Z tego możemy wywnioskować, że Yices wykazuje się wysoką wydajnością przy rozwiązywaniu problemów o niewielkim rozmiarze. Natomiast Z3 wykazał się największym zużyciem pamięci.
 
 \subsection{Wyniki dla Problemu maksymalnej kliki}
 
