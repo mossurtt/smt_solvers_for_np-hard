@@ -90,6 +90,22 @@ Mimo że wszystkie solvery udzieliły odpowiedzi w czasie rzędu 0.3 sekundy, na
 	\end{minipage}
 \end{figure}
 
+%\begin{figure}[htbp]
+%	\centering
+%	\begin{subfigure}[b]{0.45\textwidth}
+%		\includegraphics[width=\textwidth]{./figures/2-barabasi-plot.png}
+%		\caption{Barabási-Alberta.}
+%		\label{fig:2-barabasi-plot}
+%	\end{subfigure}
+%	\begin{subfigure}[b]{0.45\textwidth}
+%		\includegraphics[width=\textwidth]{./figures/2-erdos-renyi-plot.png}
+%		\caption{Erdős-Rényi'ego.}
+%		\label{fig:2-erdos-renyi-plot}
+%	\end{subfigure}
+%	\caption{Wyniki UHamPath}
+%	\label{fig:2}
+%\end{figure}
+
 Najbardziej znaczącą różnicę zaobserwowano w zużyciu pamięci przez poszczególne solvery, co jest widoczne na rysunku \ref{fig:2-erdos-renyi-plot}. Yices po raz kolejny okazał się być najwydajniejszy, zużywając najmniej zasobów pamięciowych, zwłaszcza w przypadku mniejszych danych. Z tego możemy wywnioskować, że Yices wykazuje się wysoką wydajnością przy rozwiązywaniu problemów o niewielkim rozmiarze. Natomiast Z3 wykazał się największym zużyciem pamięci.
 
 \subsection{Wyniki dla Problemu maksymalnej kliki}
@@ -218,7 +234,41 @@ Na podstawie danych z wykresu \ref{fig:6-erdos-renyi-plot} można stwierdzić, �
 
 \subsection{Wyniki dla Problemu Komiwojażera}
 
+Wyniki eksperymentów dotyczących problemu komiwojażera (TSP) wykazały znaczną różnicę w wydajności między solverem Z3 a pozostałymi. Z3 był w stanie błyskawicznie udzielać odpowiedzi nawet dla problemów o znacznych rozmiarach, co sugeruje jego skuteczność w rozwiązywaniu TSP. Natomiast Yices zaczął wykazywać długie czasy rozważania już od 8 wierzchołków i nawet na niewielkich wartościach $k$, szczególnie w przypadku niespełnialności. To zjawisko może wskazywać na pewne ograniczenia wydajnościowe Yices w przypadku problemów, w których występują niespełnialne instancje.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{./figures/7-barabasi-plot.png}
+		\caption{Barabási-Alberta.}
+		\label{fig:7-barabasi-plot}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{./figures/7-barabasi-plot.png}
+		\caption{Erdős-Rényi'ego.}
+		\label{fig:7-barabasi-plot}
+	\end{subfigure}
+	\caption{Wyniki TSP}
+	\label{fig:7}
+\end{figure}
+
 \subsection{Wyniki dla Problemu sumy podzbioru}
 
 \section{Identyfikacja czynników wpływających na efektywność}
 
+Z przeprowadzonych eksperymentów można wywnioskować kilka istotnych kwestii wpływających na efektywność solverów w rozwiązywaniu problemów NP-trudnych:
+
+\begin{enumerate}
+	\item \textbf{Rozmiar instancji problemu.} 
+	Analiza eksperymentów wskazuje, że wraz z rosnącym rozmiarem problemu, tj. liczbą wierzchołków w grafie lub liczbą elementów w zbiorze, czas rozwiązania przez solvery znacząco się wydłuża. Dla bardziej złożonych problemów czas działania solwerów może być znacznie dłuższy.
+	\item \textbf{Wpływ struktury grafu.}
+	Struktura grafu, na przykład sposób jego generowania lub złożoność, może mieć znaczący wpływ na wydajność obliczeniową. Pewne solvery osiągają lepsze wyniki podczas pracy z określonymi typami grafów, co sugeruje, że istnieje zależność między strukturą grafu a wydajnością solwera.
+	\item \textbf{Rodzaj problemu.} 
+	Różnice w wydajności solverów w zależności od rodzaju problemu mogą być zauważalne w kontekście różnorodnych klas problemów NP-trudnych. Przykładowo, eksperymenty wykazały, że solvery znacznie szybciej radziły sobie z rozwiązaniem problemu $\SubsetSum$, niż z problemami grafowymi, nawet przy dużych zestawach danych wejściowych. Te różnice mogą być istotne podczas analizy wydajności solverów w zróżnicowanych scenariuszach problemowych.
+	\item \textbf{Zużycie zasobów.} 
+	Oprócz czasu działania, istotnym czynnikiem jest również zużycie pamięci przez solvery. Chociaż solver Z3 zużywał więcej pamięci, to utrzymywał stabilnie szybkie czasy odpowiedzi. Z kolei Yices zużywał mniej pamięci, jednak dla większych instancji problemów nie radził sobie ze skutecznością. Natomiast solver cvc5 charakteryzował się zarówno dużym zużyciem pamięci, jak i dłuższymi czasami odpowiedzi, co sugeruje, że może mieć ograniczoną wydajność w rozwiązywaniu problemów NP-trudnych.
+	\item \textbf{Różnice w trudności sprawdzania spełnialności i niespełnialności.} 
+	Warto zauważyć, że w większości przypadków szukanie niespełnialności może być trudniejsze niż spełnialności. To oznacza, że nawet w przypadku krótkiego czasu działania solvera, rozwiązanie problemu 'unsat' może być bardziej wymagające i czasochłonne niż 'sat'. Jednak nie zawsze sytuacja wygląda identycznie dla wszystkich problemów. Na przykład, w przypadku problemu sumy podzbioru, szukanie spełnialności zajmowało solverom więcej czasu niż niespełnialności. 
+\end{enumerate}	
+
+Na podstawie wyników eksperymentów, Z3 w większości przypadków okazał się być najbardziej uniwersalnym solverem dla różnorodnych problemów NP-trudnych. Zarówno dla grafów typu Barabási-Alberta, jak i Erdős-Rényi'ego, Z3 osiągał dobre rezultaty. Jego wszechstronność pozwala na skuteczne rozwiązanie problemów, co czyni go atrakcyjnym wyborem dla wielu zastosowań. Ponadto, Z3 pokazywał tendencję do efektywnego wykorzystania zasobów pamięci, co jest istotne w kontekście problemów o dużej skali. Z uzyskanych danych wynika, że Z3 może być skutecznym narzędziem do rozwiązywania złożonych problemów NP-trudnych w praktyce.
