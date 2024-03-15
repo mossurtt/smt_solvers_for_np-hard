@@ -254,6 +254,18 @@ Wyniki eksperymentów dotyczących problemu komiwojażera (TSP) wykazały znaczn
 
 \subsection{Wyniki dla Problemu sumy podzbioru}
 
+W badaniach dotyczących problemu Subset Sum zaobserwowano, że solver Z3 wykazywał się najwyższą wydajnością zarówno pod względem czasu, jak i zużycia pamięci. Yices również osiągnął zadowalające wyniki, jednakże na zbiorach danych o rozmiarach 30 i 35 nie był w stanie wykonać zadania. Natomiast solver CVC5 nie radził sobie już przy zbiorze o rozmiarze 20, zużywając przy tym znacznie większą ilość pamięci w porównaniu do innych solverów. Powyższe wyniki są dobrze zilustrowane na wykresie \ref{fig:8}. Te różnice w wydajności mogą być istotne w kontekście praktycznego zastosowania solverów w rozwiązywaniu problemów związanych z arytmetyką.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/8-plot.png}
+		\caption{Wyniki eksperymentów dla zbiorów .}
+		\label{fig:8}
+	\end{minipage}
+\end{figure}
+
+
 \section{Identyfikacja czynników wpływających na efektywność}
 
 Z przeprowadzonych eksperymentów można wywnioskować kilka istotnych kwestii wpływających na efektywność solverów w rozwiązywaniu problemów NP-trudnych:

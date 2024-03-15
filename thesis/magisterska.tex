@@ -98,15 +98,15 @@ SMT rozwinęło się przez ostatnie lata w bardzo aktywny obszar badawczy, któr
 Dzięki postępowi w badaniach i technologii SMT, istnieje obecnie kilka potężnych i zaawansowanych solverów SMT (np. Alt-Ergo, Beaver, Boolector, CVC5, MathSAT5, openSMT, SMTInterpol, SONOLAR, STP, veriT, Yices i Z3), które są wykorzystywane w szybko rosnącym szeregu aplikacji. Wśród nich znajdują się obecnie m.in. weryfikacja procesorów, badanie równoważności, ograniczone i nieograniczone sprawdzanie modeli, abstrakcja predykatów, analiza statyczna, automatyczne generowanie przypadków testowych, sprawdzanie typów, harmonogramowanie i optymalizacja.
 Ostatnie osiągnięcia w dziedzinie SMT były spowodowane kilkoma czynnikami, w tym skupieniem się na podstawowych teoriach i klasach problemów występujących w praktyce, dostosowanie technologii SAT do potrzeb SMT oraz innowacje w zakresie algorytmów i struktur danych \cite{Clarke18}.
 
-Celem niniejszej pracy jest zbadanie skuteczności SMT solverów w rozwiązywaniu dwunastu klasycznych problemów NP-trudnych, a mianowicie: Ścieżka Hamiltona, Izomorfizm grafów, Pokrycie wierzchołkowe (ang. Vertex Cover), Problem kliki (ang. The maximum clique size problem), Problem pokrycia zbioru (ang. Set Cover), Problem maksymalnego zbioru niezależnego (ang. Maximum Independent Set), Problem Komiwojażera, Kolorowanie grafu, Problem sumy podzbioru (ang. SubsetSum), Drzewo Steinera (ang. Steiner Tree), Problem plecakowy, Problem najbliższego ciągu (ang. Closest string).
+Celem niniejszej pracy jest zbadanie skuteczności SMT solverów w rozwiązywaniu ośmiu klasycznych problemów NP-trudnych, a mianowicie: Ścieżka Hamiltona w grafie skierowanym, Ścieżka Hamiltona w grafie nieskierowanym, Pokrycie wierzchołkowe, Problem maksymalnej kliki, Problem maksymalnego zbioru niezależnego, Problem Komiwojażera, Kolorowanie grafu, oraz Problem sumy podzbioru.
 
 W pierwszym rozdziale zawarłam teoretyczne fundamenty Satisfiability Modulo Theories (SMT), wprowadzając czytelnika w główne aspekty tej dziedziny. Omówiłam kluczowe pojęcia, biorąc pod uwagę rozwój SMT-solverów i ich praktyczne zastosowania w realnych sytuacjach, takich jak te związane z klasą problemów NP-trudnych. 
 
-Drugi rozdział przedstawia podstawowe pojęcia złożoności obliczeniowej oraz koncepcji spełnialności, dwóch kluczowych aspektów niezbędnych do zrozumienia, czym są problemy obliczeniowe w kontekście SMT. Następnie dokonywana jest definicja klasy problemów NP-trudnych, które stanowią centralny temat niniejszej pracy magisterskiej.
+Drugi rozdział przedstawia podstawowe pojęcia złożoności obliczeniowej oraz koncepcji spełnialności, dwóch kluczowych aspektów niezbędnych do zrozumienia, czym są problemy obliczeniowe w kontekście SMT. Następnie dokonywane jest ogólne wprowadzenie do klasy problemów NP-trudnych, które stanowią centralny temat niniejszej pracy magisterskiej.
 
 W rozdziale trzecim zawarłam szczegółowy przegląd trzech popularnych SMT-solverów: Z3, Yices i CVC5, podkreślając ich cechy, mocne strony i potencjalne ograniczenia. Czytelnik zdobywa wgląd w różnice między tymi narzędziami, co stanowi podstawę dla późniejszych badań.
 
-Rozdział czwarty skupia się na przedstawieniu 12 klasycznych problemów NP-trudnych, a następnie opisuje sposób ich kodowania w języku Python.
+Rozdział czwarty skupia się na przedstawieniu 8 klasycznych problemów NP-trudnych, a następnie opisuje sposób ich kodowania w języku Python.
 
 Rozdział piąty poświęcony jest praktycznym eksperymentom, wykorzystując wyżej przedstawione solvery do rozwiązania wybranych problemów obliczeniowych. Analiza wyników pozwoli określić efektywność każdego z nich i wyciągnąc wnioski co do ich zastosowania.
 
