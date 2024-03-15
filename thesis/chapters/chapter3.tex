@@ -1,14 +1,14 @@
- \chapter{Przegląd SMT Solverów: Z3, Yices, CVC5}
+ \chapter{Przegląd SMT Solverów: Z3, Yices, cvc5}
 Rozdział ten ma na celu przedstawienie SMT solverów, efektywność których zostanie zbadana w niniejszej pracy. Każdy z nich charakteryzuje się unikatową architekturą oraz zestawem funkcji, co sprawia, że są one wykorzystywane w różnych kontekstach i scenariuszach. Analiza różnic między tymi solverami pozwoli lepiej zrozumieć ich mocne strony, ograniczenia oraz potencjał w kontekście konkretnych zastosowań. W dalszej części rozdziału zostaną omówione kluczowe cechy i mechanizmy każdego z solverów, wraz z ich porównaniem pod kątem wydajności, elastyczności, oraz możliwości generowania i weryfikacji dowodów.
 
 \section{Z3}
 Z3 to wydajny SMT solver dostępny bezpłatnie przez Microsoft Research. Z3 jest solverem dla logiki symbolicznej, będącej podstawą wielu narzędzi inżynierii oprogramowania. Solvery SMT polegają na ścisłej integracji wyspecjalizowanych silników walidacyjnych. Każdy silnik jest elementem ogólnej struktury i implementuje wyspecjalizowane algorytmy. Przykładowo, silnik Z3 dla arytmetyki obejmuje Simplex, cięcia i rozumowanie wielomianowe, podczas gdy silnik dla obsługi ciągów znaków i wyrażeń regularnych korzysta z metod symbolicznych pochodnych języków regularnych. Wspólną cechą wielu algorytmów jest sposób, w~jaki wykorzystują dwoistość między znajdowaniem rozwiązań spełniających a dowodów odrzucających. Solver ten integruje również silniki do wnioskowań globalnych i lokalnych oraz globalnej propagacji.
 Z3 jest używany w szerokim zakresie zastosowań inżynierii oprogramowania, obejmując weryfikację programów, walidację kompilatorów, testowanie, fuzzing przy użyciu dynamicznego wykonywania symbolicznego, rozwój oprogramowania oparty na modelach, weryfikację sieci i optymalizację.
-Z3 można aplikować za pomocą Visual Studio, pliku Makefile lub CMake. Zapewnia obsługę wielu języków programowania, w~tym .NET, C, C++, Java, OCaml, Web Assembly i Python.
+Z3 jest programem napisanym w~C++, a zatem do jego zbudowania potrzebny jest kompilator języka C++. Zapewnia obsługę wielu języków programowania, w~tym .NET, C, C++, Java, OCaml, Web Assembly i Python.
 
 \subsection{Architektura systemu}
 
-Z3 integruje nowoczesny solver SAT oparty na DPLL, bazowy solver dla teorii, który obsługuje równości i funkcje nieinterpretowane, specjalistyczne silniki (dla arytmetyki, tablic itp.) oraz maszynę abstrakcyjną E-matching (dla kwantyfikatorów). Z3 jest zaimplementowany w~C++. Schematyczny przegląd Z3 pokazano na rysunku \ref{fig:z3}.		
+Z3 integruje nowoczesny solver SAT oparty na DPLL, bazowy solver dla teorii, który obsługuje równości i funkcje nieinterpretowane, specjalistyczne silniki (dla arytmetyki, tablic itp.) oraz maszynę abstrakcyjną E-matching (dla kwantyfikatorów). Schematyczny przegląd Z3 pokazano na rysunku \ref{fig:z3}.		
 
 \begin{figure}[htbp]
 	\centering
@@ -122,13 +122,13 @@ cvc5 zapewnia API C++ jako główny interfejs, nie tylko dla zewnętrznego oprog
 
 \section{Analiza porównawcza SMT solverów}
 
-Porównując Z3, Yices i CVC5, należy zwrócić uwagę na to, że każdy z tych solverów ma swoje unikalne cechy, które wpływają na sposób ich użytkowania oraz efektywność rozwiązywania problemów.
+Porównując Z3, Yices i cvc5, należy zwrócić uwagę na to, że każdy z tych solverów ma swoje unikalne cechy, które wpływają na sposób ich użytkowania oraz efektywność rozwiązywania problemów.
 
 Z3 wyróżnia się wydajną architekturą opartą na wewnętrznym mechanizmie tzw. tłumaczenia zadań SMT na zadania SAT (ang. Satisfiability Modulo Theories to Boolean Satisfiability). Dzięki wsparciu dla szerokiego zakresu teorii i bogatej dokumentacji, Z3 jest często wybierany w projektach związanych z analizą i weryfikacją oprogramowania, a także w badaniach naukowych z obszaru informatyki teoretycznej i sztucznej inteligencji. Na przykład, firmy z branży technologicznej, takie jak Google i Facebook, korzystają z Z3 do weryfikacji oprogramowania oraz do analizy złożoności algorytmów.
 
 Yices, z kolei, cechuje się prostotą użytkowania oraz wysoką efektywnością w rozwiązywaniu problemów SAT i SMT. Jego architektura koncentruje się na szybkim i niezawodnym rozwiązywaniu problemów, co czyni go popularnym wyborem w projektach związanych z~weryfikacją układów cyfrowych oraz w automatycznym generowaniu testów. Przykładowo, firmy z sektora technologii mobilnych, takie jak Samsung i Apple, wykorzystują Yices do weryfikacji poprawności działania swoich urządzeń oraz do optymalizacji procesów projektowania.
 
-Natomiast CVC5, będący inicjatywą naukową, oferuje elastyczną i modułową architekturę, która umożliwia integrację różnorodnych technik, takich jak SyGuS oraz zaawansowane mechanizmy dowodzenia.  Jego silnik dedykowany do analizy teorii sprawia, że jest często wybierany w projektach badawczych z zakresu informatyki teoretycznej oraz w badaniach nad metodami rozwiązywania problemów SAT i SMT. Na przykład, instytucje naukowe oraz centra badawcze, takie jak MIT i Stanford University, wykorzystują CVC5 do analizy złożoności obliczeniowej algorytmów oraz do badania właściwości języków programowania.
+Natomiast cvc5, będący inicjatywą naukową, oferuje elastyczną i modułową architekturę, która umożliwia integrację różnorodnych technik, takich jak SyGuS oraz zaawansowane mechanizmy dowodzenia.  Jego silnik dedykowany do analizy teorii sprawia, że jest często wybierany w projektach badawczych z zakresu informatyki teoretycznej oraz w badaniach nad metodami rozwiązywania problemów SAT i SMT. Na przykład, instytucje naukowe oraz centra badawcze, takie jak MIT i Stanford University, wykorzystują cvc5 do analizy złożoności obliczeniowej algorytmów oraz do badania właściwości języków programowania.
 
 Te różnice w architekturze i funkcjonalnościach solverów SMT mają istotne implikacje dla ich wykorzystania w praktyce. Przyjrzenie się konkretnym zastosowaniom tych solverów może dostarczyć cennych wskazówek przy wyborze odpowiedniego narzędzia.
 

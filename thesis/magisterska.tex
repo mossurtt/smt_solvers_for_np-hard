@@ -78,7 +78,7 @@ Effectiveness of SMT solvers for classical NP-hard problems}
 \begin{document}
 \begin{abstract}
 Celem niniejszej pracy jest analiza i ocena efektywności SMT solverów w rozwiązywaniu klasycznych problemów zaliczanych do klasy NP-trudnych. Przełom w informatyce teoretycznej sprawił, że tego rodzaju zagadnienia stały się przedmiotem intensywnych badań. Niniejsza praca skupia się na zrozumieniu, jak SMT (Satisfiability Modulo Theories) solvery, będące potężnym narzędziem w dziedzinie rozstrzygania logicznego, radzą sobie z tymi wyjątkowo wymagającymi problemami.
-Przedmiotem badań w pracy są klasyczne problemy NP-trudne, a celem jest zbadanie i porównanie wydajności trzech SMT solverów - Z3, Yices i CVC5 - w kontekście rozwiązywania konkretnych problemów. Wybór tych narzędzi wynika z ich popularności, wszechstronności i aktywnego udziału w społeczności badawczej.
+Przedmiotem badań w pracy są klasyczne problemy NP-trudne, a celem jest zbadanie i porównanie wydajności trzech SMT solverów - Z3, Yices i cvc5 - w kontekście rozwiązywania konkretnych problemów. Wybór tych narzędzi wynika z ich popularności, wszechstronności i aktywnego udziału w społeczności badawczej.
 
 \end{abstract}
 
@@ -95,7 +95,7 @@ Praktyczny kompromis można osiągnąć za pomocą fragmentów logiki pierwszego
 
 W oparciu o klasyczne rozwiązania dotyczące procedur decyzyjnych dla rozumowania pierwszego rzędu, a także ogromny rozwój technologii rozwiązywania SAT w ciągu minionych dwóch dekad,
 SMT rozwinęło się przez ostatnie lata w bardzo aktywny obszar badawczy, którego cechą charakterystyczną jest wykorzystywanie metod wnioskowania, właściwych logicznym teoriom o dużym znaczeniu dla problemów stosowanych.
-Dzięki postępowi w badaniach i technologii SMT, istnieje obecnie kilka potężnych i zaawansowanych solverów SMT (np. Alt-Ergo, Beaver, Boolector, CVC5, MathSAT5, openSMT, SMTInterpol, SONOLAR, STP, veriT, Yices i Z3), które są wykorzystywane w szybko rosnącym szeregu aplikacji. Wśród nich znajdują się obecnie m.in. weryfikacja procesorów, badanie równoważności, ograniczone i nieograniczone sprawdzanie modeli, abstrakcja predykatów, analiza statyczna, automatyczne generowanie przypadków testowych, sprawdzanie typów, harmonogramowanie i optymalizacja.
+Dzięki postępowi w badaniach i technologii SMT, istnieje obecnie kilka potężnych i zaawansowanych solverów SMT (np. Alt-Ergo, Beaver, Boolector, cvc5, MathSAT5, openSMT, SMTInterpol, SONOLAR, STP, veriT, Yices i Z3), które są wykorzystywane w szybko rosnącym szeregu aplikacji. Wśród nich znajdują się obecnie m.in. weryfikacja procesorów, badanie równoważności, ograniczone i nieograniczone sprawdzanie modeli, abstrakcja predykatów, analiza statyczna, automatyczne generowanie przypadków testowych, sprawdzanie typów, harmonogramowanie i optymalizacja.
 Ostatnie osiągnięcia w dziedzinie SMT były spowodowane kilkoma czynnikami, w tym skupieniem się na podstawowych teoriach i klasach problemów występujących w praktyce, dostosowanie technologii SAT do potrzeb SMT oraz innowacje w zakresie algorytmów i struktur danych \cite{Clarke18}.
 
 Celem niniejszej pracy jest zbadanie skuteczności SMT solverów w rozwiązywaniu ośmiu klasycznych problemów NP-trudnych, a mianowicie: Ścieżka Hamiltona w grafie skierowanym, Ścieżka Hamiltona w grafie nieskierowanym, Pokrycie wierzchołkowe, Problem maksymalnej kliki, Problem maksymalnego zbioru niezależnego, Problem Komiwojażera, Kolorowanie grafu, oraz Problem sumy podzbioru.
@@ -104,7 +104,7 @@ W pierwszym rozdziale zawarłam teoretyczne fundamenty Satisfiability Modulo The
 
 Drugi rozdział przedstawia podstawowe pojęcia złożoności obliczeniowej oraz koncepcji spełnialności, dwóch kluczowych aspektów niezbędnych do zrozumienia, czym są problemy obliczeniowe w kontekście SMT. Następnie dokonywane jest ogólne wprowadzenie do klasy problemów NP-trudnych, które stanowią centralny temat niniejszej pracy magisterskiej.
 
-W rozdziale trzecim zawarłam szczegółowy przegląd trzech popularnych SMT-solverów: Z3, Yices i CVC5, podkreślając ich cechy, mocne strony i potencjalne ograniczenia. Czytelnik zdobywa wgląd w różnice między tymi narzędziami, co stanowi podstawę dla późniejszych badań.
+W rozdziale trzecim zawarłam szczegółowy przegląd trzech popularnych SMT-solverów: Z3, Yices i cvc5, podkreślając ich cechy, mocne strony i potencjalne ograniczenia. Czytelnik zdobywa wgląd w różnice między tymi narzędziami, co stanowi podstawę dla późniejszych badań.
 
 Rozdział czwarty skupia się na przedstawieniu 8 klasycznych problemów NP-trudnych, a~następnie opisuje sposób ich kodowania w języku Python.
 
@@ -124,13 +124,13 @@ Uważam, że udało mi się zrealizować ten cel, gdyż analiza wyników ekspery
 
 Wyzwaniem naukowym jest rozwój kodowania większej liczby problemów NP-trudnych z różnych dziedzin oraz przeprowadzenie eksperymentów na rozleglejszych zestawach danych wejściowych. Rozszerzenie zbioru problemów pozwoliłoby na bardziej wszechstronne zbadanie możliwości i ograniczeń poszczególnych solverów SMT w kontekście problemów NP-trudnych. Dodatkowo, większa różnorodność problemów pozwoliłaby na lepsze zrozumienie zachowania solverów w różnych scenariuszach, co może prowadzić do lepszych praktycznych zastosowań tych narzędzi w rozwiązywaniu rzeczywistych problemów.
 
-% załączniki (opcjonalnie):
-\appendix
-\chapter{Tytuł załącznika jeden}
-Treść załącznika jeden.
-
-\chapter{Tytuł załącznika dwa}
-Treść załącznika dwa.
+%% załączniki (opcjonalnie):
+%\appendix
+%\chapter{Tytuł załącznika jeden}
+%Treść załącznika jeden.
+%
+%\chapter{Tytuł załącznika dwa}
+%Treść załącznika dwa.
 
 %\bibliographystyle{plain}
 %\bibliography{literatura}
@@ -138,9 +138,6 @@ Treść załącznika dwa.
 \printbibliography[filter=articles_and_proceedings,title={Bibliografia - artykuły i referaty konferencyjne}]
 \printbibliography[type=book,title={Bibliografia - książki}]
 \printbibliography[type=misc,title={Bibliografia - strony internetowe}]
-
-% spis tabel (jeżeli jest potrzebny):
-\listoftables 
 
 % spis rysunków (jeżeli jest potrzebny):
 \listoffigures

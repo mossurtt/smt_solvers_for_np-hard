@@ -51,7 +51,7 @@ Eksperymenty nad problemem ścieżki Hamiltona w grafach skierowanych, generowan
 	\end{minipage}
 \end{figure}
 
-Solvery Z3 i CVC5 wykazywały podobne czasy działania, osiągając odpowiedzi niemal równie szybko, typowo w granicach 0.1 sekundy (rysunek \ref{fig:1-barabasi-plot}). 
+Solvery Z3 i cvc5 wykazywały podobne czasy działania, osiągając odpowiedzi niemal równie szybko, typowo w granicach 0.1 sekundy (rysunek \ref{fig:1-barabasi-plot}). 
 
 Niemniej jednak, warto zauważyć, że Yices zużywał najmniej pamięci w porównaniu do~innych solwerów, co może stanowić jego zaletę w przypadku problemów z ograniczeniami zasobowymi.
 
@@ -64,7 +64,7 @@ Niemniej jednak, warto zauważyć, że Yices zużywał najmniej pamięci w poró
 	\end{minipage}
 \end{figure}
 
-W przypadku grafów Erdős-Rényi, wyniki eksperymentów demonstrują, że Yices wykazywał się najwyższą wydajnością w rozwiązywaniu problemów ścieżki Hamiltona dla grafów tego typu, podczas gdy Z3 i CVC5 były od niego nieco wolniejsze. Ponadto, CVC5 zużywał więcej pamięci niż Yices, a Z3 jeszcze więcej, co można zaobserwować na rysunku \ref{fig:1-erdos-renyi-plot}. Można więc założyć, że pod względem zużycia zasobów pamięciowych Yices jest lepszy niż pozostałe solvery.
+W przypadku grafów Erdős-Rényi, wyniki eksperymentów demonstrują, że Yices wykazywał się najwyższą wydajnością w rozwiązywaniu problemów ścieżki Hamiltona dla grafów tego typu, podczas gdy Z3 i cvc5 były od niego nieco wolniejsze. Ponadto, cvc5 zużywał więcej pamięci niż Yices, a Z3 jeszcze więcej, co można zaobserwować na rysunku \ref{fig:1-erdos-renyi-plot}. Można więc założyć, że pod względem zużycia zasobów pamięciowych Yices jest lepszy niż pozostałe solvery.
 
 \subsection{Wyniki dla Problemu ścieżki Hamiltona w grafie nieskierowanym}
 
@@ -116,7 +116,7 @@ Obserwowano, że rozmiar maksymalnej kliki zwiększał się w sposób regularny,
 
 Na rysunku \ref{fig:3-barabasi-plot} przedstawiono wyniki eksperymentów dla danych grafów.
 
-W przypadku ustawienia limitu czasu na 600 sekund, solver Yices nie był w stanie wykonać obliczeń dla grafów zawierających 16 wierzchołków, podczas gdy solver CVC5 osiągnął swoje ograniczenie na 18 wierzchołkach. Oznacza to, że Yices nie był w stanie znaleźć rozwiązania w przewidzianym czasie nawet dla grafów o stosunkowo niewielkim rozmiarze, podczas gdy CVC5 wykazał lepszą skalowalność, ale również osiągnął swoje ograniczenie dla większych grafów.
+W przypadku ustawienia limitu czasu na 600 sekund, solver Yices nie był w stanie wykonać obliczeń dla grafów zawierających 16 wierzchołków, podczas gdy solver cvc5 osiągnął swoje ograniczenie na 18 wierzchołkach. Oznacza to, że Yices nie był w stanie znaleźć rozwiązania w przewidzianym czasie nawet dla grafów o stosunkowo niewielkim rozmiarze, podczas gdy cvc5 wykazał lepszą skalowalność, ale również osiągnął swoje ograniczenie dla większych grafów.
 
 \begin{figure}[htbp]
 	\centering
@@ -140,7 +140,7 @@ Widoczne na rysunku \ref{fig:3-erdos-renyi-plot}, że rozmiar maksymalnej kliki 
 	\end{minipage}
 \end{figure}
 
-Wnioskiem z tych eksperymentów jest, że czas działania solverów Z3, Yices i CVC5 zależy nie tyle od liczby wierzchołków, co od rozmiaru poszukiwanej kliki, zwłaszcza w przypadku braku istnienia kliki o zadanej wielkości. Dla przypadków, gdzie poszukiwana klika istniała, czasy działania były bardziej stabilne i niezależne od rozmiaru poszukiwanej kliki.
+Wnioskiem z tych eksperymentów jest, że czas działania solverów Z3, Yices i cvc5 zależy nie tyle od liczby wierzchołków, co od rozmiaru poszukiwanej kliki, zwłaszcza w przypadku braku istnienia kliki o zadanej wielkości. Dla przypadków, gdzie poszukiwana klika istniała, czasy działania były bardziej stabilne i niezależne od rozmiaru poszukiwanej kliki.
 
 
 \subsection{Wyniki dla Problemu maksymalnego niezależnego zbioru}
@@ -149,7 +149,7 @@ W wynikach eksperymentów dla problemu maksymalnego niezależnego dla grafów Ba
 
 Na podstawie danych z wykresu \ref{fig:4-barabasi-plot} można stwierdzić, że zarówno Z3, jak i Yices wykazały podobnie szybkie reakcje, udzielając odpowiedzi w ciągu zaledwie 0.3 sekundy. Jednak warto zwrócić uwagę na ten fakt, że analizowane grafy miały małe rozmiary niezależnych zbiorów, z reguły zawierające 2-4 wierzchołki.
 
-Natomiast CVC5, mimo że jest potężnym solverem SMT, napotkał znaczne trudności w~rozwiązywaniu problemu dla większych instancji grafów. Już na 12 wierzchołkach CVC5 nie~był w stanie udzielić odpowiedzi w określonym limicie czasu 600 sekund, szczególnie dla mniejszych wartości parametru $k$ (rozmiar zbioru). To znaczące opóźnienie w stosunku do Z3 i Yices jest interesującym spostrzeżeniem, co może sugerować, że CVC5 ma trudności w~radzeniu sobie z tym konkretnym problemem w przypadku bardziej złożonych instancji.
+Natomiast cvc5, mimo że jest potężnym solverem SMT, napotkał znaczne trudności w~rozwiązywaniu problemu dla większych instancji grafów. Już na 12 wierzchołkach cvc5 nie~był w stanie udzielić odpowiedzi w określonym limicie czasu 600 sekund, szczególnie dla mniejszych wartości parametru $k$ (rozmiar zbioru). To znaczące opóźnienie w stosunku do Z3 i Yices jest interesującym spostrzeżeniem, co może sugerować, że cvc5 ma trudności w~radzeniu sobie z tym konkretnym problemem w przypadku bardziej złożonych instancji.
 
 \begin{figure}[htbp]
 	\centering
@@ -164,7 +164,7 @@ W przypadku grafów Erdős-Rényi, obserwowana sytuacja jest podobna do wyników
 
 Z wykresu \ref{fig:4-erdos-renyi-plot} wynika, że zarówno Z3, jak i Yices, wykazywały błyskawiczną reakcję, udzielając odpowiedzi praktycznie natychmiastowo.
 
-Natomiast CVC5 wykazał zmienność w swojej wydajności. Mimo że niektóre odpowiedzi udzielał szybko, od grafu z 10 wierzchołkami nagle zaczęły pojawiać się dłuższe czasy oczekiwania, a w przypadku niektórych instancji problemu czas działania przekroczył 10 minut.
+Natomiast cvc5 wykazał zmienność w swojej wydajności. Mimo że niektóre odpowiedzi udzielał szybko, od grafu z 10 wierzchołkami nagle zaczęły pojawiać się dłuższe czasy oczekiwania, a w przypadku niektórych instancji problemu czas działania przekroczył 10 minut.
 
 \begin{figure}[htbp]
 	\centering
@@ -230,7 +230,7 @@ Jednakże, w sytuacjach, gdzie istniała możliwość pokolorowania grafu (sat),
 	\end{minipage}
 \end{figure}
 
-Na podstawie danych z wykresu \ref{fig:6-erdos-renyi-plot} można stwierdzić, że CVC5 wyróżniał się potrzebą znacznie większej ilości pamięci w porównaniu do innych solverów, co wskazuje na jego ograniczenia w efektywnym zarządzaniu zasobami w przypadku tego konkretnego problemu kolorowania grafów.
+Na podstawie danych z wykresu \ref{fig:6-erdos-renyi-plot} można stwierdzić, że cvc5 wyróżniał się potrzebą znacznie większej ilości pamięci w porównaniu do innych solverów, co wskazuje na jego ograniczenia w efektywnym zarządzaniu zasobami w przypadku tego konkretnego problemu kolorowania grafów.
 
 \subsection{Wyniki dla Problemu Komiwojażera}
 
@@ -254,7 +254,7 @@ Wyniki eksperymentów dotyczących problemu komiwojażera (TSP) wykazały znaczn
 
 \subsection{Wyniki dla Problemu sumy podzbioru}
 
-W badaniach dotyczących problemu Subset Sum zaobserwowano, że solver Z3 wykazywał się najwyższą wydajnością zarówno pod względem czasu, jak i zużycia pamięci. Yices również osiągnął zadowalające wyniki, jednakże na zbiorach danych o rozmiarach 30 i 35 nie był w stanie wykonać zadania. Natomiast solver CVC5 nie radził sobie już przy zbiorze o~rozmiarze 20, zużywając przy tym znacznie większą ilość pamięci w porównaniu do innych solverów. 
+W badaniach dotyczących problemu Subset Sum zaobserwowano, że solver Z3 wykazywał się najwyższą wydajnością zarówno pod względem czasu, jak i zużycia pamięci. Yices również osiągnął zadowalające wyniki, jednakże na zbiorach danych o rozmiarach 30 i 35 nie był w stanie wykonać zadania. Natomiast solver cvc5 nie radził sobie już przy zbiorze o~rozmiarze 20, zużywając przy tym znacznie większą ilość pamięci w porównaniu do innych solverów. 
 
 \begin{figure}[htbp]
 	\centering
