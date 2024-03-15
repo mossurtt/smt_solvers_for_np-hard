@@ -192,7 +192,7 @@ Maksymalną kliką w grafie \(G\) jest podzbiór $C \subseteq V$ taki, że:
 
 Aby zakodować problem decyzyjny istnienia kliki o rozmiarze $k$ użyjemy $k$ zmiennych $v_0,\ldots,v_{k-1}$, gdzie $v_0,\ldots,v_{k-1}$, gdzie $0 < k \leq n$.
 
-Formuła logiczna kodująca problem poszukiwania maksymalnej kliki zapewnia, że każda zmienna \(v_j\) ma właściwą wartość i wszystkie zmienne \(v_j\) są różne od siebie (formuły $\propernumbers$ oraz $\distinctvs$ zostały już wcześniej omówione w opisie problemu ścieżki Hamiltona (Hamiltonian Path), dlatego też nie będę ich ponownie rozważać, zgodnie z zasadą unikania nadmiernego powtórzenia.) Druga część formuły zapewnia, że dla każdej pary wierzchołków \(v_i\) i \(v_j\) w zbiorze kandydatów na klikę o rozmiarze \(k\) istnieje krawędź między nimi. Ten warunek jest sprawdzany poprzez iterację przez wszystkie pary $\{s,t\}$ w zbiorze krawędzi \(E\) i~sprawdzenie, czy \(v_i\) i \(v_j\) są końcami tej krawędzi.
+Formuła logiczna kodująca problem poszukiwania maksymalnej kliki zapewnia, że każda zmienna \(v_j\) ma właściwą wartość i wszystkie zmienne \(v_j\) są różne od siebie (formuły \\ $\propernumbers$ oraz $\distinctvs$ zostały już wcześniej omówione w opisie problemu ścieżki Hamiltona (Hamiltonian Path), dlatego też nie będę ich ponownie rozważać, zgodnie z zasadą unikania nadmiernego powtórzenia.) Druga część formuły zapewnia, że dla każdej pary wierzchołków \(v_i\) i \(v_j\) w zbiorze kandydatów na klikę o rozmiarze \(k\) istnieje krawędź między nimi. Ten warunek jest sprawdzany poprzez iterację przez wszystkie pary $\{s,t\}$ w zbiorze krawędzi \(E\) i~sprawdzenie, czy \(v_i\) i \(v_j\) są końcami tej krawędzi.
 
 \begin{align*}
 	&\MaxClique(n, E, k) = \propernumbers(k)  \land \distinctvs(k)  \land \\
