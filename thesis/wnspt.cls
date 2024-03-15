@@ -227,7 +227,11 @@
   \global\let\and\relax
   %
   % Jezeli podano slowa kluczowe wydrukuj
-  \clearpage 
+  \clearpage
+  \thispagestyle{empty}
+  \ifvoid\thkspagebox \@latex@warning{*** Nie podano podziękowania ***}%
+  \else \InsertThanksHere \fi
+  \clearpage
   \thispagestyle{empty}
   \ifvoid\abspagebox \@latex@warning{*** Nie podano streszczenia ***}%
   \else \InsertAbstractHere \fi
@@ -235,7 +239,8 @@
   \else \section*{S{\l}owa kluczowe}
    \@keywords
   \fi
-  \cleardoublepage %%
+  \clearpage
+  %\cleardoublepage %%
   \tableofcontents
   %\listoftables
   %\listoffigures
@@ -364,6 +369,7 @@
 \newcommand{\summary}{%\doublepage
    \chapter*{\SummaryName\@mkboth{\SummaryName}{\SummaryName}}%
 \addcontentsline{toc}{chapter}{\SummaryName}}
+%
 % O\'swiadczenie (dodane 7.4.2005)
 \def\oswiadczenieText{%
 Ja, ni\.zej podpisany(a) o\'swiadczam, i\.z przed{\l}o\.zona praca 
