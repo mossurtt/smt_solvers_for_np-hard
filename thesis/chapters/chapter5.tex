@@ -234,7 +234,7 @@ Na podstawie danych z wykresu \ref{fig:6-erdos-renyi-plot} można stwierdzić, �
 
 \subsection{Wyniki dla Problemu Komiwojażera}
 
-Wyniki eksperymentów dotyczących problemu komiwojażera (TSP) wykazały znaczną różnicę w wydajności między solverem Z3 a pozostałymi. Z3 był w stanie błyskawicznie udzielać odpowiedzi nawet dla problemów o znacznych rozmiarach, co sugeruje jego skuteczność w rozwiązywaniu TSP. Natomiast Yices zaczął wykazywać długie czasy rozważania już od 8 wierzchołków i nawet na niewielkich wartościach $k$, szczególnie w przypadku niespełnialności. To zjawisko może wskazywać na pewne ograniczenia wydajnościowe Yices w przypadku problemów, w których występują niespełnialne instancje.
+Wyniki eksperymentów dotyczących problemu komiwojażera (TSP) wykazały znaczną różnicę w wydajności między solverem Z3 a pozostałymi. Z3 był w stanie błyskawicznie udzielać odpowiedzi nawet dla problemów o znacznych rozmiarach, co sugeruje jego skuteczność w rozwiązywaniu TSP. Natomiast Yices i cvc5 zaczęły wykazywać długie czasy rozważania już od 8 wierzchołków i nawet na niewielkich wartościach $k$, szczególnie w przypadku niespełnialności. To zjawisko może wskazywać na pewne ograniczenia wydajnościowe Yices i cvc5 w przypadku problemów, w których występują niespełnialne instancje.
 
 \begin{figure}[htbp]
 	\centering
@@ -244,9 +244,9 @@ Wyniki eksperymentów dotyczących problemu komiwojażera (TSP) wykazały znaczn
 		\label{fig:7-barabasi-plot}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{./figures/7-barabasi-plot.png}
+		\includegraphics[width=\textwidth]{./figures/7-erdos-renyi-plot.png}
 		\caption{Erdős-Rényi'ego.}
-		\label{fig:7-barabasi-plot}
+		\label{fig:7-erdos-renyi-plot}
 	\end{subfigure}
 	\caption{Wyniki TSP}
 	\label{fig:7}
