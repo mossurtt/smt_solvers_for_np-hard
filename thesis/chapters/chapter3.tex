@@ -8,16 +8,18 @@ Z3 można aplikować za pomocą Visual Studio, pliku Makefile lub CMake. Zapewni
 
 \subsection{Architektura systemu}
 
-Z3 integruje nowoczesny solver SAT oparty na DPLL, bazowy solver dla teorii, który obsługuje równości i funkcje nieinterpretowane, specjalistyczne silniki (dla arytmetyki, tablic itp.) oraz maszynę abstrakcyjną E-matching (dla kwantyfikatorów). Z3 jest zaimplementowany w~C++. Schematyczny przegląd Z3 pokazano na rysunku 3.1.		
+Z3 integruje nowoczesny solver SAT oparty na DPLL, bazowy solver dla teorii, który obsługuje równości i funkcje nieinterpretowane, specjalistyczne silniki (dla arytmetyki, tablic itp.) oraz maszynę abstrakcyjną E-matching (dla kwantyfikatorów). Z3 jest zaimplementowany w~C++. Schematyczny przegląd Z3 pokazano na rysunku \ref{fig:z3}.		
 
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.7\linewidth]{screenshot001}
-		\caption{}
-		\label{fig:screenshot001}
-	\end{figure}
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/z3_architecture}
+		\caption{Architektura Z3}
+		\label{fig:z3}
+	\end{minipage}
+\end{figure}
 
-\textbf{Simplifier}. Formuły wejściowe są najpierw przetwarzane przy użyciu niekompletnego, ale wydajnego uproszczenia. Simplifier stosuje standardowe zasady redukcji algebraicznej, takie jak $p \land true \implies p$, ale także wykonuje ograniczone uproszczenie kontekstowe, identyfikując definicje równościowe w danym kontekście i redukuje pozostałą formułę przy użyciu definicji, na przykład $x = 4 \land q(x) \implies x = 4 \land q(4)$. Trywialnie spełnialny spójnik $x = 4$ nie jest kompilowany do jądra, ale zachowany poza nim na wypadek, gdyby klient wymagał modelu do obliczenia x.
+\textbf{Simplifier}. Formuły wejściowe są najpierw przetwarzane przy użyciu niekompletnego, ale wydajnego uproszczenia. Simplifier stosuje standardowe zasady redukcji algebraicznej, takie jak $p \land true \to p$, ale także wykonuje ograniczone uproszczenie kontekstowe, identyfikując definicje równościowe w danym kontekście i redukuje pozostałą formułę przy użyciu definicji, na przykład $x = 4 \land q(x) \to x = 4 \land q(4)$. Trywialnie spełnialny spójnik $x = 4$ nie jest kompilowany do jądra, ale zachowany poza nim na wypadek, gdyby klient wymagał modelu do obliczenia $x$.
 
 \textbf{Compiler}. Uproszczona abstrakcyjna reprezentacja drzewa składniowego formuły jest przekształcana w inną strukturę danych, składającą się ze zbioru klauzul i węzłów domknięcia kongruencji.
 
@@ -59,14 +61,16 @@ Konteksty są wysoce konfigurowalne. Każdy kontekst może być skonfigurowany d
 
 \textbf{Zarządzanie modelami} Jeśli zbiór formuł zadeklarowanych w kontekście jest spełnialny, to można skonstruować model formuł. Model odwzorowuje symbole formuł na konkretne wartości (np. liczby całkowite, wymierne lub stałe wektorowe). Interfejs API udostępnia funkcje do tworzenia i odpytywania modeli.
 
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.7\linewidth]{yices_architekture}
-	\caption{}
-	\label{fig:yices_architekture}
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/yices_architecture}
+		\caption{Architektura Yices}
+		\label{fig:yices}
+	\end{minipage}
 \end{figure}
 
-Rysunek 3.2. przedstawia najwyższy poziom architektury Yices 2, podzielony na trzy główne moduły. Każdy kontekst składa się z dwóch oddzielnych komponentów: Solver wykorzystuje Boolean satisfiability solver i procedury decyzyjne do określania, czy formuły zawarte w kontekście są spełnialne. Upraszczacz/internalizator konwertuje format używany przez bazę danych termów do wewnętrznego formatu używanego przez solver. W szczególności
+Rysunek \ref{fig:yices} przedstawia najwyższy poziom architektury Yices 2, podzielony na trzy główne moduły. Każdy kontekst składa się z dwóch oddzielnych komponentów: Solver wykorzystuje Boolean satisfiability solver i procedury decyzyjne do określania, czy formuły zawarte w kontekście są spełnialne. Upraszczacz/internalizator konwertuje format używany przez bazę danych termów do wewnętrznego formatu używanego przez solver. W szczególności
 internalizator przepisuje wszystkie formuły do koniunkcyjnej postaci normalnej, z~czego korzysta wewnętrzny SAT solver \cite{yices2.2}.
 
 
@@ -80,13 +84,15 @@ cvc5 to wspólny projekt prowadzony przez Uniwersytet Stanforda i Uniwersytet Io
 
 cvc5 obsługuje rozumowanie w zakresie formuł bezkwantyfikatorowych i kwantyfikatorowych w szerokim zakresie teorii tła, w tym wszystkich teorii standaryzowanych w SMT-LIB. Ponadto wspiera kilka niestandardowych teorii i rozszerzeń. Należą do nich, między innymi, logika separacji, teoria sekwencji, teoria zbiorów skończonych i relacji oraz rozszerzenie teorii liczb rzeczywistych o funkcje transcendentalne. 
 
-Ogólny przegląd architektury systemu przedstawiono na rysunku 3.3.
+Ogólny przegląd architektury systemu przedstawiono na rysunku \ref{fig:cvc5}.
 
-\begin{figure}
+\begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.7\linewidth]{cvc5_architecture}
-	\caption{}
-	\label{fig:cvc5_architecture}
+	\begin{minipage}{\textwidth}
+		\includegraphics[width=\textwidth]{./figures/cvc5_architecture}
+		\caption{Architektura cvc5}
+		\label{fig:cvc5}
+	\end{minipage}
 \end{figure}
 
 Centralnym elementem cvc5 jest moduł SMT Solver, oparty na frameworku CDCL(T) \cite{NieuwenhuisOT06} i dostosowanej wersji solvera propozycyjnego MiniSat. Moduł ten składa się z kilku komponentów: modułów Rewriter i Preprocessor, które stosują uproszczenia odpowiednio lokalnie (na poziomie wyrażenia) i globalnie (na całej formule wejściowej); Propositional Engine, który służy jako menedżer dla CDCL(T) SAT solvera; oraz Theory Engine, który zarządza kombinacją teorii i wszystkimi procedurami rozumowania kwantyfikatorowego.
