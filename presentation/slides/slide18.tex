@@ -1,0 +1,18 @@
+\begin{frame}{Problem kolorowania grafu: Kodowanie}
+Używamy $n$ zmiennych $c_0,…,c_{n−1}$​,gdzie $n$ to liczba wierzchołków w grafie.
+\vspace{10pt}
+
+\textbf{Warunki dla zmiennych:}
+\vspace{5pt}
+\begin{itemize}
+	\item Każda zmienna $c_j$ reprezentująca kolor wierzchołka $j$ przyjmuje wartość z przedziału od $1$ do $k$, gdzie $k$ to liczba kolorów.
+	\item Dla każdej krawędzi $s,t$ w $E$, kolor wierzchołka $s$ jest różny od koloru wierzchołka $t$.
+\end{itemize}
+\vspace{10pt}
+
+\textbf{Formuła:}
+\begin{align*}
+	\GraphColoring(n, E) = \left( \bigwedge_{j=1}^{n} (c_j \geq 1 \land c_j \leq k) \right) \land 
+	\left( \bigwedge_{\{s,t\} \in E} (c_s \neq c_t) \right)
+\end{align*}	
+\end{frame}

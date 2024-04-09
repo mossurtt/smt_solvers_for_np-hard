@@ -1,0 +1,21 @@
+\begin{frame}{Problem Komiwojażera: Kodowanie}
+Używamy $n$ zmiennych $v_0,…, v_{n−1}$, gdzie $n$ to liczba miast.
+\vspace{10pt}
+
+\textbf{Warunki dla zmiennych:}
+\vspace{5pt}
+\begin{itemize}
+	\item Właściwą wartość i unikalność.
+	\item Istnienie krawędzi między kolejnymi wierzchołkami w trasie oraz zamknięcie trasy.
+	\item Ograniczenie sumy wag krawędzi na trasie do wartości $k$.
+\end{itemize}
+
+\vspace{10pt}
+\textbf{Formuła:}	
+\begin{align*}
+	&\TSP(n, c, E, k) = \propernumbers(n) \land \distinctvs(n) \land \edges(n, E)  \\
+	&\land \left( \bigvee_{\{s,t\} \in E} ((v_{n-1} = s \land v_0 = t) \lor (v_0 = s \land v_{n-1} = t)) \right) \land 
+	\left( \bigwedge_{\{s,t\} \in E} \sum c(s,t) \leq k \right)
+\end{align*}
+	
+\end{frame}

@@ -1,0 +1,14 @@
+\begin{frame}{Ścieżka Hamiltona w grafie nieskierowanym}
+	\textbf{Warunki dla zmiennych:}
+\begin{itemize}
+	\item Zakres zmiennych $v_j$: $\propernumbers(n)$.
+	\item Unikalność zmiennych: $\distinctvs(n)$.
+	\item Możliwość przechodzenia przez krawędź w obie strony: $\edges(n, E) = \left( \bigwedge_{i=0}^{n-1} \bigvee_{\{s,t\} \in E} (v_i = s \land v_{i+1} = t) \lor (v_i = t \land v_{i+1} = s) \right)$.
+\end{itemize}
+\vspace{10pt}
+	
+\textbf{Formuła:}
+\begin{align*}
+	\UHamPath(n, E) = \propernumbers(n) \land \distinctvs(n) \land \edges(n, E)
+\end{align*}
+\end{frame}

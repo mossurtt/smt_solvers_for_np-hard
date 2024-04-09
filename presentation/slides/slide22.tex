@@ -1,0 +1,19 @@
+\begin{frame}{Problem sumy podzbioru: Kodowanie}
+Używamy $n$ zmiennych $x_0,…, x_{n−1}$, gdzie $n$ to liczba elementów w $S$.
+\vspace{10pt}
+
+\textbf{Warunki dla zmiennych:}
+\vspace{5pt}
+\begin{itemize}
+	\item każda zmienna $x_j$ przyjmuje wartość logiczną $0$ lub $1$.
+	\item suma iloczynów $x_i$ i $s_i$ dla wszystkich $k$ elementów ze zbioru $S$ jest równa wartości $t$.
+\end{itemize}
+\vspace{10pt}
+
+\textbf{Formuła:}
+\begin{align*}
+	\SubsetSum(n, t) = \left( \bigwedge_{j=0}^{n-1} (x_j = 0 \lor x_j = 1) \right) \land 
+	\left( \sum_{i=0}^{n} (x_i * s_i) = t \right)
+\end{align*}
+\end{frame}
+	

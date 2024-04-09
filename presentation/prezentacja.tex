@@ -1,0 +1,105 @@
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[aspectratio=1610, polish]{beamer}
+\usetheme{Warsaw}
+
+\usecolortheme{crane}
+
+\usepackage[T1]{fontenc}
+\usepackage{polski}
+\usepackage{listingsutf8}
+\usepackage{tikz}
+
+\usepackage{fontspec}
+\setmainfont{Carlito}
+\usepackage{macros}
+
+\lstset{
+    language=Python,                % choose the language of the code
+    basicstyle=\ttfamily,           % the fonts that are used for the code
+    numbers=left,                   % where to put the line-numbers
+    numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+    stepnumber=1,                   % the step between two line-numbers. If it's 1 each line will be
+    numbersep=5pt,                  % how far the line-numbers are from the code
+    showspaces=false,               % show spaces adding particular underscores
+    showstringspaces=false,         % underline spaces within strings
+    showtabs=false,                 % show tabs within strings adding particular underscores
+    frame=single,                   % adds a frame around the code
+    tabsize=4,                      % sets default tabsize to 2 spaces
+    captionpos=b,                   % sets the caption-position to bottom
+    breaklines=true,                % sets automatic line breaking
+    breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+    %postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+    escapeinside={\%*}{*)},         % if you want to add a comment within your code
+    % custom python colors
+    commentstyle=\color{green},
+    stringstyle=\color{purple},
+    numberstyle=\footnotesize\color{gray},
+    emph={main,process_raw_data,minmax_normalize,create_model_ssn,create_model_rsn,timeseries_dataset_from_array,gen_plot},
+    emphstyle=\bfseries\color{orange},
+    morekeywords={
+        with
+    },
+    keywordstyle=\bfseries\color{violet},
+    keywordstyle=[2]\bfseries\color{cyan},
+    keywordstyle=[3]\bfseries\color{blue},
+    morekeywords=[2]{
+        json,csv,path,environ,pd,plt,ticker,MultipleLocator,Axes,LSTM,Dense,Adam,MeanSquaredError,
+        Exception,datetime
+    },
+    deletekeywords = {def, global, not, or, True, False},
+    morekeywords=[3]{
+        def, global, not, or, True, False
+    }
+}
+
+\title{Efektywność SMT solverów dla klasycznych problemów NP-trudnych}
+\subtitle{Effectiveness of SMT solvers for classical NP-hard problems}
+\author[Tetiana Mossur]{Tetiana Mossur}
+\institute[UJD]{Promotor: \textit{dr hab. Andrzej Zbrzezny prof. UJD}\\
+[15pt]Uniwersytet Jana Długosza w Częstochowie}
+\date{10.04.2024}
+\logo{\includegraphics[width=1cm]{logo_ujd.png}}
+
+\makeatletter
+\newcommand{\latexwarn}[1]{\@latex@warning{#1}}
+\makeatother
+
+\newenvironment{sectionframe}[1]{%
+	\section{#1} \begin{frame}{#1}%
+} {\end{frame}}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\input{slides/slide1.tex}
+\input{slides/slide2.tex}
+\input{slides/slide3.tex}
+\input{slides/slide4.tex}
+\input{slides/slide5.tex}
+\input{slides/slide6.tex}
+%\input{slides/slide6a.tex}
+\input{slides/slide7.tex}
+\input{slides/slide8.tex}
+\input{slides/slide9.tex}
+\input{slides/slide10.tex}
+\input{slides/slide11.tex}
+\input{slides/slide12.tex}
+\input{slides/slide13.tex}
+\input{slides/slide14.tex}
+\input{slides/slide15.tex}
+\input{slides/slide16.tex}
+\input{slides/slide17.tex}
+\input{slides/slide18.tex}
+\input{slides/slide19.tex}
+\input{slides/slide20.tex}
+\input{slides/slide21.tex}
+\input{slides/slide22.tex}
+\input{slides/slide23.tex}
+\input{slides/slide24.tex}
+\input{slides/slide25.tex}
+\input{slides/slide26.tex}
+\input{slides/slidelast.tex}
+
+\end{document}

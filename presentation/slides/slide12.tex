@@ -1,0 +1,19 @@
+\begin{frame}{Problem maksymalnej kliki w grafie nieskierowanym: Kodowanie}
+Używamy $k$ zmiennych $v_0,…,v_{k−1}$, gdzie $0 < k \leq n$.
+\vspace{10pt}
+	
+\textbf{Warunki dla zmiennych:}
+\vspace{5pt}
+\begin{itemize}
+	\item Zakres zmiennych $v_j$: $\propernumbers(n)$.
+	\item Unikalność zmiennych: $\distinctvs(n)$.
+	\item Każda para zmiennych $v_i$ i	$v_j$ jest połączona krawędzią.	
+\end{itemize}
+\vspace{10pt}
+	\textbf{Formuła:}
+\begin{align*}
+	&\MaxClique(n, E, k) = \propernumbers(k)  \land \distinctvs(k)  \land \\
+	&\left( \bigwedge_{i=0}^{k-1} \bigwedge_{j=i+1}^{k} \bigvee_{\{s,t\} \in E} ((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
+\end{align*}
+\end{frame}
+	

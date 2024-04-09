@@ -1,0 +1,19 @@
+\begin{frame}{Problem pokrycia wierzchólkowego: Kodowanie}
+Używamy $k$ zmiennych $v_0,…,v_{k−1}$, gdzie $0 < k \leq n$.
+\vspace{10pt}
+
+\textbf{Warunki dla zmiennych:}
+\vspace{5pt}
+\begin{itemize}
+	\item Zakres zmiennych $v_j$: $\propernumbers(k)$.
+	\item Unikalność zmiennych: $\distinctvs(k)$.
+	\item Dla każdej krawędzi w $E$ co najmniej jeden z jej końców należy do $V'$.
+\end{itemize}
+\vspace{10pt}
+
+\textbf{Formuła:}
+\begin{align*}
+	\VertexCover&(n, E, k) = \propernumbers(k) \land \distinctvs(k) \land \\
+	&\left( \bigwedge_{\{s,t\} \in E} (\bigvee_{j=0}^{k-1} (v_j = s \lor v_j = t)) \right)	
+\end{align*}
+\end{frame}

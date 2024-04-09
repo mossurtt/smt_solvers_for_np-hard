@@ -1,0 +1,19 @@
+\begin{frame}{Problem maksymalnego zbioru niezależnego w grafie nieskierowanym: Kodowanie}
+Używamy $n$ zmiennych $v_0,…,v_{n−1}$, gdzie $n$ to liczba wierzchołków w grafie.
+\vspace{10pt}
+
+\textbf{Warunki dla zmiennych:}
+\vspace{5pt}
+\begin{itemize}
+	\item Zakres zmiennych $v_j$: $\propernumbers(n)$.
+	\item Unikalność zmiennych: $\distinctvs(n)$.
+	\item Brak krawędzi między wierzchołkami.
+\end{itemize}
+\vspace{10pt}
+\textbf{Formuła:}
+\begin{align*}
+	\MaxIndSet(n, E, k) = \propernumbers(n) \land \distinctvs(n)  \land \\
+	\left( \bigwedge_{i=0}^{k-1} \bigwedge_{j=i+1}^{k} \bigvee_{\{s,t\} \in E} \lnot((v_i = s \land v_j = t) \lor (v_j = s \land v_i = t)) \right)	
+\end{align*}
+\end{frame}
+	

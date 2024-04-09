@@ -1,0 +1,17 @@
+\begin{frame}{Ścieżka Hamiltona w grafie skierowanym: Kodowanie}
+Używamy $n$ zmiennych $v_0,…,v_{n−1}$, gdzie $n$ to liczba wierzchołków.
+\vspace{10pt}
+
+\textbf{Formuły uwzględniające warunki dla zmiennych:}
+\vspace{5pt}
+\begin{itemize}
+	\item Zakres zmiennych $v_j$: $\propernumbers(n) = \left( \bigwedge_{j=0}^{n-1} (v_j \geq 0 \land v_j < n) \right) $.
+	\item Unikalność zmiennych: $\distinctvs(n) = \left( \bigwedge_{i=0}^{n-1} \bigwedge_{j=i+1}^{n} (v_i \neq v_j) \right)$.
+	\item Sprawdzenie krawędzi grafu: $\diredges(n,E) = \left( \bigwedge_{i=0}^{n-1} \bigvee_{(s,t) \in E} (v_i = s \land v_{i+1} = t) \right)$.
+\end{itemize}
+\vspace{10pt}
+\textbf{Cała Formuła:}
+\begin{align*}
+	\HamPath(n, E) = \propernumbers(n) \land \distinctvs(n) \land \diredges(n, E)
+\end{align*}
+\end{frame}
